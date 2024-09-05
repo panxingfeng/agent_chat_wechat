@@ -10,6 +10,8 @@
 - [使用说明](#使用说明)
 - [贡献](#贡献)
 - [许可证](#许可证)
+- [工具代码模板](#工具代码模板)
+- [如何添加工具到智能体](#如何添加工具到智能体)
 
 ## 项目简介
 
@@ -63,3 +65,58 @@
     "openai_model_name": "gpt-3.5-turbo",
     "download_vido_path": "path_to_download_folder"
 }
+```
+
+### 使用说明
+运行 python main.py，然后按照提示进行操作。
+
+### 贡献
+欢迎对项目进行贡献。如果您有任何建议或发现问题，请提交 issue 或 pull request。
+
+### 许可证
+本项目使用 MIT 许可证 开源。
+
+### 工具代码模板
+在智能体中添加工具时，您可以使用以下代码模板：
+```bash
+@tool
+def tool_function_name(param1: str, param2: str) -> str:
+    """工具功能描述"""
+
+    base_url = 'https://example.com/api/endpoint'  # 替换为实际的API URL
+    params = {
+        "param1": param1,
+        "param2": param2,
+        # 添加其他参数
+    }
+
+    try:
+        response = requests.get(base_url, params=params, proxies={"http": None, "https": None})
+        response.raise_for_status()  # 检查请求是否成功
+
+        # 处理响应数据
+        data = response.json()
+        result = data.get('result', '未找到结果')
+
+        return result
+
+    except requests.exceptions.HTTPError as http_err:
+        print(f"HTTP错误发生: {http_err}")
+        return ""
+    except requests.exceptions.RequestException as err:
+        print(f"请求错误发生: {err}")
+        return ""
+   ```
+
+### 如何添加工具到智能体
+1. 编写工具函数: 使用上面的代码模板编写工具函数。确保您的函数使用 @tool 装饰器，并处理可能出现的异常。
+
+2. 更新智能体配置: 在 chatBot_agent.py 文件中，找到工具列表部分。例如：
+```bash
+# 工具列表
+tools = [
+    tool_function_name,
+    # 其他工具
+]
+```
+3. 保存并测试: 保存对 chatBot_agent.py 的更改，然后运行应用程序以确保新工具正常工作。###
