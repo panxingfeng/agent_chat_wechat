@@ -2,7 +2,6 @@ import traceback
 from langchain.agents import create_openai_tools_agent, AgentExecutor
 from langchain_core.prompts import MessagesPlaceholder, ChatPromptTemplate
 from langchain_openai import ChatOpenAI
-
 from tools import *
 import logging
 from datetime import datetime
@@ -20,14 +19,17 @@ logging.basicConfig(level=logging.INFO,
                     format='[%(asctime)s][%(levelname)s]: %(message)s',
                     datefmt='%Y-%m-%d %H:%M:%S')
 
+# 获取当前脚本所在目录
 base_dir = os.path.dirname(os.path.abspath(__file__))
+# 配置文件路径
 config_path = os.path.join(base_dir, "../config/config.json")
+# 读取配置文件
 with open(config_path, "r", encoding="utf-8") as file:
     config = json.load(file)
 
+# 设置 OpenAI API 的密钥和基础 URL
 os.environ["OPENAI_API_KEY"] = config["openai_api_key"]
 os.environ["OPENAI_API_BASE"] = config["openai_api_base"]
-
 
 # Redis 连接池
 redis_pool = redis.ConnectionPool(host='localhost', port=6379, db=0)
@@ -51,6 +53,7 @@ class Chat_Bot_Agent:
     MAX_HISTORY_LENGTH = 500
 
     def __init__(self, user_name, user_id):
+        # 初始化两个不同的 OpenAI 聊天模型
         self.chatModel_4o_mini = ChatOpenAI(
             model="gpt-4o-mini",
             temperature=0,
@@ -61,11 +64,13 @@ class Chat_Bot_Agent:
             temperature=0,
             streaming=True
         )
+        # 用户 ID 和用户名
         self.user_id = user_id  # 使用用户 ID 作为 session_id
         self.user_name = user_name
-        self.redis_key_prefix = "chat_history:"
+        self.redis_key_prefix = "chat_history:"  # Redis 中的历史记录键前缀
         self.history = []  # 历史记录列表
         self.saved_files = {}  # 保存文件路径
+        # 系统提示模板
         self.SYSTEMPL = """
         你是一个智能化的全能机器人，具备广泛的知识和实时数据处理能力。
 
@@ -92,6 +97,7 @@ class Chat_Bot_Agent:
         ### 处理问题的过程:
 
         """
+        # 创建聊天模板
         self.prompt = ChatPromptTemplate.from_messages(
             [
                 (
@@ -106,12 +112,14 @@ class Chat_Bot_Agent:
             ]
         )
 
+        # 工具列表
         tools = [search_music,  # 音乐搜索工具
                  fetch_60s_report,  # 60s早报工具
                  fetch_history_today,
                  generate_qr_code,
                  ]
 
+        # 创建两个不同的 OpenAI 工具代理
         agent = create_openai_tools_agent(
             self.chatModel_4o_mini,
             tools=tools,
@@ -124,6 +132,7 @@ class Chat_Bot_Agent:
             prompt=self.prompt
         )
 
+        # 创建 AgentExecutor 对象
         self.agent_executor = AgentExecutor(
             agent=agent,
             tools=tools,
@@ -136,6 +145,7 @@ class Chat_Bot_Agent:
         )
 
     def update(self, user_id, query, user_name):
+        # 更新用户信息
         self.user_id = user_id
         self.query = query
         self.user_name = user_name
@@ -175,7 +185,7 @@ class Chat_Bot_Agent:
             logging.error(f"保存历史记录到Redis时出错: {e}")
 
     def manage_history(self):
-        """管理历史记录：删除最早de记录或截断字符长度"""
+        """管理历史记录：删除最早的记录或截断字符长度"""
         self.history = self.get_history_from_redis(self.user_id)
 
         while len(self.history) > self.MAX_HISTORY_SIZE:
