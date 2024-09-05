@@ -1,13 +1,13 @@
 {
-  "download_vido_path": "",
-  "openai_model_name": "",
-  "openai_api_key": "",
-  "openai_api_base": "",
+  "download_vido_path": "url中的视频下载地址",
+  "openai_model_name": "chatGPT模型名称",
+  "openai_api_key": "chatGPT的密钥",
+  "openai_api_base": "chatGPT的url",
   "redis_host": "localhost",
   "redis_port": 6379,
   "redis_db": 0,
   "bot_name": "panllq",
-  "single-h": "",
-  "chatroom-h": "",
+  "single-h": "适用于用户的使用手册",
+  "chatroom-h": "适用于群聊的使用手册",
   "agent": false
 }
