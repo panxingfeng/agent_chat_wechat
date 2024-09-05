@@ -52,6 +52,7 @@ class Chat_Bot_Chat:
         """管理会话历史记录，从Redis加载历史记录，并限制记录的大小和字符长度"""
         key = f"{self.redis_key_prefix}{self.user_id}"
         try:
+            # 从Redis获取历史记录
             history = redis_client.get(key)
             if history:
                 self.history = json.loads(history)
