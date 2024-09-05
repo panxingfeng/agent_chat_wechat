@@ -1,5 +1,20 @@
+import random
 import re
+import string
 
+
+def get_url(message):
+    start = message.find("(") + 1
+    end = message.find(")")
+    link = message[start:end]
+    return link
+
+
+
+def generate_random_filename(extension=".png", length=10):
+    """生成随机文件名"""
+    characters = string.ascii_letters + string.digits
+    return ''.join(random.choice(characters) for _ in range(length)) + extension
 
 def get_username_chatroom(message):
     """从消息中提取并返回 'in' 之前和 'ber' 之后内容的交集。"""
