@@ -70,7 +70,7 @@
     ```bash
     python main.py
     ```
-
+6. 说明：开启agent智能体机器人，需要在config.json文件中的agent值修改成true，默认为false
 ### 配置文件
 
 项目的配置文件 `config/config.json` 包含了应用所需的配置信息。请根据实际情况修改该文件中的配置项：
