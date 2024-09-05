@@ -47,24 +47,26 @@
 
 ### 依赖安装
 
-1. 克隆仓库：
+1. redis安装：https://blog.csdn.net/weixin_43883917/article/details/114632709
+
+2. 克隆仓库：
     ```bash
     git clone https://github.com/panxingfeng/agent_chat_wechat.git
     cd <项目目录>
     ```
 
-2. 创建并激活虚拟环境：
+3. 创建并激活虚拟环境：
     ```bash
     python -m venv .venv
     source .venv/bin/activate  # 在 Windows 上使用 .venv\Scripts\activate
     ```
 
-3. 安装依赖：
+4. 安装依赖：
     ```bash
     pip install -r requirements.txt
     ```
 
-4. 运行：
+5. 运行：
     ```bash
     python main.py
     ```
