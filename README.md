@@ -1,6 +1,5 @@
 # ChatBot 项目
 
-这是一个基于 Python 的聊天机器人项目，使用了 FastAPI、LangChain、OpenAI、Redis 和其他工具来实现多功能的聊天体验。项目包括音乐搜索、二维码生成、历史事件查询等功能。
 
 ## 目录
 
