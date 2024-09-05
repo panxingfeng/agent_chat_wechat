@@ -1,8 +1,8 @@
 {
-  "download_vido_path": "url中的视频下载地址",
-  "openai_model_name": "chatGPT模型名称",
-  "openai_api_key": "chatGPT的密钥",
-  "openai_api_base": "chatGPT的url",
+  "download_vido_path": "url中的视频下载到本地的地址",
+  "openai_model_name": "gpt-4o-mini",
+  "openai_api_key": "sk-proj-xxxx",
+  "openai_api_base": "https://api.openai.com/v1",
   "redis_host": "localhost",
   "redis_port": 6379,
   "redis_db": 0,
