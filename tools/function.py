@@ -2,17 +2,15 @@ import random
 import re
 import string
 
-
 def get_url(message):
+    """从消息中提取并返回括号中的链接。"""
     start = message.find("(") + 1
     end = message.find(")")
     link = message[start:end]
     return link
 
-
-
 def generate_random_filename(extension=".png", length=10):
-    """生成随机文件名"""
+    """生成随机文件名，文件名由字母和数字组成，长度为指定的 length，后缀为指定的 extension。"""
     characters = string.ascii_letters + string.digits
     return ''.join(random.choice(characters) for _ in range(length)) + extension
 
