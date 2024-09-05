@@ -16,15 +16,14 @@ from tools.function import get_username_chatroom
 
 # 创建日志器
 logger = logging.getLogger()
-logger.setLevel(logging.DEBUG)  # 设置全局日志级别为 DEBUG
+logger.setLevel(logging.INFO)  # 设置全局日志级别为 INFO
 
 # 定义日志输出格式
-formatter = logging.Formatter('[%(asctime)s][%(levelname)s][%(filename)s:%(lineno)d]: %(message)s',
-                              datefmt='%Y-%m-%d %H:%M:%S')
+formatter = logging.Formatter('[%(asctime)s][%(levelname)s]: %(message)s', datefmt='%Y-%m-%d %H:%M:%S')
 
 # 创建控制台日志处理器
 console_handler = logging.StreamHandler()
-console_handler.setLevel(logging.DEBUG)  # 设置控制台日志级别为 DEBUG
+console_handler.setLevel(logging.INFO)  # 设置控制台日志级别为 INFO
 console_handler.setFormatter(formatter)
 
 # 将控制台日志处理器添加到日志器
