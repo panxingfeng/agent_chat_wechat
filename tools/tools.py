@@ -4,9 +4,13 @@ import json
 import requests
 from langchain.agents import tool
 
+# 配置日志记录系统
 logging.basicConfig(level=logging.INFO)
 
+# 获取当前文件所在的路径
 base_dir = os.path.dirname(os.path.abspath(__file__))
+
+# 加载配置文件
 config_path = os.path.join(base_dir, "../config/config.json")
 with open(config_path, "r", encoding="utf-8") as file:
     config = json.load(file)
@@ -14,7 +18,6 @@ with open(config_path, "r", encoding="utf-8") as file:
 @tool
 def search_music(music_name: str) -> str:
     """搜索音乐资源的工具"""
-
     base_url = "https://papi.oxoll.cn/API/music/api.php"
     params = {
         "music": music_name,
@@ -23,7 +26,7 @@ def search_music(music_name: str) -> str:
 
     try:
         response = requests.get(base_url, params=params)
-        response.raise_for_status()
+        response.raise_for_status()  # 检查请求是否成功
         music_data = response.json()
 
         if music_data and "data" in music_data:
@@ -44,17 +47,15 @@ def search_music(music_name: str) -> str:
     except requests.exceptions.RequestException as e:
         return f"请求失败：{e}"
 
-
 @tool
 def fetch_60s_report() -> list:
     """搜索并返回60秒早报的内容"""
-
     ollama_url = 'https://api.52vmy.cn/api/wl/60s/new'
 
     try:
         # 发送HTTP GET请求，禁用代理
         response = requests.get(ollama_url, proxies={"http": None, "https": None})
-        response.raise_for_status()
+        response.raise_for_status()  # 检查请求是否成功
 
         response.encoding = 'utf-8'
         data = response.json()
@@ -73,16 +74,14 @@ def fetch_60s_report() -> list:
         print(f"请求错误发生: {err}")
         return []
 
-
 @tool
 def fetch_history_today() -> dict:
     """获取历史上的今天事件信息，并返回url、title和日期"""
-
     api_url = f'https://cn.apihz.cn/api/zici/today.php?id=88888888&key=88888888'
 
     try:
         response = requests.get(api_url, proxies={"http": None, "https": None})
-        response.raise_for_status()
+        response.raise_for_status()  # 检查请求是否成功
 
         data = response.json()
 
@@ -106,11 +105,9 @@ def fetch_history_today() -> dict:
         print(f"请求错误发生: {err}")
         return {}
 
-
 @tool
 def generate_qr_code(text: str) -> str:
     """生成二维码并返回二维码图片的URL"""
-
     # 警告信息：检查并替换&符号
     if '&' in text:
         print("警告: 欲生成的二维码内容包含&符号。请注意，已将&符号替换成@并加上英文括号。")
@@ -129,7 +126,7 @@ def generate_qr_code(text: str) -> str:
 
     try:
         response = requests.get(base_url, params=params, proxies={"http": None, "https": None})
-        response.raise_for_status()
+        response.raise_for_status()  # 检查请求是否成功
 
         # 返回二维码图片的URL
         return response.url
@@ -141,11 +138,11 @@ def generate_qr_code(text: str) -> str:
         print(f"请求错误发生: {err}")
         return ""
 
-
 def download_video(video_url: str, file_name: str):
+    """从视频URL下载视频并保存到指定文件名"""
     try:
         with requests.get(video_url, stream=True) as r:
-            r.raise_for_status()
+            r.raise_for_status()  # 检查请求是否成功
             with open(file_name, 'wb') as f:
                 for chunk in r.iter_content(chunk_size=8192):
                     f.write(chunk)
@@ -158,17 +155,15 @@ def download_video(video_url: str, file_name: str):
         logging.error(f"请求错误发生: {err}")
         return None
 
-
 @tool
 def download_videos_from_url(api_url: str, download_folder: str = config['download_vido_path']) -> list:
     """从指定的URL获取视频信息并下载视频到本地文件夹，返回本地文件路径列表"""
-
     downloaded_files = []
 
     try:
         # 发送HTTP GET请求
         response = requests.get(api_url, proxies={"http": None, "https": None})
-        response.raise_for_status()
+        response.raise_for_status()  # 检查请求是否成功
 
         data = response.json()
 
