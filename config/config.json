@@ -1,0 +1,13 @@
+{
+  "download_vido_path": "",
+  "openai_model_name": "",
+  "openai_api_key": "",
+  "openai_api_base": "",
+  "redis_host": "localhost",
+  "redis_port": 6379,
+  "redis_db": 0,
+  "bot_name": "panllq",
+  "single-h": "",
+  "chatroom-h": "",
+  "agent": false
+}
