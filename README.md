@@ -77,13 +77,38 @@
 
 ```json
 {
-    "redis_host": "localhost",
-    "redis_port": 6379,
-    "redis_db": 0,
-    "openai_api_key": "your_openai_api_key",
-    "openai_api_base": "https://api.openai.com/v1",
-    "openai_model_name": "gpt-3.5-turbo",
-    "download_vido_path": "path_to_download_folder"
+  "_comment1": "download_vido_path 表示将 URL 中的视频下载到本地的地址",
+  "download_vido_path": "url中的视频下载到本地的地址",
+
+  "_comment2": "openai_model_name 是 OpenAI 模型的名称，例如 gpt-4o-mini",
+  "openai_model_name": "gpt-4o-mini",
+
+  "_comment3": "openai_api_key 是 OpenAI API 的密钥",
+  "openai_api_key": "sk-proj-xxxx",
+
+  "_comment4": "openai_api_base 是 OpenAI API 的基础 URL",
+  "openai_api_base": "https://api.openai.com/v1",
+
+  "_comment5": "redis_host 是 Redis 服务器的主机地址",
+  "redis_host": "localhost",
+
+  "_comment6": "redis_port 是 Redis 服务器的端口",
+  "redis_port": 6379,
+
+  "_comment7": "redis_db 是 Redis 使用的数据库索引号",
+  "redis_db": 0,
+
+  "_comment8": "bot_name 是作为机器人的昵称",
+  "bot_name": "账号作为机器人的昵称",
+
+  "_comment9": "single-h 是适用于用户的使用手册信息",
+  "single-h": "适用于用户的使用手册信息",
+
+  "_comment10": "chatroom-h 是适用于群聊的使用手册信息",
+  "chatroom-h": "适用于群聊的使用手册信息",
+
+  "_comment11": "agent 表示是否启用智能体进行回复，开启:true / 关闭:false",
+  "agent": false
 }
 ```
 
