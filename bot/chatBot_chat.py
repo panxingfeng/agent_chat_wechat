@@ -3,7 +3,7 @@ import logging
 import redis
 import os
 from datetime import datetime
-from langchain_openai import ChatOpenAI  # 使用最新的 langchain_openai 包
+from langchain_openai import ChatOpenAI 
 
 # 配置日志记录系统
 logging.basicConfig(level=logging.INFO,
