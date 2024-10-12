@@ -44,7 +44,7 @@ class Chat_Bot_Chat:
         """根据配置文件中的API密钥、API地址和模型名称加载OpenAI模型"""
         return ChatOpenAI(
             api_key=config["openai_api_key"],
-            base_url=config["openai_api_base"],  # 更正 base_url 的传递方式
+            base_url=config["openai_api_base"],
             model=config["openai_model_name"]
         )
 
