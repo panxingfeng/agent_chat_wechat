@@ -8,7 +8,7 @@ from server.bot.chat_bot import Chat_Bot_Chat
 from tools.down_tool.download import download_audio, download_image
 
 from tools.down_tool.handler import *
-from tools.else_tool.function import clean_latex_content, get_url, save_message_to_mysql, upload_pdf_to_server
+from tools.else_tool.function import get_url, save_message_to_mysql
 from user.user import *
 
 from server.bot.agent_bot import Agent_Bot, user_image_map
