@@ -3,7 +3,8 @@ from langchain.agents import create_openai_tools_agent, AgentExecutor
 from langchain_core.prompts import MessagesPlaceholder, ChatPromptTemplate
 from langchain_openai import ChatOpenAI
 
-from config.config import CHATGPT_DATA, DB_DATA, REDIS_DATA
+from config.config import CHATGPT_DATA,REDIS_DATA
+from tools.agent_tool.code_gen.tool import code_gen
 from tools.tool_loader import ToolLoader
 import logging
 from datetime import datetime
@@ -11,7 +12,6 @@ import json
 import redis
 import asyncio
 import os
-import mysql.connector
 from concurrent.futures import ThreadPoolExecutor
 
 # 设置日志记录
@@ -26,9 +26,8 @@ os.environ["OPENAI_API_BASE"] = CHATGPT_DATA.get("url")
 tool_loader = ToolLoader()
 tool_loader.load_tools()  # 加载工具
 
-# 获取加载的所有工具
-loaded_tools = tool_loader.get_tools()
-tools = [tool["function"] for tool in loaded_tools]
+# 获取加载的工具函数列表
+tools = tool_loader.get_tools()
 
 # Redis 连接池
 redis_pool = redis.ConnectionPool(host=REDIS_DATA.get("host"), port=REDIS_DATA.get("port"), db=REDIS_DATA.get("db"))
