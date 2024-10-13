@@ -86,7 +86,6 @@ class Group_message:
         """处理图像的信息"""
 
     async def handle_else_message(self, user_message, bot):
-        self.logging.info(f"提取到的用户信息:{extract_user_info(self.user_name)}")
         reply_content = self.chat_bot.run(
             user_name=self.user_name,
             query=user_message
