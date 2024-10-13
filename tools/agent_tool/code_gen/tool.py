@@ -2,7 +2,7 @@ import logging
 from typing import ClassVar
 import requests
 from pydantic import BaseModel
-from langchain.agents import StructuredTool, tool
+from langchain.tools import Tool
 
 # 设置日志格式
 logging.basicConfig(
@@ -47,7 +47,7 @@ class CodeGen(BaseModel):
 
 
 # 将工具注册为 StructuredTool
-code_gen_tool = StructuredTool.from_function(
+code_gen_tool = Tool(
     name="code_gen",
     description="只有需要生成任何的代码才使用这个工具",
     func=CodeGen().run,  # 确保传入的是可调用对象
