@@ -7,7 +7,7 @@ CHATGPT_DATA = {
 
 OLLAMA_DATA = {
     'model_name': 'gpt-4o-mini',  # 本地模型名称
-    'key': 'EMPTY',  # 如果没有密钥需求，可以留空
+    'key': 'EMPTY', 
     'ollama_url': 'http://localhost:11434/api/chat'  # 本地 Ollama 服务地址
 }
 
@@ -18,16 +18,17 @@ DB_DATA = {
     'database': 'agent'  # 数据库名称
 }
 
+#微信中需要保存的文件地址#
 DOWNLOAD_ADDRESS = {
-    'file': 'D:\\output\\wechatMessage\\file',
-    'vidio': 'D:\\output\\wechatMessage\\vidio',
-    'audio': 'D:\\output\\wechatMessage\\audio',
-    'image': 'D:\\output\\wechatMessage\\image'
+    'file': 'D:\\agent\\wechat\\file',
+    'vidio': 'D:\\agent\\wechat\\vidio',
+    'audio': 'D:\\agent\\wechat\\audio',
+    'image': 'D:\\agent\\wechat\\image'
 }
 
 LOGIN_WECHAT_DATA = {
-    "name": "panllq",  # 微信用户名
-    "manner_name": "pan"  # 登录后展示的名称
+    "name": "xxx",  # 微信用户名（对方@xxx的xxx）
+    "manner_name": ""  # 群管理人员信息
 }
 
 PRIVATE_DATA = {
