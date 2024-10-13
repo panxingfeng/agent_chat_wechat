@@ -38,6 +38,7 @@ tool_loader.load_tools()  # 加载工具
 
 # 获取加载的所有工具
 loaded_tools = tool_loader.get_tools()
+tools = [tool["function"] for tool in loaded_tools]
 
 # Redis 连接池
 redis_pool = redis.ConnectionPool(host=REDIS_DATA.get("host"), port=REDIS_DATA.get("port"), db=REDIS_DATA.get("db"))
@@ -124,24 +125,24 @@ class Agent_Bot:
 
         agent = create_openai_tools_agent(
             self.chatModel_4o_mini,
-            tools=loaded_tools,
+            tools=tools,
             prompt=self.prompt
         )
 
         agent_substitute = create_openai_tools_agent(
             self.chatModel_3_5,
-            tools=loaded_tools,
+            tools=tools,
             prompt=self.prompt
         )
 
         self.agent_executor = AgentExecutor(
             agent=agent,
-            tools=loaded_tools,
+            tools=tools,
             verbose=True
         )
         self.agent_executor_substitute = AgentExecutor(
             agent=agent_substitute,
-            tools=loaded_tools,
+            tools=tools,
             verbose=True
         )
 
