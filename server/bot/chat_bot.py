@@ -5,7 +5,7 @@ import os
 from datetime import datetime
 from langchain_openai import ChatOpenAI
 
-from configs.config import CHATGPT_DATA, REDIS_DATA
+from config.config import CHATGPT_DATA, REDIS_DATA
 
 # 配置日志记录系统
 logging.basicConfig(level=logging.INFO,
