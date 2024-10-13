@@ -88,7 +88,8 @@ class Group_message:
     async def handle_else_message(self, user_message, bot):
         reply_content = self.chat_bot.run(
             user_name=self.user_name,
-            query=user_message
+            query=user_message,
+            user_id=self.user_id
         )
         await self.core.send_msg(f"@{self.user_name} {reply_content}", to_username=self.user_id)
         return True
