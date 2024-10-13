@@ -41,9 +41,9 @@
     source .venv/bin/activate  # 在 Windows 上使用 .venv\Scripts\activate
     ```
 
-4. 安装依赖：
+4. 安装依赖(使用清华源)：
     ```bash
-    pip install -r requirements.txt
+    pip install -r requirements.txt -i https://pypi.tuna.tsinghua.edu.cn/simple/
     ```
 
 5. 运行：
