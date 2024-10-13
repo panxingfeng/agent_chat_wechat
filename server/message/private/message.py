@@ -4,7 +4,7 @@ from pathlib import Path
 import requests
 
 from config.config import DOWNLOAD_ADDRESS, PRIVATE_DATA
-from server.bot.chat_bot import Chat_Bot
+from server.bot.chat_bot import Chat_Bot_Chat
 from tools.down_tool.download import download_audio, download_image
 
 from tools.down_tool.handler import *
@@ -54,7 +54,7 @@ class Private_message:
         self.logging = logging
         self.use_agent = use_agent
         self.agent_bot = Agent_Bot(query=None, user_id=user_id, user_name=user_name)
-        self.chat_bot = Chat_Bot()
+        self.chat_bot = Chat_Bot_Chat(user_id=user_id, user_name=user_name)
         self.image_handler = ImageHandler(save_directory=DOWNLOAD_ADDRESS.get("image"))
         self.voice_handler = VoiceHandler(save_directory=DOWNLOAD_ADDRESS.get("audio"))
         self.file_handler = FileHandler(save_directory=DOWNLOAD_ADDRESS.get("file"))
