@@ -5,11 +5,10 @@ import mysql.connector
 
 from vchat import Core
 
-from config.config import DOWNLOAD_ADDRESS, GROUP_DATA, LOGIN_WECHAT_DATA, DB_DATA
-from server.bot.agent_bot import user_image_map, Agent_Bot
-from server.bot.chat_bot import Chat_Bot
+from config.config import DOWNLOAD_ADDRESS, GROUP_DATA, DB_DATA
+from server.bot.agent_bot import  Agent_Bot
+from server.bot.chat_bot import Chat_Bot_Chat
 from tools.down_tool.handler import ImageHandler, VoiceHandler, FileHandler
-from tools.else_tool.function import extract_game_name
 from user.user import extract_user_info
 
 # 保存用户的激活码状态，包括剩余时间和当天的验证状态
@@ -49,7 +48,7 @@ class Group_message:
         self.logging = logging
         self.chatroom_name = chatroom_name
         self.agent_bot = Agent_Bot(query=None, user_id=user_id, user_name=user_name)
-        self.chat_bot = Chat_Bot()
+        self.chat_bot = Chat_Bot_Chat()
         self.image_handler = ImageHandler(save_directory=DOWNLOAD_ADDRESS.get("image"))
         self.voice_handler = VoiceHandler(save_directory=DOWNLOAD_ADDRESS.get("audio"))
         self.file_handler = FileHandler(save_directory=DOWNLOAD_ADDRESS.get("file"))
