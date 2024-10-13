@@ -22,16 +22,6 @@ logging.basicConfig(level=logging.INFO,
 os.environ["OPENAI_API_KEY"] = CHATGPT_DATA.get("key")
 os.environ["OPENAI_API_BASE"] = CHATGPT_DATA.get("url")
 
-# 设置 MySQL 连接池
-pool = mysql.connector.pooling.MySQLConnectionPool(
-    pool_name="mypool",
-    pool_size=5,
-    host=DB_DATA.get("host"),
-    user=DB_DATA.get("user"),
-    password=DB_DATA.get("password"),
-    database=DB_DATA.get("database")
-)
-
 # 初始化工具加载器
 tool_loader = ToolLoader()
 tool_loader.load_tools()  # 加载工具
@@ -60,7 +50,12 @@ current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 class Agent_Bot:
     MAX_HISTORY_SIZE = 6
     MAX_HISTORY_LENGTH = 500
-    conn = pool.get_connection()
+    conn = mysql.connector.connect(
+        host=DB_DATA.get("host"),
+        user=DB_DATA.get("user"),
+        password=DB_DATA.get("password"),
+        database=DB_DATA.get("database")
+    )
 
     def __init__(self, user_id, user_name,query):
         self.query = query
