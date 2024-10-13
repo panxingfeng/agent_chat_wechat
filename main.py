@@ -1,69 +1,60 @@
 import asyncio
-import json
 import logging
-import os
-from concurrent.futures import ThreadPoolExecutor
 from datetime import datetime
-import aiohttp
-from vchat.model import ContentTypes, ContactTypes
-from vchat import Core
 
-from bot.chatBot_agent import Chat_Bot_Agent
-from bot.chatBot_chat import Chat_Bot_Chat
-from message.group.message import Group_message
-from message.private.message import Private_message
-from tools.function import get_username_chatroom
+import aiohttp
+import pytz
+from vchat import Core
+from vchat.model import ContentTypes, ContactTypes
+
+from configs.config import LOGIN_WECHAT_DATA, DB_DATA
+from server.bot.chat_bot import Chat_Bot_Chat
+from server.message.group.message import Group_message
+from server.message.private.message import Private_message, initialize_user_activation_status, check_activation_codes
+from tools.else_tool.function import get_username_chatroom
+
+from user.user import get_activation_code_by_user
 
 # 创建日志器
 logger = logging.getLogger()
-logger.setLevel(logging.INFO)  # 设置全局日志级别为 INFO
+logger.setLevel(logging.INFO)
 
 # 定义日志输出格式
 formatter = logging.Formatter('[%(asctime)s][%(levelname)s]: %(message)s', datefmt='%Y-%m-%d %H:%M:%S')
 
-# 创建控制台日志处理器
-console_handler = logging.StreamHandler()
-console_handler.setLevel(logging.INFO)  # 设置控制台日志级别为 INFO
-console_handler.setFormatter(formatter)
+bot_name = LOGIN_WECHAT_DATA["name"]
 
-# 将控制台日志处理器添加到日志器
-logger.addHandler(console_handler)
-
-# 获取当前脚本所在目录
-base_dir = os.path.dirname(os.path.abspath(__file__))
-
-# 从 JSON 文件加载配置
-config_path = os.path.join(base_dir, "./config/config.json")
-with open(config_path, "r", encoding="utf-8") as file:
-    config = json.load(file)
-
-bot_name = config['bot_name']
-
-# 初始化 vchat 核心功能
+# 初始化核心
 core = Core()
 
-# 创建线程池以处理任务
-thread_pool = ThreadPoolExecutor(max_workers=50)
+# 定义北京时区
+beijing_tz = pytz.timezone('Asia/Shanghai')
 
-# 获取当前时间戳
-current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+# 获取当前的 UTC 时间
+current_utc_time = datetime.utcnow()
+
+# 将 UTC 时间转换为北京时间
+current_time = current_utc_time.astimezone(beijing_tz).strftime("%Y-%m-%d %H:%M:%S")
+
+# 保存用户使用智能体状态的字典
+user_agent_status = {}
 
 # 处理个人用户的消息
 @core.msg_register(msg_types=ContentTypes.TEXT, contact_type=ContactTypes.USER)
-# 以下是可以支持接收的消息类型，包括图像，音频，视频，文件
-# @core.msg_register(msg_types=ContentTypes.IMAGE, contact_type=ContactTypes.USER)
-# @core.msg_register(msg_types=ContentTypes.VOICE, contact_type=ContactTypes.USER)
-# @core.msg_register(msg_types=ContentTypes.ATTACH, contact_type=ContactTypes.USER)
-# @core.msg_register(msg_types=ContentTypes.VIDEO, contact_type=ContactTypes.USER)
+@core.msg_register(msg_types=ContentTypes.ATTACH, contact_type=ContactTypes.USER)
+@core.msg_register(msg_types=ContentTypes.IMAGE, contact_type=ContactTypes.USER)
+@core.msg_register(msg_types=ContentTypes.VOICE, contact_type=ContactTypes.USER)
+@core.msg_register(msg_types=ContentTypes.VIDEO, contact_type=ContactTypes.USER)
 async def single_messages(msg):
-    """
-    处理个人用户的消息
-    :param msg: 消息对象
-    """
+    logging.info(f"接收到的消息类型{msg.content.type}")
     user_id = msg.from_.username
     user_name = msg.from_.nickname
 
-    # 初始化消息处理器
+    # 如果用户不在字典中，默认设置为 False（即不使用智能体）
+    if user_name not in user_agent_status:
+        user_agent_status[user_name] = False  # 默认不使用智能体
+
+    # 创建一个消息处理器对象，并传递是否使用智能体的参数
     message_handler = Private_message(
         user_id=user_id,
         user_name=user_name,
@@ -71,45 +62,40 @@ async def single_messages(msg):
         bot_name=bot_name,
         current_time=current_time,
         logging=logging,
+        use_agent=user_agent_status[user_name],  # 从字典获取是否使用智能体的状态
     )
-
     try:
-        # 记录接收到的消息类型
-        logging.info(f"接收到来自用户【{user_name}】的消息类型: {msg.content.type}")
-
         if msg.content.type == ContentTypes.TEXT:
-            # 处理文本消息
+            if "#智能体" in msg.content.content:
+                user_agent_status[user_name] = True
+                if get_activation_code_by_user(user_name) is not None:
+                    await core.send_msg("成功设置智能体进行回复，输入 #聊天 切换为普通聊天模型(默认模式)", to_username=user_id)
+                    return
+                else:
+                    await core.send_msg("设置失败(激活码过期或者未设置)，继续使用聊天模型进行回复", to_username=user_id)
+                    return
+            elif "#聊天" in msg.content.content:
+                user_agent_status[user_name] = False
+                await core.send_msg("成功设置聊天模型进行回复", to_username=user_id)
+                return
             user_message = msg.content.content
-            if config["agent"]:
-                bot = Chat_Bot_Agent(user_name=user_name, user_id=user_id)
-                logging.info(f"开始处理用户【{user_name}】的文本消息: {user_message}")
-            else:
-                bot = Chat_Bot_Chat(user_name=user_name, user_id=user_id)
-                logging.info(f"开始处理用户【{user_name}】的文本消息: {user_message}")
-
-            # 异步处理消息
-            asyncio.create_task(message_handler.handle_message(user_message=user_message, bot=bot))
+            logging.info(f"开始处理用户【{user_name}】的文本消息: {user_message}")
+            await asyncio.create_task(message_handler.handle_message(user_message=user_message))
 
         elif msg.content.type == ContentTypes.IMAGE:
-            """处理图像文件"""
-            """可以使用  file = msg.content.download_fn()  使用handler下的ImageHandler"""
-        elif msg.content.type == ContentTypes.VOICE:
-            """处理音频文件"""
-            """可以使用  file = msg.content.download_fn()  使用handler下的VoiceHandler"""
+        """处理图像的消息逻辑"""
         elif msg.content.type == ContentTypes.ATTACH:
-            """处理文件"""
-            """可以使用  file = msg.content.download_fn()  使用handler下的FileHandler"""
+        """处理文件的消息逻辑"""
+        elif msg.content.type == ContentTypes.VOICE:
+        """处理音频的消息逻辑"""
         elif msg.content.type == ContentTypes.VIDEO:
-            """处理视频文件"""
-            """可以使用  file = msg.content.download_fn()  使用handler下的VideoDownloader"""
+        """处理视频的消息逻辑"""
         else:
-            # 记录不支持的消息类型
             logging.warning(f"不支持的消息类型: {msg.content.type}")
             await core.send_msg(f"目前不支持的当前的消息类型: {msg.content.type}", to_username=msg.from_.username)
             return False
 
     except Exception as e:
-        # 记录处理消息时发生的错误
         logging.error(f"处理消息时发生错误: {e}", exc_info=True)
         await core.send_msg(f"消息处理失败，请联系管理员进行修复\n问题原因: {e}", to_username=msg.from_.username)
         return False
@@ -120,15 +106,10 @@ async def single_messages(msg):
 @core.msg_register(msg_types=ContentTypes.ATTACH, contact_type=ContactTypes.CHATROOM)
 @core.msg_register(msg_types=ContentTypes.TEXT, contact_type=ContactTypes.CHATROOM)
 async def chatroom_messages(msg):
-    """
-    处理群聊中的消息
-    :param msg: 消息对象
-    """
     chatroom_name = getattr(msg.from_, 'nickname', None)
     user_id = getattr(msg.from_, 'username', None)
     user_name = get_username_chatroom(str(getattr(msg, 'chatroom_sender', None)))
 
-    # 初始化消息处理器
     message_handler = Group_message(
         user_id=user_id,
         user_name=user_name,
@@ -136,81 +117,72 @@ async def chatroom_messages(msg):
         bot_name=bot_name,
         current_time=current_time,
         logging=logging,
-        chatroom_name=chatroom_name)
+        chatroom_name=chatroom_name
+    )
 
     if msg.content.type == ContentTypes.TEXT:
-        # 处理文本消息
         user_message = msg.content.content
         logging.info(f"开始处理微信群【{chatroom_name}】的用户【{user_name}】文本消息【 {user_message}】")
-        bot = Chat_Bot_Chat(user_name=user_name, user_id=user_id)
-        asyncio.create_task(message_handler.handle_message(user_message=user_message, bot=bot))
+        bot = Chat_Bot_Chat()
+        await asyncio.create_task(message_handler.handle_message(user_message=user_message, bot=bot))
+    elif msg.content.type == ContentTypes.ATTACH:
+        """处理文件的消息逻辑"""
     else:
-        # 记录不支持的消息类型
         logging.warning(f"收到不支持的消息类型: {msg.content.type}")
         return False
 
     return True
 
-async def run_with_restart(task):
-    """
-    如果任务发生异常，将会重新启动任务
-    :param task: 需要运行的任务
-    """
+# 主任务管理函数，确保各个任务并发执行
+async def run_with_restart(task, max_retries=5, cooldown_time=5):
+    retries = 0
     while True:
         try:
             await task()  # 执行传入的任务
         except Exception as e:
-            # 记录任务执行时的错误
+            retries += 1
             logging.error(f"任务执行时发生错误: {e}")
             logging.error("错误详情：", exc_info=True)
-            logging.info("重新启动任务...")
-            await asyncio.sleep(1)  # 延迟一秒后重新启动任务
 
+            if retries >= max_retries:
+                logging.error(f"任务失败次数达到 {max_retries} 次，进入冷却时间 {cooldown_time} 秒")
+                retries = 0
+                await asyncio.sleep(cooldown_time)
+            else:
+                logging.info(f"重新动任务... 第 {retries} 次重启")
+                await asyncio.sleep(1)
+
+# 主任务调度
 async def main_task():
-    """
-    主任务函数，初始化核心功能并运行
-    """
-    global thread_pool
-    session = None
     try:
         # 初始化核心功能
         await core.init()
-        session = aiohttp.ClientSession()  # 创建 aiohttp 会话
-        await core.auto_login(hot_reload=False)  # 执行自动登录
 
-        # 创建并行任务
-        tasks = [
-            asyncio.create_task(run_with_restart(core.run)),  # 运行核心功能的主循环
-        ]
+        async with aiohttp.ClientSession():
+            await core.auto_login(hot_reload=False)
 
-        await asyncio.gather(*tasks)
+            # 创建并行任务
+            tasks = [
+                asyncio.create_task(run_with_restart(core.run)),  # 运行核心功能的主循环
+            ]
+
+            await asyncio.gather(*tasks)
 
     except asyncio.CancelledError:
         logging.info("主程序取消，正在关闭所有任务...")
-    except NotImplementedError as nie:
-        # 记录未实现的功能错误
-        logging.error(f"捕获到未实现的功能错误: {nie}")
-        logging.error("可能是在处理群聊消息时发生了错误，请检查相关功能实现。")
     except Exception as e:
-        # 记录启动时发生的错误
         logging.error(f"启动时发生错误: {e}")
         logging.error("错误详情：", exc_info=True)
     finally:
-        # 确保资源被正确关闭
-        if session and not session.closed:
-            await session.close()  # 确保关闭 aiohttp 会话
-        logging.info("已关闭客户端会话，程序继续运行。")
+        logging.info("程序退出。")
 
+# 运行主程序
 async def main():
-    """
-    主入口函数
-    """
     await main_task()
 
 if __name__ == "__main__":
     try:
-        asyncio.run(main())  # 运行主任务
+        asyncio.run(main())
     except Exception as e:
-        # 记录主循环中发生的错误
         logging.error(f"主循环中发生错误: {e}")
         logging.error("错误详情：", exc_info=True)
