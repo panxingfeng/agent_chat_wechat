@@ -9,7 +9,6 @@ from config.config import DOWNLOAD_ADDRESS, GROUP_DATA, DB_DATA
 from server.bot.agent_bot import  Agent_Bot
 from server.bot.chat_bot import Chat_Bot_Chat
 from tools.down_tool.handler import ImageHandler, VoiceHandler, FileHandler
-from user.user import extract_user_info
 
 # 保存用户的激活码状态，包括剩余时间和当天的验证状态
 user_activation_status = {}
