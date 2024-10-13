@@ -7,7 +7,7 @@ import pytz
 from vchat import Core
 from vchat.model import ContentTypes, ContactTypes
 
-from configs.config import LOGIN_WECHAT_DATA, DB_DATA
+from config.config import LOGIN_WECHAT_DATA, DB_DATA
 from server.bot.chat_bot import Chat_Bot_Chat
 from server.message.group.message import Group_message
 from server.message.private.message import Private_message, initialize_user_activation_status, check_activation_codes
