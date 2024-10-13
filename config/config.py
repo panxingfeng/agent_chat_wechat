@@ -38,3 +38,9 @@ PRIVATE_DATA = {
 GROUP_DATA = {
     '-h': """微信群助手的描述信息"""
 }
+
+REDIS_DATA = {
+    'host': 'localhost',
+    'port': 6379,
+    'db': 0
+}
