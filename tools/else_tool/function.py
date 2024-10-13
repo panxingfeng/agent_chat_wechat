@@ -8,7 +8,7 @@ from typing import Union
 import mysql.connector
 import requests
 
-from configs.config import DB_DATA
+from config.config import DB_DATA
 
 conn = mysql.connector.connect(
     host=DB_DATA.get("host"),
