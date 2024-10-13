@@ -53,8 +53,8 @@ class Agent_Bot:
     def __init__(self, user_id, user_name,query):
         self.query = query
         self.user_name = user_name
-        self.chatModel_3_5 = ChatOpenAI(
-            model="gpt-3.5-turbo",
+        self.chatModel_4o_mini = ChatOpenAI(
+            model="gpt-4o-mini",
             temperature=0,
             streaming=True
         )
@@ -106,7 +106,7 @@ class Agent_Bot:
             ]
         )
         agent = create_openai_tools_agent(
-            self.chatModel_3_5,
+            self.chatModel_4o_mini,
             tools=tools,
             prompt=self.prompt
         )
