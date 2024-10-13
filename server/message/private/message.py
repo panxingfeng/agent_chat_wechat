@@ -8,12 +8,10 @@ from server.bot.chat_bot import Chat_Bot_Chat
 from tools.down_tool.download import download_audio, download_image
 
 from tools.down_tool.handler import *
-from tools.else_tool.function import get_url, save_message_to_mysql
-from user.user import *
+from tools.else_tool.function import get_url
 
 from server.bot.agent_bot import Agent_Bot, user_image_map
 from tools.down_tool.handler import VideoHandler, FileHandler, VoiceHandler, ImageHandler
-from user.user import save_user_id
 
 # 保存用户的激活码状态，包括剩余时间和当天的验证状态
 user_activation_status = {}
@@ -62,13 +60,12 @@ class Private_message:
 
     async def handle_message(self, user_message):
         """处理接受到的消息"""
-        save_user_id(user_id=self.user_id, user_name=self.user_name)
         await self.distribute_message(user_message)
 
     async def distribute_message(self, user_message):
         """消息的分发"""
         user_message = user_message.strip()
-        result = await self.check_activation_code(user_message)
+        result = True  # 可以增加对用户账号使用权的确认
         if "-h" in user_message:
             reply_message = PRIVATE_DATA.get('single-h')
             await self.core.send_msg(reply_message, to_username=self.user_id)
@@ -86,34 +83,51 @@ class Private_message:
             else:
                 await self.handle_text_message(user_message)
                 return
+        else:
+            await self.core.send_msg("账户无法使用", to_username=self.user_id)
 
     async def handle_image_message(self, user_message):
-        """处理图像的问题"""
+        # 处理图像的问题
+        return
 
     async def handle_file_message(self, user_message):
-        """处理关于文件问答的问题"""
+        # 处理关于文件问答的问题
+        return
 
     async def handle_video_message(self, user_message):
-        """处理视频的问题"""
+        # 处理视频的问题
+        return
 
     async def send_message_type(self, reply_message):
+        # 确保 reply_message 是实际结果，而不是协程对象
+        if asyncio.iscoroutine(reply_message):
+            reply_message = await reply_message
+
         if reply_message is None:
-            await self.core.send_msg(f"回复内容生成错误，请联系管理员", to_username=self.user_id)
+            await self.core.send_msg("回复内容生成错误，请联系管理员", to_username=self.user_id)
             return
+
+        # 处理图像消息
         if ".png" in reply_message:
             link = get_url(reply_message)
             file = download_image(link)
             file_path = Path(file)
-            await self.core.send_msg(f"这是您生成的图像", to_username=self.user_id)
+
+            await self.core.send_msg("这是您生成的图像", to_username=self.user_id)
             await self.core.send_image(to_username=self.user_id, file_path=file_path)
             return
+
+        # 处理语音消息
         elif ".wav" in reply_message:
             link = get_url(reply_message)
             file = download_audio(link)
             file_path = Path(file)
-            await self.core.send_msg(f"这是生成的语音信息", to_username=self.user_id)
+
+            await self.core.send_msg("这是生成的语音信息", to_username=self.user_id)
             await self.core.send_file(to_username=self.user_id, file_path=file_path)
             return
+
+        # 处理文本消息
         else:
             await self.core.send_msg(reply_message, to_username=self.user_id)
 
@@ -132,22 +146,28 @@ class Private_message:
         else:
             reply_content = self.chat_bot.run(
                 user_name=self.user_name,
-                query=user_message
+                query=user_message,
+                user_id=self.user_id
             )
         await self.send_message_type(reply_content)
         return
 
     async def save_message_to_mysql(self, reply_content):
-        """保存用户的内容到数据库中"""
+        # 保存用户的内容到数据库中
+        return
 
     async def save_image_message_to_local(self, file_path):
-        """保存用户的图像到本地路径，并根据用户的操作状态删除之前的图像"""
+        # 保存用户的图像到本地路径，并根据用户的操作状态删除之前的图像
+        return
 
     async def save_file_message_to_local(self, file_name, file_path):
-        """保存用户的文件到本地路径"""
+        # 保存用户的文件到本地路径
+        return
 
     async def save_video_message_to_local(self, file_path):
-        """保存用户的视频到本地路径，并根据用户的操作状态删除之前的视频"""
+        # 保存用户的视频到本地路径，并根据用户的操作状态删除之前的视频
+        return
 
-    async def handle_voice_message(self,file_path):
-        """保存用户的音频到本地路径，检测当前是否支持cuda设备来处理语音消息，并使用音频进行回复"""
+    async def handle_voice_message(self, file_path):
+        # 保存用户的音频到本地路径，检测当前是否支持cuda设备来处理语音消息，并使用音频进行回复
+        return
