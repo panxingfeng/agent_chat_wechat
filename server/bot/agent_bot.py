@@ -3,7 +3,7 @@ from langchain.agents import create_openai_tools_agent, AgentExecutor
 from langchain_core.prompts import MessagesPlaceholder, ChatPromptTemplate
 from langchain_openai import ChatOpenAI
 
-from configs.config import CHATGPT_DATA, DB_DATA, REDIS_DATA
+from config.config import CHATGPT_DATA, DB_DATA, REDIS_DATA
 from tools.tool_loader import ToolLoader
 import logging
 from datetime import datetime
