@@ -80,12 +80,16 @@ async def single_messages(msg):
 
         elif msg.content.type == ContentTypes.IMAGE:
         """处理图像的消息逻辑"""
+            return
         elif msg.content.type == ContentTypes.ATTACH:
         """处理文件的消息逻辑"""
+            return
         elif msg.content.type == ContentTypes.VOICE:
         """处理音频的消息逻辑"""
+            return
         elif msg.content.type == ContentTypes.VIDEO:
         """处理视频的消息逻辑"""
+            return
         else:
             logging.warning(f"不支持的消息类型: {msg.content.type}")
             await core.send_msg(f"目前不支持的当前的消息类型: {msg.content.type}", to_username=msg.from_.username)
@@ -123,6 +127,7 @@ async def chatroom_messages(msg):
         await asyncio.create_task(message_handler.handle_message(user_message=user_message, bot=bot))
     elif msg.content.type == ContentTypes.ATTACH:
         """处理文件的消息逻辑"""
+        return
     else:
         logging.warning(f"收到不支持的消息类型: {msg.content.type}")
         return False
