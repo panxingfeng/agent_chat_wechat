@@ -46,7 +46,7 @@ class CodeGen(BaseModel):
         return f"代码生成工具 (使用模型: {model_name})"
 
 
-# 将工具注册为 StructuredTool
+# 使用 Tool 注册工具
 code_gen_tool = Tool(
     name="code_gen",
     description="只有需要生成任何的代码才使用这个工具",
