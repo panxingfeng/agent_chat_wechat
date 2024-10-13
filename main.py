@@ -68,12 +68,8 @@ async def single_messages(msg):
         if msg.content.type == ContentTypes.TEXT:
             if "#智能体" in msg.content.content:
                 user_agent_status[user_name] = True
-                if get_activation_code_by_user(user_name) is not None:
-                    await core.send_msg("成功设置智能体进行回复，输入 #聊天 切换为普通聊天模型(默认模式)", to_username=user_id)
-                    return
-                else:
-                    await core.send_msg("设置失败(激活码过期或者未设置)，继续使用聊天模型进行回复", to_username=user_id)
-                    return
+                await core.send_msg("成功设置智能体进行回复，输入 #聊天 切换为普通聊天模型(默认模式)", to_username=user_id)
+                return
             elif "#聊天" in msg.content.content:
                 user_agent_status[user_name] = False
                 await core.send_msg("成功设置聊天模型进行回复", to_username=user_id)
