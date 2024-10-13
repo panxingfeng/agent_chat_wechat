@@ -5,7 +5,7 @@ import mysql.connector
 
 from vchat import Core
 
-from configs.config import DOWNLOAD_ADDRESS, GROUP_DATA, LOGIN_WECHAT_DATA, DB_DATA
+from config.config import DOWNLOAD_ADDRESS, GROUP_DATA, LOGIN_WECHAT_DATA, DB_DATA
 from server.bot.agent_bot import user_image_map, Agent_Bot
 from server.bot.chat_bot import Chat_Bot
 from tools.down_tool.handler import ImageHandler, VoiceHandler, FileHandler
