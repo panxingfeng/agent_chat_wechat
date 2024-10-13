@@ -50,12 +50,6 @@ current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 class Agent_Bot:
     MAX_HISTORY_SIZE = 6
     MAX_HISTORY_LENGTH = 500
-    conn = mysql.connector.connect(
-        host=DB_DATA.get("host"),
-        user=DB_DATA.get("user"),
-        password=DB_DATA.get("password"),
-        database=DB_DATA.get("database")
-    )
 
     def __init__(self, user_id, user_name,query):
         self.query = query
