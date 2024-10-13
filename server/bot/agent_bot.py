@@ -53,11 +53,6 @@ class Agent_Bot:
     def __init__(self, user_id, user_name,query):
         self.query = query
         self.user_name = user_name
-        self.chatModel_4o_mini = ChatOpenAI(
-            model="gpt-4o-mini",
-            temperature=0,
-            streaming=True
-        )
         self.chatModel_3_5 = ChatOpenAI(
             model="gpt-3.5-turbo",
             temperature=0,
@@ -110,14 +105,7 @@ class Agent_Bot:
                 MessagesPlaceholder(variable_name="agent_scratchpad")
             ]
         )
-
         agent = create_openai_tools_agent(
-            self.chatModel_4o_mini,
-            tools=tools,
-            prompt=self.prompt
-        )
-
-        agent_substitute = create_openai_tools_agent(
             self.chatModel_3_5,
             tools=tools,
             prompt=self.prompt
@@ -125,11 +113,6 @@ class Agent_Bot:
 
         self.agent_executor = AgentExecutor(
             agent=agent,
-            tools=tools,
-            verbose=True
-        )
-        self.agent_executor_substitute = AgentExecutor(
-            agent=agent_substitute,
             tools=tools,
             verbose=True
         )
@@ -201,17 +184,8 @@ class Agent_Bot:
 
             logging.info(f"用户{user_name}的历史记录\n{history}")
 
-            try:
-                logging.info("使用gpt40-mini进行处理")
-                # 调用AgentExecutor处理
-                result = await asyncio.get_event_loop().run_in_executor(executor, lambda: self.agent_executor.invoke(
-                    {"input": combined_input}))
-            except Exception as e:  # 捕获特定的异常（如 RateLimitError），但此处使用 Exception 作为通用捕获
-                logging.warning(f"gpt40-mini请求过多，切换到3.5-turbo处理。异常: {e}")
-                # 备用 AgentExecutor 处理
-                result = await asyncio.get_event_loop().run_in_executor(executor,
-                                                                        lambda: self.agent_executor_substitute.invoke(
-                                                                            {"input": combined_input}))
+            result = await asyncio.get_event_loop().run_in_executor(executor,lambda: self.agent_executor.invoke(
+                                                                      {"input": combined_input}))
 
             output = result.get("output", "Error occurred")
 
