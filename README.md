@@ -135,7 +135,9 @@ def register_tool() -> dict:
 
 ### 如何添加工具到智能体
 1.根据示例工具代码进行编写工具代码
+
 2.在tools/agent_tool目录下，增加一个工具的文件夹（例如：code_gen）
+
 3.把工具代码保存为tool.py即可
 
 ### vchat框架
