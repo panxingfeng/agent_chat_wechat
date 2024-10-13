@@ -65,69 +65,52 @@
 ### 工具代码模板
 在智能体中添加工具时，您可以使用以下代码模板：
 ```bash
-import logging
-from typing import ClassVar
-import requests
-from pydantic import BaseModel
-from langchain.tools import Tool
-
-# 设置日志格式
-logging.basicConfig(
-    level=logging.INFO,
-    format="%(asctime)s - %(levelname)s - %(message)s",
-    datefmt="%Y-%m-%d %H:%M:%S"
-)
-
-class CodeGen(BaseModel):
-    """代码生成工具类，使用 HTTP 请求生成代码。"""
+class CodeGenAPIWrapper(BaseModel):
     base_url: ClassVar[str] = "http://localhost:11434/api/chat"
-    content_role: str = "你是一个精通编程的代码助手。你可以使用多种编程语言，并能够根据用户的需求编写代码。这是客户的需求："
+    content_role: ClassVar[str] = (
+        "你是一个精通编程的代码助手，"
+        "能够根据用户的需求编写代码。"
+    )
+    model: str = "qwen2.5-coder"
 
-    def run(self, query: str) -> str:
-        """向模型发送代码生成请求，并返回结果。"""
-        model_name: str = "qwen2.5"
-        logging.info(f"使用模型: {model_name}, 接收到用户的问题: {query} ----> 代码生成")
+    def run(self, query: str, model_name: str) -> str:
+        logging.info(f"使用模型 {model_name} 处理用户请求: {query}")
         data = {
             "model": model_name,
-            "messages": [
-                {
-                    "role": "user",
-                    "content": self.content_role + query
-                }
-            ],
-            "stream": False
+            "messages": [{"role": "user", "content": self.content_role + query}],
+            "stream": False,
         }
         response = requests.post(self.base_url, json=data)
         response.raise_for_status()
 
         try:
             result = response.json()
-            content = result.get("message", {}).get("content", "无法生成代码，请检查输入。")
-            return content
+            return result.get("message", {}).get("content", "无法生成代码，请检查输入。")
         except requests.exceptions.JSONDecodeError as e:
             return f"解析 JSON 时出错: {e}"
 
-    def describe(self) -> str:
-        """返回工具的描述信息。"""
-        model_name: str = "qwen2.5"
-        return f"代码生成工具 (使用模型: {model_name})"
+    def generate_code(self, query: str) -> str:
+        try:
+            result = self.run(query, self.model)
+            if "无法生成代码" not in result:
+                return result
+        except Exception as e:
+            logging.error(f"生成代码时出错: {e}")
+        return "代码生成失败，请稍后再试。"
 
+# 实例化 CodeGenAPIWrapper，用于代码生成
+code_generator = CodeGenAPIWrapper()
 
-# 使用 Tool 注册工具
-code_gen_tool = Tool(
-    name="code_gen",
-    description="只有需要生成任何的代码才使用这个工具",
-    func=CodeGen().run,  # 确保传入的是可调用对象
-)
+@tool
+def code_gen(query: str) -> str:
+    """代码生成工具：根据用户描述生成相应的代码实现。"""
+    return code_generator.generate_code(query)
 
-def register_tool() -> dict:
-    """
-    注册工具，并返回工具的引用和描述。
-    """
-    skit_api = CodeGen()  # 实例化工具类
+# 添加 register_tool 函数，用于显式返回工具信息
+def register_tool():
     return {
-        "agent_tool": code_gen_tool,
-        "description": skit_api.describe(),
+        "agent_tool": code_gen,
+        "description": code_gen.__doc__
     }
 
 
