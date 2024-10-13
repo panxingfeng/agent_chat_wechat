@@ -7,13 +7,12 @@ import pytz
 from vchat import Core
 from vchat.model import ContentTypes, ContactTypes
 
-from config.config import LOGIN_WECHAT_DATA, DB_DATA
+from config.config import LOGIN_WECHAT_DATA
 from server.bot.chat_bot import Chat_Bot_Chat
 from server.message.group.message import Group_message
-from server.message.private.message import Private_message, initialize_user_activation_status, check_activation_codes
+from server.message.private.message import Private_message
 from tools.else_tool.function import get_username_chatroom
 
-from user.user import get_activation_code_by_user
 
 # 创建日志器
 logger = logging.getLogger()
