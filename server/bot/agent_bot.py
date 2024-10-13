@@ -3,7 +3,7 @@ from langchain.agents import create_openai_tools_agent, AgentExecutor
 from langchain_core.prompts import MessagesPlaceholder, ChatPromptTemplate
 from langchain_openai import ChatOpenAI
 
-from configs.config import CHATGPT_DATA, DB_DATA
+from configs.config import CHATGPT_DATA, DB_DATA, REDIS_DATA
 from tools.tool_loader import ToolLoader
 import logging
 from datetime import datetime
@@ -39,12 +39,8 @@ tool_loader.load_tools()  # 加载工具
 # 获取加载的所有工具
 loaded_tools = tool_loader.get_tools()
 
-# # 配置音频处理工具
-# AudioSegment.converter = "E:/ProgramData/ffmpeg/bin/ffmpeg.exe"
-# AudioSegment.ffprobe = "E:/ProgramData/ffmpeg/bin/ffprobe.exe"
-
 # Redis 连接池
-redis_pool = redis.ConnectionPool(host='localhost', port=6379, db=0)
+redis_pool = redis.ConnectionPool(host=REDIS_DATA.get("host"), port=REDIS_DATA.get("port"), db=REDIS_DATA.get("db"))
 redis_client = redis.StrictRedis(connection_pool=redis_pool)
 
 # 存储会话中的图像路径
