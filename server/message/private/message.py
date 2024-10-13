@@ -3,7 +3,7 @@ from pathlib import Path
 
 import requests
 
-from configs.config import DOWNLOAD_ADDRESS, PRIVATE_DATA
+from config.config import DOWNLOAD_ADDRESS, PRIVATE_DATA
 from server.bot.chat_bot import Chat_Bot
 from tools.down_tool.download import download_audio, download_image
 
