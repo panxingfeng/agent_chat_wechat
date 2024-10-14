@@ -42,7 +42,7 @@ class Chat_Bot_Chat:
     def get_model_client(self):
         """根据配置文件选择返回的模型"""
         if OLLAMA_DATA.get("use"):
-            logging.info(f"使用Ollama模型生成回复: {OLLAMA_DATA.get("model")}")
+            logging.info(f"使用Ollama模型生成回复: {OLLAMA_DATA.get('model')}")
             return OllamaClient(
                 model_name=OLLAMA_DATA.get("model"),
                 ollama_url=OLLAMA_DATA.get("url")
