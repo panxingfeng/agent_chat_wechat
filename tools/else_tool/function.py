@@ -2,11 +2,8 @@ import logging
 import random
 import re
 import string
-from datetime import datetime
-from typing import Union
 
 import mysql.connector
-import requests
 
 from config.config import DB_DATA
 
