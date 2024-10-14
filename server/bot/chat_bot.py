@@ -44,8 +44,8 @@ class Chat_Bot_Chat:
         if OLLAMA_DATA.get("use"):
             logging.info(f"使用Ollama模型生成回复: {OLLAMA_DATA.get('model')}")
             return OllamaClient(
-                model_name=OLLAMA_DATA.get("model"),
-                ollama_url=OLLAMA_DATA.get("url")
+                model=OLLAMA_DATA.get("model"),
+                url=OLLAMA_DATA.get("url")
             )
         else:
             logging.info(f"使用OpenAI模型生成回复: {CHATGPT_DATA.get('model')}")
