@@ -30,7 +30,7 @@
 ### 依赖安装
 
 1. redis安装：https://blog.csdn.net/weixin_43883917/article/details/114632709
-
+   mysql安装：https://blog.csdn.net/weixin_41330897/article/details/142899070
 2. 克隆仓库：
     ```bash
     git clone https://github.com/panxingfeng/agent_chat_wechat.git
