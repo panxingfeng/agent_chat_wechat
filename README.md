@@ -118,14 +118,23 @@ def register_tool():
    ```
 
 ### 如何添加工具到智能体
--1.根据示例工具代码进行编写工具代码
--2.在tools/agent_tool目录下，增加一个工具的文件夹（例如：code_gen）
--3.把工具代码保存为tool.py即可
+1.根据示例工具代码进行编写工具代码
+
+2.在tools/agent_tool目录下，增加一个工具的文件夹（例如：code_gen）
+
+3.把工具代码保存为tool.py即可
+
 
 ### 预计更新内容(个人项目，精力有限，请各位大神多提提建议)
--基于RAG快速检索，完成自定义的客服助手(需要检索资料的文档放置serve/rag/file中即可)，提示词在config/templates/data/bot中修改(近期上传，还在编写中)
--使用本地Ollama实现agent-bot处理
+
+基于RAG快速检索，完成自定义的客服助手(需要检索资料的文档放置serve/rag/file中即可)，提示词在config/templates/data/bot中修改(近期上传，还在编写中)
+-
+
+使用本地Ollama实现agent-bot处理
+-
+
 -基于最新消息，持续更新工具内容(近期上传)
+-
 
 ### vchat框架
 vchat框架地址：https://github.com/z2z63/VChat
