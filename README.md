@@ -10,6 +10,7 @@
 - [许可证](#许可证)
 - [工具代码模板](#工具代码模板)
 - [如何添加工具到智能体](#如何添加工具到智能体)
+- [预计更新内容](#预计更新内容)
 - [vchat框架](#vchat框架)
 
 ## 项目简介
@@ -123,6 +124,10 @@ def register_tool():
 2.在tools/agent_tool目录下，增加一个工具的文件夹（例如：code_gen）
 
 3.把工具代码保存为tool.py即可
+
+### 预计更新内容
+基于RAG快速检索，完成自定义的客服助手(需要检索资料的文档放置serve/rag/file中即可)，提示词在config/templates/data/bot中修改(近期上传，还在编写中)
+基于最新消息，持续更新工具内容(近期上传)
 
 ### vchat框架
 vchat框架地址：https://github.com/z2z63/VChat
