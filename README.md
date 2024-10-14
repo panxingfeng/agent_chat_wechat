@@ -100,7 +100,6 @@ class CodeGenAPIWrapper(BaseModel):
             logging.error(f"生成代码时出错: {e}")
         return "代码生成失败，请稍后再试。"
 
-# 实例化 CodeGenAPIWrapper，用于代码生成
 code_generator = CodeGenAPIWrapper()
 
 @tool
@@ -108,7 +107,7 @@ def code_gen(query: str) -> str:
     """代码生成工具：根据用户描述生成相应的代码实现。"""
     return code_generator.generate_code(query)
 
-# 添加 register_tool 函数，用于显式返回工具信息
+# 返回工具信息
 def register_tool():
     return {
         "agent_tool": code_gen,
