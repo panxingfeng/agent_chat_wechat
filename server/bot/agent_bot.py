@@ -187,12 +187,18 @@ class Agent_Bot:
             result = await asyncio.get_event_loop().run_in_executor(executor,lambda: self.agent_executor.invoke(
                                                                       {"input": combined_input}))
 
-            output = result.get("output", "Error occurred")
+            response = result.get("output", "Error occurred")
+
+            # # 将生成的回复加入历史记录
+            # self.history.append({
+            #     "AI": response,
+            # })
+            # 可以做保存也可以不做保存，保存提问的问题就可以满足很多需求
 
             # 保存更新后的历史记录到Redis
             self.save_history_to_redis(self.user_id, self.history)
 
-            return output
+            return response
         except Exception as e:
             logging.error(f"运行时发生错误: {e}")
             traceback.print_exc()
