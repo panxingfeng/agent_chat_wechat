@@ -20,7 +20,7 @@ class OllamaClient:
         wait=wait_exponential(multiplier=1, min=2, max=10),  # 指数级退避等待时间
         retry=retry_if_exception_type((requests.exceptions.Timeout, requests.exceptions.RequestException))
     )
-    def run_ollama(self, message):
+    def invoke(self, message):
         """
         使用 Ollama API 生成回复内容，并支持重试机制。
         :param message: 用户输入的消息。
