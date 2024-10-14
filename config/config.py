@@ -6,7 +6,7 @@ CHATGPT_DATA = {
 }
 
 OLLAMA_DATA = {
-    'model_name': 'gpt-4o-mini',  # 本地模型名称
+    'model_name': 'qwen2.5',  # ollama运行的模型名称
     'key': 'EMPTY', 
     'ollama_url': 'http://localhost:11434/api/chat'  # 本地 Ollama 服务地址
 }
