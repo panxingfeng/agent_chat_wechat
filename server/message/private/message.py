@@ -99,7 +99,7 @@ class Private_message:
         return
 
     async def send_message_type(self, reply_message):
-        # 确保 reply_message 是实际结果，而不是协程对象
+        # 确保 reply_message 是实际结果
         if asyncio.iscoroutine(reply_message):
             reply_message = await reply_message
 
