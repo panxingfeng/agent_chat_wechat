@@ -56,5 +56,5 @@ def code_gen(query: str) -> str:
 def register_tool():
     return {
         "agent_tool": code_gen,
-        "description": code_gen.__doc__
+        "description": "代码生成工具"
     }
