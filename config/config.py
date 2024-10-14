@@ -6,7 +6,7 @@ CHATGPT_DATA = {
 }
 
 OLLAMA_DATA = {
-    'use': True,
+    'use': True, #是否开启使用ollama客户端，默认为True
     'model_name': 'qwen2.5',  # ollama运行的模型名称
     'key': 'EMPTY', 
     'ollama_url': 'http://localhost:11434/api/chat'  # 本地 Ollama 服务地址
