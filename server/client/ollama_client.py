@@ -34,4 +34,4 @@ class OllamaClient:
 
         response = requests.post(self.ollama_url, json=llama_data, headers=self.headers, timeout=10)
         response.raise_for_status()  # 如果状态码不是 200，会抛出 HTTPError 异常
-        return response.json().get('message', {}).get('content', '无法生成文章内容，请检查输入。').strip()
+        return response.json().get('message', {}).get('content', '无法生成内容').strip()
