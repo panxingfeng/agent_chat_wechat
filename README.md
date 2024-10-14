@@ -29,9 +29,8 @@
 
 ### 依赖安装
 
-1. redis安装：https://blog.csdn.net/weixin_43883917/article/details/114632709
-
-2. mysql安装：https://blog.csdn.net/weixin_41330897/article/details/142899070
+1. **Redis 安装**：[参考教程](https://blog.csdn.net/weixin_43883917/article/details/114632709)  
+2. **MySQL 安装**：[参考教程](https://blog.csdn.net/weixin_41330897/article/details/142899070)  
 
 3. 克隆仓库：
     ```bash
