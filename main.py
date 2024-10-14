@@ -35,7 +35,7 @@ current_utc_time = datetime.utcnow()
 # 将 UTC 时间转换为北京时间
 current_time = current_utc_time.astimezone(beijing_tz).strftime("%Y-%m-%d %H:%M:%S")
 
-# 保存用户使用智能体状态的字典
+# 保存用户使用智能体状态
 user_agent_status = {}
 
 # 处理个人用户的消息
@@ -49,11 +49,9 @@ async def single_messages(msg):
     user_id = msg.from_.username
     user_name = msg.from_.nickname
 
-    # 如果用户不在字典中，默认设置为 False（即不使用智能体）
     if user_name not in user_agent_status:
         user_agent_status[user_name] = False  # 默认不使用智能体
 
-    # 创建一个消息处理器对象，并传递是否使用智能体的参数
     message_handler = Private_message(
         user_id=user_id,
         user_name=user_name,
