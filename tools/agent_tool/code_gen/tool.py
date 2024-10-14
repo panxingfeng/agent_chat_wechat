@@ -1,4 +1,3 @@
-# 保持原有的工具定义和类不变
 import logging
 from typing import ClassVar
 import requests
