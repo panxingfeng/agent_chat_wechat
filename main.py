@@ -52,6 +52,15 @@ async def single_messages(msg):
     if user_name not in user_agent_status:
         user_agent_status[user_name] = False  # 默认不使用智能体
 
+    if "#智能体" in msg.content.content:
+        user_agent_status[user_name] = True
+        await core.send_msg("成功设置智能体进行回复，输入 #聊天 切换为普通聊天模型(默认模式)", to_username=user_id)
+        return
+    elif "#聊天" in msg.content.content:
+        user_agent_status[user_name] = False
+        await core.send_msg("成功设置聊天模型进行回复", to_username=user_id)
+        return
+    
     message_handler = Private_message(
         user_id=user_id,
         user_name=user_name,
@@ -63,17 +72,10 @@ async def single_messages(msg):
     )
     try:
         if msg.content.type == ContentTypes.TEXT:
-            if "#智能体" in msg.content.content:
-                user_agent_status[user_name] = True
-                await core.send_msg("成功设置智能体进行回复，输入 #聊天 切换为普通聊天模型(默认模式)", to_username=user_id)
-                return
-            elif "#聊天" in msg.content.content:
-                user_agent_status[user_name] = False
-                await core.send_msg("成功设置聊天模型进行回复", to_username=user_id)
-                return
             user_message = msg.content.content
             logging.info(f"开始处理用户【{user_name}】的文本消息: {user_message}")
             await asyncio.create_task(message_handler.handle_message(user_message=user_message))
+            return
 
         elif msg.content.type == ContentTypes.IMAGE:
         #处理图像的消息逻辑
