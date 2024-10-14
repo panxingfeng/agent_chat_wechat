@@ -127,11 +127,11 @@ def register_tool():
 
 ### 预计更新内容(个人项目，精力有限，请各位大神多提提建议)
 
-基于RAG快速检索，完成自定义的客服助手(需要检索资料的文档放置serve/rag/file中即可)，提示词在config/templates/data/bot中修改(近期上传，还在编写中)
+1.基于RAG快速检索，完成自定义的客服助手(需要检索资料的文档放置serve/rag/file中即可)，提示词在config/templates/data/bot中修改(近期上传，还在编写中)
 
-使用本地Ollama实现agent-bot处理
+2.使用本地Ollama实现agent-bot处理(近期上传)
 
-基于最新消息，持续更新工具内容(近期上传)
+3.基于最新消息，持续更新工具内容(近期上传)
 
 
 ### vchat框架
