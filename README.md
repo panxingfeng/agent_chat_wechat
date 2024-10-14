@@ -11,7 +11,7 @@
 - [工具代码模板](#工具代码模板)
 - [如何添加工具到智能体](#如何添加工具到智能体)
 - [预计更新内容](#预计更新内容)
-- [vchat框架](#vchat框架)
+- [VChat框架](#VChat框架)
 
 ## 项目简介
 
@@ -134,5 +134,5 @@ def register_tool():
 3.基于最新消息，持续更新工具内容(近期上传)
 
 
-### vchat框架
-vchat框架地址：https://github.com/z2z63/VChat
+### VChat框架
+VChat框架地址：https://github.com/z2z63/VChat
