@@ -1,11 +1,11 @@
 # 导入所需模块
-from server.bot.agent_bot import *  # 引入自定义的agent_bot模块（假设是你项目中的部分）
+from server.bot.agent_bot import * 
 from PIL import Image  # 用于图像处理
 from io import BytesIO  # 用于处理二进制数据流
 import aiofiles  # 用于异步文件操作
 import mimetypes  # 用于猜测文件的 MIME 类型
 import os  # 用于与操作系统交互（如创建目录）
-from tools.else_tool.function import generate_random_filename  # 自定义函数，用于生成随机文件名
+from tools.else_tool.function import generate_random_filename  
 
 # 定义图像处理类
 class ImageHandler:
