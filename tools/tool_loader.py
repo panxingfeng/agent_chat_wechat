@@ -52,7 +52,7 @@ class ToolLoader:
                             self.tools.append(tool_func)
                             self.tool_data[folder_name] = tool_description
 
-                            logging.info(f"成功加载工具: {folder_name}")
+                            logging.info(f"成功加载工具: {folder_name}，描述信息: {tool_description}")
                         else:
                             logging.warning(f"未找到 register_tool 函数：{folder_name}")
 
