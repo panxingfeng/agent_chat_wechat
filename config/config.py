@@ -12,7 +12,8 @@ OLLAMA_DATA = {
     'use': False,  
     'model': 'qwen2.5',  # ollama运行的模型名称
     'key': 'EMPTY',
-    'url': 'http://localhost:11434/api/chat'  # 本地 Ollama 服务地址
+    'url': 'http://localhost:11434/api/chat',  # 本地 Ollama 服务地址
+    'api_url': "http://localhost:11434/v1/"
 }
 
 MOONSHOT_DATA = {
