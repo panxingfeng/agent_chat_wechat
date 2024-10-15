@@ -29,6 +29,7 @@ class PromptGenerator:
         return self.template.format(**data)
 
 
+# 测试用例
 if __name__ == "__main__":
     prompt_generator = PromptGenerator(CHATBOT_PROMPT_DATA["description"])
 
