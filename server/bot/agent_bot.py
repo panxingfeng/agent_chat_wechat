@@ -4,6 +4,7 @@ from langchain_core.prompts import MessagesPlaceholder, ChatPromptTemplate
 from langchain_openai import ChatOpenAI
 
 from config.config import CHATGPT_DATA,REDIS_DATA
+from config.templates.data.bot import MAX_HISTORY_SIZE, MAX_HISTORY_LENGTH
 from tools.agent_tool.code_gen.tool import code_gen
 from tools.tool_loader import ToolLoader
 import logging
@@ -47,9 +48,6 @@ current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
 
 class Agent_Bot:
-    MAX_HISTORY_SIZE = 6
-    MAX_HISTORY_LENGTH = 500
-
     def __init__(self, user_id, user_name,query):
         self.query = query
         self.user_name = user_name
@@ -155,11 +153,11 @@ class Agent_Bot:
         """管理历史记录：删除最早de记录或截断字符长度"""
         self.history = self.get_history_from_redis(self.user_id)
 
-        while len(self.history) > self.MAX_HISTORY_SIZE:
+        while len(self.history) > MAX_HISTORY_SIZE:
             self.history.pop(0)
 
         history_str = json.dumps(self.history)
-        while len(history_str) > self.MAX_HISTORY_LENGTH:
+        while len(history_str) > MAX_HISTORY_LENGTH:
             if self.history:
                 self.history.pop(0)
                 history_str = json.dumps(self.history)
@@ -193,7 +191,7 @@ class Agent_Bot:
             # self.history.append({
             #     "AI": response,
             # })
-            # 可以做保存也可以不做保存，保存用户提问的问题其实就可以满足很多需求
+            # 可以做保存也可以不做保存，保存提问的问题就可以满足很多需求
 
             # 保存更新后的历史记录到Redis
             self.save_history_to_redis(self.user_id, self.history)
