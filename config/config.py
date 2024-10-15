@@ -58,6 +58,7 @@ DOWNLOAD_ADDRESS = {
     'image': 'D:\\xxxx\\image'
 }
 
+#登录微信的基本信息
 LOGIN_WECHAT_DATA = {
     "name": "xxx",  # 微信用户名（对方@xxx的xxx）
     "manner_name": ""  # 群管理人员信息
