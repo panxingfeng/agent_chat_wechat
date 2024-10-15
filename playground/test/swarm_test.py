@@ -3,10 +3,12 @@ from openai import OpenAI
 
 from config.config import CHATGPT_DATA
 
-client_openai = OpenAI(
-    api_key=CHATGPT_DATA.get("key"),
-    base_url=CHATGPT_DATA.get("url"),
-)
+# client_openai = OpenAI(
+#     api_key=CHATGPT_DATA.get("key"),
+#     base_url=CHATGPT_DATA.get("url"),
+# )
+
+#使用本地部署的ollama
 
 client = Swarm(client=client_openai)
 
