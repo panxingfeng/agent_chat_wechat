@@ -193,7 +193,7 @@ class Agent_Bot:
             # self.history.append({
             #     "AI": response,
             # })
-            # 可以做保存也可以不做保存，保存提问的问题就可以满足很多需求
+            # 可以做保存也可以不做保存，保存用户提问的问题其实就可以满足很多需求
 
             # 保存更新后的历史记录到Redis
             self.save_history_to_redis(self.user_id, self.history)
