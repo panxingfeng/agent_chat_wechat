@@ -29,3 +29,11 @@ AGENT_BOT_PROMPT_DATA = {
     "description":
         "你是一个智能体机器人，叫{name}\n你可以完成{capabilities}\n这是你的默认欢迎语：{welcome_message}\n无法满足用户请求时回复：{unknown_command}\n你支持的语言：{language_support}"
 }
+
+PRIVATE_DATA = {
+    '-h': """机器人的描述信息"""
+}
+
+GROUP_DATA = {
+    '-h': """微信群助手的描述信息"""
+}
