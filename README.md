@@ -138,6 +138,8 @@ def register_tool():
 
 支持聊天的模型，增加了本地部署的小模型和国内付费主流模型的客户端，可自行选择，通过修改模型数据中的“use”值改为True即可
 
+模型下载路径：[百度网盘](https://pan.baidu.com/s/1QxPHCVkycT2sbo9vk0MrfA?pwd=7eam)
+
 ```bash
     qwen 0.5b/1.5b
     baichuan
