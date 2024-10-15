@@ -23,11 +23,11 @@
 
 项目代码中增加了
 
-    ```bash
+```bash
     qwen 0.5b/1.5b
     baichuan
     mini
-    ```
+```
 
 
 ## 功能
