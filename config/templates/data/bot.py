@@ -37,3 +37,7 @@ PRIVATE_DATA = {
 GROUP_DATA = {
     '-h': """微信群助手的描述信息"""
 }
+
+MAX_HISTORY_SIZE = 6  # 历史记录的最大数目
+
+MAX_HISTORY_LENGTH = 500  # 历史记录的最大字符长度
