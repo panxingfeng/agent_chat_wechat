@@ -140,8 +140,7 @@ def register_tool():
 
 模型下载路径：
 
-[百度网盘](https://pan.baidu.com/s/17FQNqBAoi_kTVjR1eKg8eQ?pwd=ir5q)  
-[夸克网盘](https://pan.quark.cn/s/ef569e03eb15)
+[百度网盘](https://pan.baidu.com/s/17FQNqBAoi_kTVjR1eKg8eQ?pwd=ir5q)  [夸克网盘](https://pan.quark.cn/s/ef569e03eb15)
 
 模型直接保存到server/model文件夹下即可
 
