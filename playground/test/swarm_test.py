@@ -3,12 +3,14 @@ from openai import OpenAI
 
 from config.config import CHATGPT_DATA
 
-# client_openai = OpenAI(
-#     api_key=CHATGPT_DATA.get("key"),
-#     base_url=CHATGPT_DATA.get("url"),
-# )
+client_openai = OpenAI(
+    api_key=CHATGPT_DATA.get("key"),
+    base_url=CHATGPT_DATA.get("url"),
+)
 
 #使用本地部署的ollama
+# client = OllamaClient(model=OLLAMA_DATA.get("model"), url=OLLAMA_DATA.get("url"))
+# client_openai = client.get_client()
 
 client = Swarm(client=client_openai)
 
@@ -22,12 +24,14 @@ agent_a = Agent(
     instructions="You are a helpful agent.",
     functions=[get_weather],
     model=CHATGPT_DATA.get("model")
+    # model=OLLAMA_DATA.get("model") #使用ollama
 )
 
 agent_b = Agent(
     name="Agent B",
     instructions="Only speak in Haikus.",
     model=CHATGPT_DATA.get("model")
+    # model=OLLAMA_DATA.get("model") #使用ollama
 )
 
 response = client.run(
