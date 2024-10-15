@@ -118,7 +118,7 @@ def run_demo_loop(
         messages.extend(response.messages)
         agent = response.agent
 
-# 初始化 Ollama 客户端，并获取 OpenAI 客户端
+# 初始化 Ollama 客户端
 client = OllamaClient(model=OLLAMA_DATA.get("model"), url=OLLAMA_DATA.get("api_url"))
 client_openai = client.get_client()
 
