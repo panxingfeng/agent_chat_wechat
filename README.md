@@ -22,6 +22,7 @@
 支持模型：ChatGPT模型，ollama客户端的所有模型
 
 项目代码中增加了
+
     ```bash
     qwen 0.5b/1.5b
     baichuan
