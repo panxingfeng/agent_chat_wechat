@@ -147,8 +147,8 @@ def register_tool():
 
 ```bash
     模型名称                      显卡要求
-    qwen 0.5b                      2G+
-    qwen 1.5b                      4G+
+    qwen-0.5b                      2G+
+    qwen-1.5b                      4G+
     minicpm3-4b                    8G+
     baichuan                付费模型，无显卡要求
     kini                    付费模型，无显卡要求
