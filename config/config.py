@@ -25,8 +25,8 @@ MOONSHOT_DATA = {
 
 BAICHUAN_DATA = {
     'use': False,
-    'key': "sk-********************************",
-    'url': "https://api.baichuan-ai.com/v1/chat/completions",
+    'key': "sk-35cd1a5baa296ce367788ca5d0161740",
+    'url': "https://api.baichuan-ai.com/v1/",
     'model': "Baichuan2-Turbo"
     # 百川模型不支持自定义提示词内容#
 }
