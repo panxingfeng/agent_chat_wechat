@@ -22,10 +22,8 @@ class OllamaClient:
     def __init__(self, model, url):
         self.model = model
         self.url = url
-        self.client = OpenAI(
-            base_url=OLLAMA_DATA.get("api_url"),
-            api_key='ollama',
-        )
+        self.client = self.get_client()  # 调用 get_client 初始化
+
     @retry(
         stop=stop_after_attempt(3),
         wait=wait_exponential(multiplier=1, min=2, max=10),
@@ -33,15 +31,14 @@ class OllamaClient:
     )
 
     def get_client(self):
-        return self.client
+        # 确保正确返回 OpenAI 实例
+        return OpenAI(
+            base_url=OLLAMA_DATA.get("api_url"),
+            api_key='ollama',
+        )
 
     def invoke(self, messages):
-        llama_data = {
-            "model": self.model,
-            "messages": messages,
-            "stream": False
-        }
-
+        print(dir(self.client))  # 打印所有可用属性
         chat_completion = self.client.chat.completions.create(
             messages=messages,
             model=self.model,
