@@ -6,7 +6,8 @@ from datetime import datetime
 from langchain_openai import ChatOpenAI
 
 from config.config import CHATGPT_DATA, REDIS_DATA, OLLAMA_DATA
-from server.client.ollama_client import OllamaClient
+from config.templates.data.bot import MAX_HISTORY_SIZE, MAX_HISTORY_LENGTH
+from server.client.loadmodel.Ollama.OllamaClient import OllamaClient
 
 # 配置日志记录系统
 logging.basicConfig(level=logging.INFO,
@@ -26,9 +27,6 @@ current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
 
 class Chat_Bot_Chat:
-    MAX_HISTORY_SIZE = 6  # 历史记录的最大条目数
-    MAX_HISTORY_LENGTH = 500  # 历史记录的最大字符长度
-
     def __init__(self, user_name, user_id):
         """初始化ChatBot类，设置用户信息和查询，加载OpenAI模型"""
         self.user_id = user_id  # 将用户ID作为会话ID
@@ -67,12 +65,12 @@ class Chat_Bot_Chat:
             logging.error(f"从Redis获取历史记录时出错: {e}")
 
         # 限制历史记录的条目数
-        while len(self.history) > self.MAX_HISTORY_SIZE:
+        while len(self.history) > MAX_HISTORY_SIZE:
             self.history.pop(0)
 
         # 限制历史记录的总字符长度
         history_str = json.dumps(self.history)
-        while len(history_str) > self.MAX_HISTORY_LENGTH:
+        while len(history_str) > MAX_HISTORY_LENGTH:
             if self.history:
                 self.history.pop(0)
                 history_str = json.dumps(self.history)
