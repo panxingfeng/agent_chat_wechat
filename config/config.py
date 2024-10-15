@@ -3,14 +3,13 @@
 CHATGPT_DATA = {
     'use': False,
     'model': 'gpt-4o-mini',  # 模型名称，GPT 模型的具体版本
-    'key': 'sk-proj-********************************',
-    # 你的 OpenAI API 密钥
+    'key': 'sk-proj-********************************', # 你的 OpenAI API 密钥
     'url': 'https://api.openai.com/v1',  # OpenAI API 的地址
     'temperature': 0.7,  # 生成内容的多样性程度，0-1 范围内
 }
 
 OLLAMA_DATA = {
-    'use': True,  # 是否开启使用ollama客户端，默认为True
+    'use': False,  
     'model': 'qwen2.5',  # ollama运行的模型名称
     'key': 'EMPTY',
     'url': 'http://localhost:11434/api/chat'  # 本地 Ollama 服务地址
