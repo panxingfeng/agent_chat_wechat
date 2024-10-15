@@ -133,7 +133,7 @@ def register_tool():
 
 1.基于RAG快速检索，完成自定义的客服助手(需要检索资料的文档放置serve/rag/file中即可)，提示词在config/templates/data/bot中修改(近期上传，还在编写中)
 
-2.使用本地Ollama实现agent-bot处理(近期上传)
+2.使用本地Ollama实现agent-bot处理 -> 已实现swarm框架对agent的处理 -> 部署到bot中(近期上传)
 
 3.基于最新消息，持续更新工具内容(近期上传)
 
