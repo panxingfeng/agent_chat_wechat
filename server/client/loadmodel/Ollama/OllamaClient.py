@@ -1,4 +1,5 @@
 import requests
+from openai import OpenAI
 from tenacity import retry, stop_after_attempt, wait_exponential, retry_if_exception_type
 
 from config.config import OLLAMA_DATA
@@ -21,13 +22,19 @@ class OllamaClient:
     def __init__(self, model, url):
         self.model = model
         self.url = url
-        self.headers = {"Content-Type": "application/json"}
-
+        self.client = OpenAI(
+            base_url=OLLAMA_DATA.get("api_url"),
+            api_key='ollama',
+        )
     @retry(
         stop=stop_after_attempt(3),
         wait=wait_exponential(multiplier=1, min=2, max=10),
         retry=retry_if_exception_type((requests.exceptions.Timeout, requests.exceptions.RequestException)),
     )
+
+    def get_client(self):
+        return self.client
+
     def invoke(self, messages):
         llama_data = {
             "model": self.model,
@@ -35,10 +42,11 @@ class OllamaClient:
             "stream": False
         }
 
-        response = requests.post(self.url, json=llama_data, headers=self.headers, timeout=10)
-        response.raise_for_status()
-
-        content = response.json().get('message', {}).get('content', '无法生成内容').strip()
+        chat_completion = self.client.chat.completions.create(
+            messages=messages,
+            model=self.model,
+        )
+        content = chat_completion.choices[0].message.content
         return ResponseWrapper(content)
 
 # 测试示例
