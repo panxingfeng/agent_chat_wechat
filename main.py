@@ -54,7 +54,10 @@ async def single_messages(msg):
 
     if "#智能体" in msg.content.content:
         user_agent_status[user_name] = True
-        await core.send_msg("成功设置智能体进行回复，输入 #聊天 切换为普通聊天模型(默认模式)", to_username=user_id)
+        if CHATGPT_DATA.get("use") or OLLAMA_DATA.get("use"):
+            await core.send_msg("成功设置智能体进行回复，输入 #聊天 切换为普通聊天模型(默认模式)", to_username=user_id)
+        else:
+            await core.send_msg("无法设置智能体回复，智能体服务没有打开", to_username=user_id)
         return
     elif "#聊天" in msg.content.content:
         user_agent_status[user_name] = False
