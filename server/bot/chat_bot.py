@@ -6,7 +6,7 @@ from datetime import datetime
 from langchain_openai import ChatOpenAI
 
 from config.config import CHATGPT_DATA, REDIS_DATA, OLLAMA_DATA
-from config.templates.data.bot import MAX_HISTORY_SIZE, MAX_HISTORY_LENGTH
+from config.templates.data.bot import MAX_HISTORY_SIZE, MAX_HISTORY_LENGTH, BOT_DATA, CHATBOT_PROMPT_DATA
 from server.client.loadmodel.Ollama.OllamaClient import OllamaClient
 
 # 配置日志记录系统
@@ -16,7 +16,6 @@ logging.basicConfig(level=logging.INFO,
 
 # 获取当前文件所在的路径
 base_dir = os.path.dirname(os.path.abspath(__file__))
-
 
 # 配置Redis连接池
 redis_pool = redis.ConnectionPool(host=REDIS_DATA.get("host"), port=REDIS_DATA.get("port"), db=REDIS_DATA.get("db"))
@@ -33,10 +32,9 @@ class ChatBot:
         self.user_name = user_name  # 用户名称
         self.redis_key_prefix = "chat_history:"  # Redis存储键的前缀
         self.history = []  # 用于存储会话历史记录的列表
-
+        self.prompt = CHATBOT_PROMPT_DATA.get("description")
         # 动态加载OpenAI模型
         self.model = self.get_model_client()
-
     def get_model_client(self):
         """根据配置文件选择返回的模型"""
         if OLLAMA_DATA.get("use"):
@@ -50,22 +48,47 @@ class ChatBot:
                 model=CHATGPT_DATA.get("model")
             )
 
-    def manage_history(self):
-        """管理会话历史记录，从Redis加载历史记录，并限制记录的大小和字符长度"""
-        key = f"{self.redis_key_prefix}{self.user_id}"
+    def format_history(self):
+        """从Redis获取并格式化历史记录"""
+        history = self.get_history_from_redis(self.user_id)
+        if not history:
+            logging.info("没有从Redis中获取到历史记录")
+            return ""
+
+        formatted_history = []
+        for entry in history:
+            human_text = entry.get('Human', '')
+
+            formatted_history.append(f"Human: {human_text}\n")
+
+        return "\n".join(formatted_history)
+
+    def get_history_from_redis(self, user_id):
+        """从Redis获取历史记录"""
+        key = f"{self.redis_key_prefix}{user_id}"
         try:
-            # 从Redis获取历史记录
             history = redis_client.get(key)
             if history:
-                self.history = json.loads(history)
+                return json.loads(history)
         except redis.RedisError as e:
             logging.error(f"从Redis获取历史记录时出错: {e}")
+        return []
 
-        # 限制历史记录的条目数
+    def save_history_to_redis(self, user_id, history):
+        """将历史记录保存到Redis"""
+        key = f"{self.redis_key_prefix}{user_id}"
+        try:
+            redis_client.set(key, json.dumps(history))
+        except redis.RedisError as e:
+            logging.error(f"保存历史记录到Redis时出错: {e}")
+
+    def manage_history(self):
+        """管理历史记录：删除最早de记录或截断字符长度"""
+        self.history = self.get_history_from_redis(self.user_id)
+
         while len(self.history) > MAX_HISTORY_SIZE:
             self.history.pop(0)
 
-        # 限制历史记录的总字符长度
         history_str = json.dumps(self.history)
         while len(history_str) > MAX_HISTORY_LENGTH:
             if self.history:
@@ -74,20 +97,21 @@ class ChatBot:
             else:
                 break
 
-    def save_history_to_redis(self):
-        """将更新后的历史记录保存到Redis"""
-        key = f"{self.redis_key_prefix}{self.user_id}"
-        try:
-            redis_client.set(key, json.dumps(self.history))
-        except redis.RedisError as e:
-            logging.error(f"保存历史记录到Redis时出错: {e}")
-
     def generate_response(self, query):
         """生成AI回复"""
         try:
             # 调用invoke时，需要传入适合的消息结构
+            instructions = self.prompt.format(
+                name=BOT_DATA["agent"].get("name"),
+                capabilities=BOT_DATA["agent"].get("capabilities"),
+                welcome_message=BOT_DATA["agent"].get("default_responses").get("welcome_message"),
+                unknown_command=BOT_DATA["agent"].get("default_responses").get("unknown_command"),
+                language_support=BOT_DATA["agent"].get("language_support"),
+                history=self.format_history(),
+                query=query,
+            )
             messages = [
-                {"role": "system", "content": "你是一个智能助手"},
+                {"role": "system", "content": instructions},
                 {"role": "user", "content": query}
             ]
             response = self.model.invoke(messages)
@@ -118,6 +142,6 @@ class ChatBot:
         # 可以做保存也可以不做保存
 
         # 保存更新后的历史记录到Redis
-        self.save_history_to_redis()
+        self.save_history_to_redis(self.user_id, self.history)
 
         return response
