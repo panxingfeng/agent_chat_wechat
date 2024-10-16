@@ -56,6 +56,7 @@
 6. 安装依赖(使用清华源)：
     ```bash
     pip install -r requirements.txt -i https://pypi.tuna.tsinghua.edu.cn/simple/
+    pip install <缺失模块名>
     根据需求下载模型，放置到server/model文件夹下即可
     ```
 
