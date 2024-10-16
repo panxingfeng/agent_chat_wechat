@@ -9,8 +9,7 @@ from langchain_openai import ChatOpenAI
 
 from config.config import CHATGPT_DATA, REDIS_DATA, OLLAMA_DATA, MOONSHOT_DATA, BAICHUAN_DATA
 from config.templates.data.bot import MAX_HISTORY_SIZE, MAX_HISTORY_LENGTH, BOT_DATA, CHATBOT_PROMPT_DATA
-from server.client.loadmodel.MIniCPM.MiniCPMClient import MiniCPMClient
-from server.client.loadmodel.QwenModel.QwenClient import QwenClient
+from server.client.loadmodel.MiniCPM_client.MiniCPMClient import MiniCPMClient
 from server.client.loadmodel.Ollama.OllamaClient import OllamaClient
 from server.client.online.BaiChuanClient import BaiChuanClient
 from server.client.online.moonshotClient import MoonshotClient
