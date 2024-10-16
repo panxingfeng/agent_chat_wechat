@@ -1,5 +1,7 @@
 import json
 import logging
+
+import pynvml
 import redis
 import os
 from datetime import datetime
@@ -7,6 +9,8 @@ from langchain_openai import ChatOpenAI
 
 from config.config import CHATGPT_DATA, REDIS_DATA, OLLAMA_DATA, MOONSHOT_DATA, BAICHUAN_DATA
 from config.templates.data.bot import MAX_HISTORY_SIZE, MAX_HISTORY_LENGTH, BOT_DATA, CHATBOT_PROMPT_DATA
+from server.client.loadmodel.MIniCPM.MiniCPMClient import MiniCPMClient
+from server.client.loadmodel.QwenModel.QwenClient import QwenClient
 from server.client.loadmodel.Ollama.OllamaClient import OllamaClient
 from server.client.online.BaiChuanClient import BaiChuanClient
 from server.client.online.moonshotClient import MoonshotClient
@@ -26,6 +30,13 @@ redis_client = redis.StrictRedis(connection_pool=redis_pool)
 # 获取当前系统时间
 current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
+# 初始化 NVML
+pynvml.nvmlInit()
+# 获取 GPU 设备数量
+device_count = pynvml.nvmlDeviceGetCount()
+for i in range(device_count):
+    handle = pynvml.nvmlDeviceGetHandleByIndex(i)
+    mem_info = pynvml.nvmlDeviceGetMemoryInfo(handle)
 
 class ChatBot:
     def __init__(self, user_name, user_id):
@@ -40,6 +51,7 @@ class ChatBot:
 
     def get_model_client(self):
         """根据配置文件选择返回的模型"""
+        gpu_free = int(mem_info.free / 1024 ** 2)
         if OLLAMA_DATA.get("use"):
             logging.info(f"使用Ollama模型生成回复: {OLLAMA_DATA.get('model')}")
             return OllamaClient()
@@ -49,15 +61,21 @@ class ChatBot:
         elif BAICHUAN_DATA.get("use") and BAICHUAN_DATA.get("key") is not None:
             logging.info(f"使用百川模型生成回复: {OLLAMA_DATA.get('model')}")
             return BaiChuanClient()
+        elif CHATGPT_DATA.get("key") is not None:
+            logging.info(f"使用OpenAI模型生成回复: {CHATGPT_DATA.get('model')}")
+            return ChatOpenAI(
+                api_key=CHATGPT_DATA.get("key"),
+                base_url=CHATGPT_DATA.get("url"),
+                model=CHATGPT_DATA.get("model")
+            )
         else:
-            if CHATGPT_DATA.get("key") is not None:
-                logging.info(f"使用OpenAI模型生成回复: {CHATGPT_DATA.get('model')}")
-                return ChatOpenAI(
-                    api_key=CHATGPT_DATA.get("key"),
-                    base_url=CHATGPT_DATA.get("url"),
-                    model=CHATGPT_DATA.get("model")
-                )
-            return "所有模型出错，key为空或者没有设置‘use’为True"
+            if gpu_free >= 8000:
+                return MiniCPMClient()
+            elif gpu_free >= 4000:
+                return QwenClient(num=1)
+            elif gpu_free >= 2000:
+                return QwenClient(num=2)
+        return "所有模型出错，key为空或者没有设置‘use’为True"
 
     def format_history(self):
         """从Redis获取并格式化历史记录"""
