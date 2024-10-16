@@ -55,14 +55,17 @@ class Group_message:
         self.image_handler = ImageHandler(save_directory=DOWNLOAD_ADDRESS.get("image"))
         self.voice_handler = VoiceHandler(save_directory=DOWNLOAD_ADDRESS.get("audio"))
         self.file_handler = FileHandler(save_directory=DOWNLOAD_ADDRESS.get("file"))
+        self.agent = False
 
     async def handle_message(self, user_message):
         """处理收到的消息"""
+        global bot
         self.logging.info(f"收到了群【{self.chatroom_name}】的用户【{self.user_name}】的消息【{user_message}】")
-        if OLLAMA_DATA.get("use"):  # 群可以自定义是否开启agent处理
-            bot = self.swarm_agent_bot
-        elif CHATGPT_DATA.get("use"):
-            bot = self.agent_bot
+        if self.agent:  # 群可以自定义是否开启agent处理
+            if OLLAMA_DATA.get("use"):
+                bot = self.swarm_agent_bot
+            elif CHATGPT_DATA.get("use"):
+                bot = self.agent_bot
         else:
             bot = self.chat_bot
         await self.distribute_message(user_message, bot)
