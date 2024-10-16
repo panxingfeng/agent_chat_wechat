@@ -150,10 +150,6 @@ class SwarmBot:
 
             response = response.messages
 
-            for message in response:
-                if 'content' in message:
-                    print(message['content'])  # 输出消息的结果
-
             # # 将生成的回复加入历史记录
             # self.history.append({
             #     "AI": response,
@@ -162,8 +158,11 @@ class SwarmBot:
 
             # 保存更新后的历史记录到Redis
             self.save_history_to_redis(self.user_id, self.history)
-
-            return message['content']
+            for message in response:
+                if 'content' in message:
+                    return message['content']
+                else:
+                    return "模型回复失败"
         except Exception as e:
             logging.error(f"运行时发生错误: {e}")
             traceback.print_exc()
