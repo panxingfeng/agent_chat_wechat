@@ -58,7 +58,7 @@
     pip install -r requirements.txt -i https://pypi.tuna.tsinghua.edu.cn/simple/
     pip install aiohttp pytz vchat langchain_openai transformers -i https://pypi.tuna.tsinghua.edu.cn/simple/
     pip mysql-connector-python langchain pillow aiofiles -i https://pypi.tuna.tsinghua.edu.cn/simple/
-    pip install git+https://github.com/openai/swarm.git
+    pip install git+https://github.com/openai/swarm.git 或者 pip install git+ssh://git@github.com/openai/swarm.git
     ```
 
 7. 运行：
