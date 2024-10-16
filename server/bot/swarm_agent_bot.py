@@ -123,6 +123,7 @@ class SwarmBot:
                 break
 
     async def run(self, user_name, query, image_path, file_path, user_id):
+        global message
         try:
             # 从Redis获取历史记录并管理
             self.manage_history()
@@ -149,6 +150,10 @@ class SwarmBot:
 
             response = response.messages
 
+            for message in response:
+                if 'content' in message:
+                    print(message['content'])  # 输出消息的结果
+
             # # 将生成的回复加入历史记录
             # self.history.append({
             #     "AI": response,
@@ -158,7 +163,7 @@ class SwarmBot:
             # 保存更新后的历史记录到Redis
             self.save_history_to_redis(self.user_id, self.history)
 
-            return response
+            return message['content']
         except Exception as e:
             logging.error(f"运行时发生错误: {e}")
             traceback.print_exc()
