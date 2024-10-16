@@ -53,8 +53,7 @@ class SwarmBot:
         self.history = []  # 自定义的历史记录列表
         self.saved_files = {}  # 保存文件路径的字典
         self.user_id = user_id
-        self.prompt = AGENT_BOT_PROMPT_DATA.get("description")
-        self.instructions = self.prompt.format(
+        self.instructions = AGENT_BOT_PROMPT_DATA.get("description").format(
             name=BOT_DATA["agent"].get("name"),
             capabilities=BOT_DATA["agent"].get("capabilities"),
             welcome_message=BOT_DATA["agent"].get("default_responses").get("welcome_message"),
