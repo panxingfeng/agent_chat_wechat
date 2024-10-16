@@ -5,7 +5,7 @@ import mysql.connector
 
 from vchat import Core
 
-from config.config import DOWNLOAD_ADDRESS, DB_DATA, OLLAMA_DATA
+from config.config import DOWNLOAD_ADDRESS, DB_DATA, OLLAMA_DATA, CHATGPT_DATA
 from config.templates.data.bot import GROUP_DATA
 from server.bot.agent_bot import AgentBot, user_image_map
 from server.bot.chat_bot import ChatBot
@@ -61,6 +61,8 @@ class Group_message:
         self.logging.info(f"收到了群【{self.chatroom_name}】的用户【{self.user_name}】的消息【{user_message}】")
         if OLLAMA_DATA.get("use"):  # 群可以自定义是否开启agent处理
             bot = self.swarm_agent_bot
+        elif CHATGPT_DATA.get("use"):
+            bot = self.agent_bot
         else:
             bot = self.chat_bot
         await self.distribute_message(user_message, bot)
