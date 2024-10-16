@@ -26,7 +26,7 @@ redis_client = redis.StrictRedis(connection_pool=redis_pool)
 current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
 
-class Chat_Bot_Chat:
+class ChatBot:
     def __init__(self, user_name, user_id):
         """初始化ChatBot类，设置用户信息和查询，加载OpenAI模型"""
         self.user_id = user_id  # 将用户ID作为会话ID
@@ -41,10 +41,7 @@ class Chat_Bot_Chat:
         """根据配置文件选择返回的模型"""
         if OLLAMA_DATA.get("use"):
             logging.info(f"使用Ollama模型生成回复: {OLLAMA_DATA.get('model')}")
-            return OllamaClient(
-                model=OLLAMA_DATA.get("model"),
-                url=OLLAMA_DATA.get("url")
-            )
+            return OllamaClient()
         else:
             logging.info(f"使用OpenAI模型生成回复: {CHATGPT_DATA.get('model')}")
             return ChatOpenAI(
