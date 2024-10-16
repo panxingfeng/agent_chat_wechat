@@ -1,16 +1,15 @@
 import re
+
 from pathlib import Path
-
-import requests
-
-from config.config import DOWNLOAD_ADDRESS, PRIVATE_DATA
-from server.bot.chat_bot import Chat_Bot_Chat
+from config.config import DOWNLOAD_ADDRESS
+from config.templates.data.bot import PRIVATE_DATA
+from server.bot.chat_bot import ChatBot
 from tools.down_tool.download import download_audio, download_image
 
 from tools.down_tool.handler import *
 from tools.else_tool.function import get_url
 
-from server.bot.agent_bot import Agent_Bot, user_image_map
+from server.bot.agent_bot import user_image_map, AgentBot
 from tools.down_tool.handler import VideoHandler, FileHandler, VoiceHandler, ImageHandler
 
 # 保存用户的激活码状态，包括剩余时间和当天的验证状态
@@ -51,8 +50,8 @@ class Private_message:
         self.current_time = current_time
         self.logging = logging
         self.use_agent = use_agent
-        self.agent_bot = Agent_Bot(query=None, user_id=user_id, user_name=user_name)
-        self.chat_bot = Chat_Bot_Chat(user_id=user_id, user_name=user_name)
+        self.agent_bot = AgentBot(query=None, user_id=user_id, user_name=user_name)
+        self.chat_bot = ChatBot(user_id=user_id, user_name=user_name)
         self.image_handler = ImageHandler(save_directory=DOWNLOAD_ADDRESS.get("image"))
         self.voice_handler = VoiceHandler(save_directory=DOWNLOAD_ADDRESS.get("audio"))
         self.file_handler = FileHandler(save_directory=DOWNLOAD_ADDRESS.get("file"))
