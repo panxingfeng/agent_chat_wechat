@@ -55,12 +55,12 @@ class ChatBot:
             logging.info(f"使用Ollama模型生成回复: {OLLAMA_DATA.get('model')}")
             return OllamaClient()  # 使用Ollama模型
         elif MOONSHOT_DATA.get("use") and MOONSHOT_DATA.get("key") is not None:
-            logging.info(f"使用kimi模型生成回复: {OLLAMA_DATA.get('model')}")
+            logging.info(f"使用kimi模型生成回复: {MOONSHOT_DATA.get('model')}")
             return MoonshotClient()  # 使用Moonshot模型
         elif BAICHUAN_DATA.get("use") and BAICHUAN_DATA.get("key") is not None:
-            logging.info(f"使用百川模型生成回复: {OLLAMA_DATA.get('model')}")
+            logging.info(f"使用百川模型生成回复: {BAICHUAN_DATA.get('model')}")
             return BaiChuanClient()  # 使用百川模型
-        elif CHATGPT_DATA.get("key") is not None:
+        elif CHATGPT_DATA.get("use") and CHATGPT_DATA.get("key") is not None:
             logging.info(f"使用OpenAI模型生成回复: {CHATGPT_DATA.get('model')}")
             return ChatOpenAI(
                 api_key=CHATGPT_DATA.get("key"),
