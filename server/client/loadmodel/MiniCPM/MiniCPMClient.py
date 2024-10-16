@@ -31,7 +31,7 @@ class MiniCPMClient:
     def __init__(self,
                  model_path="OpenBMB/MiniCPM3-4B",
                  device="cuda",
-                 cache_dir="../../model"):
+                 cache_dir="../../../model"):
         self.device = device
         self.tokenizer = AutoTokenizer.from_pretrained(
             model_path,
