@@ -80,7 +80,7 @@ def run_demo_loop(
         stream=False,
         debug=False) -> None:
     client = Swarm(openai_client)  # 初始化 Swarm 客户端
-    print("启动 Swarm CLI 🐝")
+    print("启动 Swarm agent")
     print('输入 "退出" 或 "离开" 以结束对话。')
 
     messages = []  # 存储用户与智能体的对话消息
