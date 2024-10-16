@@ -19,11 +19,13 @@ class OllamaClient:
         {"role": "user", "content": message}
     ]
     """
-    def __init__(self, model, url):
-        self.model = model
-        self.url = url
-        self.client = self.get_client()  # 调用 get_client 初始化
-
+    def __init__(self):
+        self.model = OLLAMA_DATA.get("model")
+        self.client = self.get_client()
+        self.url = OLLAMA_DATA.get("url")
+        self.headers = {
+            "Content-Type": "application/json"
+        }
     @retry(
         stop=stop_after_attempt(3),
         wait=wait_exponential(multiplier=1, min=2, max=10),
@@ -38,20 +40,20 @@ class OllamaClient:
         )
 
     def invoke(self, messages):
-        print(dir(self.client))  # 打印所有可用属性
-        chat_completion = self.client.chat.completions.create(
-            messages=messages,
-            model=self.model,
-        )
-        content = chat_completion.choices[0].message.content
-        return ResponseWrapper(content)
+        llama_data = {
+            "model": self.model,
+            "messages": messages,
+            "stream": False
+        }
+
+        response = requests.post(self.url, json=llama_data, headers=self.headers, timeout=10)
+        response.raise_for_status()  # 如果状态码不是 200，会抛出 HTTPError 异常
+        return ResponseWrapper(response.json().get('message', {}).get('content', '无法生成内容').strip())
+
 
 # 测试示例
 if __name__ == "__main__":
-    client = OllamaClient(
-        model=OLLAMA_DATA.get("model"),
-        url=OLLAMA_DATA.get("url")
-    )
+    client = OllamaClient()
 
     prompt = "你是一个乐于助人的助手"
     message = "简单讲述一下大语言模型"
