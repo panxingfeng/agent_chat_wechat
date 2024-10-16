@@ -66,21 +66,21 @@
 8. 说明：开启agent智能体机器人，需要在聊天框中输入  #智能体  即可。
 ### 配置文件
 
-项目的配置文件 `config/config.py` 包含了应用所需的配置信息。请根据实际情况修改该文件中的配置项
+项目的配置文件 `config/config.py` 包含了应用所需的配置信息。请根据实际情况修改该文件中的配置项，付费模型填入正确的key和use设置成True即可
 ```bash
     #########################################  离线/本地的大模型信息  #########################################
     
     CHATGPT_DATA = {
         'use': False,
         'model': 'gpt-4o-mini',  # 模型名称，GPT 模型的具体版本
-        'key': 'sk-proj-**************************************',
+        'key': '',
         # 你的 OpenAI API 密钥
         'url': 'https://api.openai.com/v1',  # OpenAI API 的地址
         'temperature': 0.7,  # 生成内容的多样性程度，0-1 范围内
     }
     
     OLLAMA_DATA = {
-        'use': True,  # 是否开启使用ollama客户端，默认为True
+        'use': False,  
         'model': 'qwen2.5',  # ollama运行的模型名称
         'key': 'EMPTY',
         'api_url': 'http://localhost:11434/v1/'
@@ -88,7 +88,7 @@
     
     MOONSHOT_DATA = {
         'use': False,
-        'key': "sk-****************************",
+        'key': "",
         'url': "https://api.moonshot.cn/v1",
         'model': "moonshot-v1-8k",
         "prompt": ""
@@ -96,7 +96,7 @@
     
     BAICHUAN_DATA = {
         'use': False,
-        'key': "sk-***************************",
+        'key': "",
         'url': "https://api.baichuan-ai.com/v1/",
         'model': "Baichuan2-Turbo"
         # 百川模型不支持自定义提示词内容#
