@@ -3,7 +3,6 @@ from swarm import Agent, Swarm
 from config.config import OLLAMA_DATA, REDIS_DATA
 from config.templates.data.bot import MAX_HISTORY_SIZE, MAX_HISTORY_LENGTH, AGENT_BOT_PROMPT_DATA, BOT_DATA, TOOL_DATA
 from server.client.loadmodel.Ollama.OllamaClient import OllamaClient
-from tools.swarm_tool_loader import ToolLoader
 import logging
 from datetime import datetime
 import json
