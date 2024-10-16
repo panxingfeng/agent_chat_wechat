@@ -56,8 +56,8 @@
 6. 安装依赖(使用清华源)：
     ```bash
     pip install -r requirements.txt -i https://pypi.tuna.tsinghua.edu.cn/simple/
-    pip install aiohttp pytz vchat langchain_openai transformers torch
-    根据需求下载模型，放置到server/model文件夹下即可
+    pip install aiohttp pytz vchat langchain_openai transformers -i https://pypi.tuna.tsinghua.edu.cn/simple/
+    pip mysql-connector-python langchain pillow aiofiles -i https://pypi.tuna.tsinghua.edu.cn/simple/
     ```
 
 7. 运行：
