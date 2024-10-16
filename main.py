@@ -14,9 +14,6 @@ from server.message.private.message import Private_message
 from tools.else_tool.function import get_username_chatroom
 
 
-
-# 输出requirements.txt文件，pip freeze > requirements.txt
-
 # 创建日志器
 logger = logging.getLogger()
 logger.setLevel(logging.INFO)
