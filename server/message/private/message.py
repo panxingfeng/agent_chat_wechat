@@ -1,9 +1,10 @@
 import re
 
 from pathlib import Path
-from config.config import DOWNLOAD_ADDRESS
+from config.config import DOWNLOAD_ADDRESS, OLLAMA_DATA
 from config.templates.data.bot import PRIVATE_DATA
 from server.bot.chat_bot import ChatBot
+from server.bot.swarm_agent_bot import SwarmBot
 from tools.down_tool.download import download_audio, download_image
 
 from tools.down_tool.handler import *
@@ -52,6 +53,7 @@ class Private_message:
         self.use_agent = use_agent
         self.agent_bot = AgentBot(query=None, user_id=user_id, user_name=user_name)
         self.chat_bot = ChatBot(user_id=user_id, user_name=user_name)
+        self.swarm_agent_bot = SwarmBot(query=None, user_id=user_id, user_name=user_name)
         self.image_handler = ImageHandler(save_directory=DOWNLOAD_ADDRESS.get("image"))
         self.voice_handler = VoiceHandler(save_directory=DOWNLOAD_ADDRESS.get("audio"))
         self.file_handler = FileHandler(save_directory=DOWNLOAD_ADDRESS.get("file"))
@@ -59,9 +61,18 @@ class Private_message:
 
     async def handle_message(self, user_message):
         """处理接受到的消息"""
-        await self.distribute_message(user_message)
+        global bot
+        if self.use_agent:
+            await self.core.send_msg("智能体开始处理...", to_username=self.user_id)
+            if CHATGPT_DATA.get("use"):
+                bot = self.agent_bot
+            elif OLLAMA_DATA.get("use"):
+                bot = self.swarm_agent_bot
+        else:
+            bot = self.chat_bot
+        await self.distribute_message(user_message, bot)
 
-    async def distribute_message(self, user_message):
+    async def distribute_message(self, user_message, bot):
         """消息的分发"""
         user_message = user_message.strip()
         result = True  # 可以增加对用户账号使用权的确认
@@ -71,29 +82,29 @@ class Private_message:
             return
         if result:
             if re.match(r'^p\b', user_message, re.IGNORECASE):
-                await self.handle_image_message(user_message)
+                await self.handle_image_message(user_message, bot)
                 return
             elif re.match(r'^q\b', user_message, re.IGNORECASE):
-                await self.handle_file_message(user_message)
+                await self.handle_file_message(user_message, bot)
                 return
             elif re.match(r'^v\b', user_message, re.IGNORECASE):
-                await self.handle_video_message(user_message)
+                await self.handle_video_message(user_message, bot)
                 return
             else:
-                await self.handle_text_message(user_message)
+                await self.handle_text_message(user_message, bot)
                 return
         else:
             await self.core.send_msg("账户无法使用", to_username=self.user_id)
 
-    async def handle_image_message(self, user_message):
+    async def handle_image_message(self, user_message, bot):
         # 处理图像的问题
         return
 
-    async def handle_file_message(self, user_message):
+    async def handle_file_message(self, user_message, bot):
         # 处理关于文件问答的问题
         return
 
-    async def handle_video_message(self, user_message):
+    async def handle_video_message(self, user_message, bot):
         # 处理视频的问题
         return
 
@@ -130,24 +141,16 @@ class Private_message:
         else:
             await self.core.send_msg(reply_message, to_username=self.user_id)
 
-    async def handle_text_message(self, user_message):
+    async def handle_text_message(self, user_message, bot):
         """处理关于文本内容的消息"""
         global reply_content
-        if self.use_agent:
-            await self.core.send_msg("智能体开始处理...", to_username=self.user_id)
-            reply_content = self.agent_bot.run(
-                user_name=self.user_name,
-                query=user_message,
-                image_path=user_image_map.get(self.user_id),
-                file_path=user_file_mapping.get(self.user_name),
-                user_id=self.user_id
-            )
-        else:
-            reply_content = self.chat_bot.run(
-                user_name=self.user_name,
-                query=user_message,
-                user_id=self.user_id
-            )
+        reply_content = bot.run(
+            user_name=self.user_name,
+            query=user_message,
+            image_path=user_image_map.get(self.user_id),
+            file_path=user_file_mapping.get(self.user_name),
+            user_id=self.user_id
+        )
         await self.send_message_type(reply_content)
         return
 
