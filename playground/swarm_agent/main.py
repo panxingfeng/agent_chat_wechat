@@ -119,7 +119,7 @@ def run_demo_loop(
         agent = response.agent
 
 # 初始化 Ollama 客户端
-client = OllamaClient(model=OLLAMA_DATA.get("model"), url=OLLAMA_DATA.get("api_url"))
+client = OllamaClient()
 client_openai = client.get_client()
 
 # 启动主循环，使用分诊智能体作为起始智能体
