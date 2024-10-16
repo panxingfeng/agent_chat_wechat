@@ -7,7 +7,7 @@ import pytz
 from vchat import Core
 from vchat.model import ContentTypes, ContactTypes
 
-from config.config import LOGIN_WECHAT_DATA
+from config.config import LOGIN_WECHAT_DATA,CHATGPT_DATA,OLLAMA_DATA
 from server.bot.chat_bot import ChatBot
 from server.message.group.message import Group_message
 from server.message.private.message import Private_message
