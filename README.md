@@ -28,6 +28,10 @@
 2024-10-16 playground/swarm_agent 基于swarm框架，使用ollam客户端实现agent处理 (demo:水果店智能客服)
 
 2024-10-16 新增使用swarm agent结构部署到server/bot中(swarm_agent_bot) 可自行选择使用ollama还是gpt
+```bash
+    使用ollama客户端  设置config/config.py中的OLLAMA_DATA{'user': True} chat/agent都是使用的ollama
+    使用chatGPT客户端，设置config/config.py中的CHATGPT_DATA{'user': True} chat/agent都是使用的GPT
+```
 
 ## 安装与配置
 
@@ -62,7 +66,73 @@
 ### 配置文件
 
 项目的配置文件 `config/config.py` 包含了应用所需的配置信息。请根据实际情况修改该文件中的配置项
-
+```bash
+    #########################################  离线/本地的大模型信息  #########################################
+    
+    CHATGPT_DATA = {
+        'use': False,
+        'model': 'gpt-4o-mini',  # 模型名称，GPT 模型的具体版本
+        'key': 'sk-proj-**************************************',
+        # 你的 OpenAI API 密钥
+        'url': 'https://api.openai.com/v1',  # OpenAI API 的地址
+        'temperature': 0.7,  # 生成内容的多样性程度，0-1 范围内
+    }
+    
+    OLLAMA_DATA = {
+        'use': True,  # 是否开启使用ollama客户端，默认为True
+        'model': 'qwen2.5',  # ollama运行的模型名称
+        'key': 'EMPTY',
+        'api_url': 'http://localhost:11434/v1/'
+    }
+    
+    MOONSHOT_DATA = {
+        'use': False,
+        'key': "sk-****************************",
+        'url': "https://api.moonshot.cn/v1",
+        'model': "moonshot-v1-8k",
+        "prompt": ""
+    }
+    
+    BAICHUAN_DATA = {
+        'use': False,
+        'key': "sk-***************************",
+        'url': "https://api.baichuan-ai.com/v1/",
+        'model': "Baichuan2-Turbo"
+        # 百川模型不支持自定义提示词内容#
+    }
+    
+    #########################################  本地数据库信息  #########################################
+    
+    # 本地mysql数据库信息
+    DB_DATA = {
+        'host': 'localhost',  # 数据库地址
+        'user': 'root',  # 数据库用户
+        'password': '1234',  # 数据库密码
+        'database': 'agent'  # 数据库名称
+    }
+    
+    # redis信息
+    REDIS_DATA = {
+        'host': 'localhost',
+        'port': 6379,
+        'db': 0
+    }
+    
+    #########################################  wechat信息  #########################################
+    
+    # 微信中的文件保存到本地的地址信息#
+    DOWNLOAD_ADDRESS = {
+        'file': 'D:\\xxx\\file',
+        'vidio': 'D:\\xxx\\vidio',
+        'audio': 'D:\\xxx\\audio',
+        'image': 'D:\\xxx\\image'
+    }
+    
+    LOGIN_WECHAT_DATA = {
+        "name": "xxx",  # 微信用户名（对方@xxx的xxx）
+        "manner_name": ""  # 群管理人员信息
+    }
+```
 
 ### 使用说明
 运行 python main.py，然后按照提示进行操作。
