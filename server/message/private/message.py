@@ -1,16 +1,17 @@
+import asyncio
 import re
+from concurrent.futures import ThreadPoolExecutor
 
 from pathlib import Path
-from config.config import DOWNLOAD_ADDRESS, OLLAMA_DATA
+from config.config import DOWNLOAD_ADDRESS, OLLAMA_DATA, CHATGPT_DATA
 from config.templates.data.bot import PRIVATE_DATA
+from server.bot.agent_bot import user_image_map
 from server.bot.chat_bot import ChatBot
-from server.bot.swarm_agent_bot import SwarmBot
+
 from tools.down_tool.download import download_audio, download_image
 
-from tools.down_tool.handler import *
 from tools.else_tool.function import get_url
 
-from server.bot.agent_bot import user_image_map, AgentBot
 from tools.down_tool.handler import VideoHandler, FileHandler, VoiceHandler, ImageHandler
 
 # 保存用户的激活码状态，包括剩余时间和当天的验证状态
@@ -51,9 +52,7 @@ class Private_message:
         self.current_time = current_time
         self.logging = logging
         self.use_agent = use_agent
-        self.agent_bot = AgentBot(query=None, user_id=user_id, user_name=user_name)
         self.chat_bot = ChatBot(user_id=user_id, user_name=user_name)
-        self.swarm_agent_bot = SwarmBot(query=None, user_id=user_id, user_name=user_name)
         self.image_handler = ImageHandler(save_directory=DOWNLOAD_ADDRESS.get("image"))
         self.voice_handler = VoiceHandler(save_directory=DOWNLOAD_ADDRESS.get("audio"))
         self.file_handler = FileHandler(save_directory=DOWNLOAD_ADDRESS.get("file"))
@@ -65,9 +64,11 @@ class Private_message:
         if self.use_agent:
             await self.core.send_msg("智能体开始处理...", to_username=self.user_id)
             if CHATGPT_DATA.get("use"):
-                bot = self.agent_bot
+                from server.bot.agent_bot import AgentBot
+                bot = AgentBot(query=None, user_id=self.user_id, user_name=self.user_name)
             elif OLLAMA_DATA.get("use"):
-                bot = self.swarm_agent_bot
+                from server.bot.swarm_agent_bot import SwarmBot
+                bot = SwarmBot(query=None, user_id=self.user_id, user_name=self.user_name)
         else:
             bot = self.chat_bot
         await self.distribute_message(user_message, bot)
@@ -144,13 +145,14 @@ class Private_message:
     async def handle_text_message(self, user_message, bot):
         """处理关于文本内容的消息"""
         global reply_content
-        reply_content = bot.run(
+        reply_content = await bot.run(
             user_name=self.user_name,
             query=user_message,
             image_path=user_image_map.get(self.user_id),
             file_path=user_file_mapping.get(self.user_name),
             user_id=self.user_id
         )
+        print(reply_content)
         await self.send_message_type(reply_content)
         return
 
