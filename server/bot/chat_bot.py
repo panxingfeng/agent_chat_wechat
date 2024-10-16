@@ -71,10 +71,6 @@ class ChatBot:
             # 根据GPU的可用内存动态选择模型
             if gpu_free >= 8000:
                 return MiniCPMClient()  # 如果GPU内存大于8GB，使用MiniCPM模型
-            elif gpu_free >= 4000:
-                return QwenClient(num=1)  # 如果GPU内存大于4GB，使用Qwen模型
-            elif gpu_free >= 2000:
-                return QwenClient(num=2)  # 如果GPU内存大于2GB，使用更轻量的Qwen模型
         return "所有模型出错，key为空或者没有设置‘use’为True"  # 返回错误信息
 
     def format_history(self):
