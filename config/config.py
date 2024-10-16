@@ -3,7 +3,7 @@
 CHATGPT_DATA = {
     'use': False,
     'model': 'gpt-4o-mini',  # 模型名称，GPT 模型的具体版本
-    'key': 'sk-proj-********************************', # 你的 OpenAI API 密钥
+    'key': '', # 你的 OpenAI API 密钥
     'url': 'https://api.openai.com/v1',  # OpenAI API 的地址
     'temperature': 0.7,  # 生成内容的多样性程度，0-1 范围内
 }
@@ -18,7 +18,7 @@ OLLAMA_DATA = {
 
 MOONSHOT_DATA = {
     'use': False,
-    'key': "sk-********************************",
+    'key': "",
     'url': "https://api.moonshot.cn/v1",
     'model': "moonshot-v1-8k",
     "prompt": ""
@@ -26,7 +26,7 @@ MOONSHOT_DATA = {
 
 BAICHUAN_DATA = {
     'use': False,
-    'key': "sk-35cd1a5baa296ce367788ca5d0161740",
+    'key': "",
     'url': "https://api.baichuan-ai.com/v1/",
     'model': "Baichuan2-Turbo"
     # 百川模型不支持自定义提示词内容#
