@@ -1,7 +1,7 @@
 import traceback
 from swarm import Agent, Swarm
 from config.config import OLLAMA_DATA, REDIS_DATA
-from config.templates.data.bot import MAX_HISTORY_SIZE, MAX_HISTORY_LENGTH
+from config.templates.data.bot import MAX_HISTORY_SIZE, MAX_HISTORY_LENGTH, AGENT_BOT_PROMPT_DATA, BOT_DATA, TOOL_DATA
 from server.client.loadmodel.Ollama.OllamaClient import OllamaClient
 from tools.swarm_tool_loader import ToolLoader
 import logging
@@ -26,7 +26,7 @@ tool_loader.load_tools()  # 加载工具
 
 # 获取加载的工具函数列表
 tools = tool_loader.get_tools()
-print(tools)
+
 # Redis 连接池
 redis_pool = redis.ConnectionPool(host=REDIS_DATA.get("host"), port=REDIS_DATA.get("port"), db=REDIS_DATA.get("db"))
 redis_client = redis.StrictRedis(connection_pool=redis_pool)
@@ -53,36 +53,14 @@ class SwarmBot:
         self.history = []  # 自定义的历史记录列表
         self.saved_files = {}  # 保存文件路径的字典
         self.user_id = user_id
-        self.SYSTEMPL = """
-        你是一个智能化的全能机器人，你具备广泛的知识和实时数据处理能力。
-
-        ### 个人设定:
-
-        ### 历史记录:
-        {history}
-
-        ### 当前时间:
-        {current_time}
-
-        ### 用户问题:
-        {query}
-
-        ### 用户id:
-        {user_id}
-
-        ### 用户名:
-        {user_name}
-
-        ### 工具说明：
-        1. **代码生成**：根据用户的需求，生成各类编程语言的代码，如Python、JavaScript、C++、Java等，确保代码的正确性和清晰性。
-
-        ### 常用短语:
-
-
-        ### 处理问题的过程:
-
-        """
-        self.instructions = self.SYSTEMPL.format(
+        self.prompt = AGENT_BOT_PROMPT_DATA.get("description")
+        self.instructions = self.prompt.format(
+            name=BOT_DATA["agent"].get("name"),
+            capabilities=BOT_DATA["agent"].get("capabilities"),
+            welcome_message=BOT_DATA["agent"].get("default_responses").get("welcome_message"),
+            unknown_command=BOT_DATA["agent"].get("default_responses").get("unknown_command"),
+            language_support=BOT_DATA["agent"].get("language_support"),
+            tool_data=TOOL_DATA,
             current_time=current_time,
             history=self.format_history(),
             query=self.query,
@@ -190,8 +168,8 @@ class SwarmBot:
 
 
 if __name__ == "__main__":
-    query = "输出一份二叉树的代码"
-    user_id = "1"
+    query = "给我生成二叉树的代码"
+    user_id = "123456"
     user_name = ""
     bot = SwarmBot(query=query, user_id=user_id, user_name=user_name)
 
