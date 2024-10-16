@@ -130,21 +130,22 @@ class ChatBot:
     def generate_response(self, query):
         """生成AI回复"""
         try:
-            # 调用invoke时，需要传入适合的消息结构
-            instructions = self.prompt.format(
-                name=BOT_DATA["agent"].get("name"),
-                capabilities=BOT_DATA["agent"].get("capabilities"),
-                welcome_message=BOT_DATA["agent"].get("default_responses").get("welcome_message"),
-                unknown_command=BOT_DATA["agent"].get("default_responses").get("unknown_command"),
-                language_support=BOT_DATA["agent"].get("language_support"),
-                history=self.format_history(),
-                query=query,
-            )
+            # 百川模型不支持设置系统提示词，增加系统提示词会报错
             if BAICHUAN_DATA.get("use") and BAICHUAN_DATA.get("key") is not None:
                 messages = [
                     {"role": "user", "content": query}
                 ]
             else:
+                # 设置模型的提示词信息
+                instructions = self.prompt.format(
+                    name=BOT_DATA["agent"].get("name"),
+                    capabilities=BOT_DATA["agent"].get("capabilities"),
+                    welcome_message=BOT_DATA["agent"].get("default_responses").get("welcome_message"),
+                    unknown_command=BOT_DATA["agent"].get("default_responses").get("unknown_command"),
+                    language_support=BOT_DATA["agent"].get("language_support"),
+                    history=self.format_history(),
+                    query=query,
+                )
                 messages = [
                     {"role": "system", "content": instructions},
                     {"role": "user", "content": query}
