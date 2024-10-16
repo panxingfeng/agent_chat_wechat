@@ -12,6 +12,14 @@ import redis
 import asyncio
 import os
 from concurrent.futures import ThreadPoolExecutor
+from tools.tool_loader import ToolLoader
+
+# 初始化工具加载器
+tool_loader = ToolLoader()
+tool_loader.load_tools()  # 加载工具
+
+# 获取加载的工具函数列表
+tool = tool_loader.get_tools()
 
 # 设置日志记录
 logging.basicConfig(level=logging.INFO,
@@ -36,15 +44,6 @@ executor = ThreadPoolExecutor(max_workers=20)
 
 # 当前时间
 current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-
-if CHATGPT_DATA.get("use"):
-    from tools.tool_loader import ToolLoader
-    # 初始化工具加载器
-    tool_loader = ToolLoader()
-    tool_loader.load_tools()  # 加载工具
-
-    # 获取加载的工具函数列表
-    tool = tool_loader.get_tools()
 
 class AgentBot:
     def __init__(self, user_id, user_name, query):
@@ -85,6 +84,7 @@ class AgentBot:
                 MessagesPlaceholder(variable_name="agent_scratchpad")
             ]
         )
+
         agent = create_openai_tools_agent(
             self.chatModel_4o_mini,
             tools=tool,
