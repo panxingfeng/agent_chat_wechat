@@ -19,13 +19,6 @@ logging.basicConfig(level=logging.INFO,
 client = OllamaClient()
 client_ollama = client.get_client()
 
-# 初始化工具加载器
-tool_loader = ToolLoader()
-tool_loader.load_tools()  # 加载工具
-
-# 获取加载的工具函数列表
-tools = tool_loader.get_tools()
-
 # Redis 连接池
 redis_pool = redis.ConnectionPool(host=REDIS_DATA.get("host"), port=REDIS_DATA.get("port"), db=REDIS_DATA.get("db"))
 redis_client = redis.StrictRedis(connection_pool=redis_pool)
