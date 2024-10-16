@@ -113,8 +113,11 @@ def code_gen(query: str) -> str:
 
 # 返回工具信息
 def register_tool():
+    tool_func = code_gen  # 工具函数
+    tool_func.__name__ = "code_gen"
     return {
-        "agent_tool": code_gen,
+        "name": "code_gen",
+        "agent_tool": tool_func,
         "description": "代码生成工具"
     }
 
