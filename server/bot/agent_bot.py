@@ -60,12 +60,11 @@ class AgentBot:
         self.history = []  # 自定义的历史记录列表
         self.saved_files = {}  # 保存文件路径的字典
         self.user_id = user_id
-        self.system_prompt = AGENT_BOT_PROMPT_DATA.get("description"),
         self.prompt = ChatPromptTemplate.from_messages(
             [
                 (
                     "system",
-                    self.system_prompt.format
+                    AGENT_BOT_PROMPT_DATA.get("description").format
                         (
                             name=BOT_DATA["agent"].get("name"),
                             capabilities=BOT_DATA["agent"].get("capabilities"),
