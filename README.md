@@ -114,7 +114,7 @@
 本项目使用 MIT 许可证 开源。
 
 ### 工具代码模板
-在智能体中添加工具时，您可以使用以下代码模板：
+在gpt_agent智能体中添加工具时，您可以使用以下代码模板：
 ```bash
 class CodeGenAPIWrapper(BaseModel):
     base_url: ClassVar[str] = "http://localhost:11434/api/chat"
@@ -166,8 +166,46 @@ def register_tool():
         "description": "代码生成工具"
     }
 
-
    ```
+
+在swarm_agent智能体中添加工具是，您可以使用以下代码模板：
+```bash
+工具代码(code_gen为例)  保存到tools/swarm_tool/code_gen.py
+def code_gen(query: str, code_type: str) -> str:
+    """代码生成工具：根据用户描述生成相应的代码实现。"""
+    client = OllamaClient()
+    print("使用代码生成工具")
+    prompt = CODE_BOT_PROMPT_DATA.get("description").format(code_type=code_type)
+    messages = [
+        {"role": "system", "content": prompt},
+        {"role": "user", "content": query}
+    ]
+
+    response = client.invoke(messages, model=OLLAMA_DATA.get("code_model"))
+    return response
+
+在swarm_agent_bot.py中增加工具的智能体
+    self.code_agent = Agent(
+    name="Code Agent",
+    instructions=CODE_BOT_PROMPT_DATA.get("description"),
+    function=[code_gen],
+    model=OLLAMA_DATA.get("model")
+    )
+
+在主智能体中增加一个跳转的方法：
+self.agent = Agent(
+    name="Bot Agent",
+    instructions=self.instructions,
+    functions=[self.transfer_to_code],  # 任务转发
+    model=OLLAMA_DATA.get("model")
+    )
+
+#跳转code智能体
+def transfer_to_code(self, query, code_type):
+    print(f"使用的代码语言 {code_type} ,问题是 {query}")
+    return self.code_agent
+
+```
 
 ### 如何添加工具到智能体
 1.根据示例工具代码进行编写工具代码
@@ -175,6 +213,8 @@ def register_tool():
 2.在tools/agent_tool目录下，增加一个工具的文件夹（例如：code_gen）
 
 3.把工具代码保存为tool.py即可
+
+4.swarm智能体的工具增加参考swarm示例代码
 
 
 ### 预计更新内容
