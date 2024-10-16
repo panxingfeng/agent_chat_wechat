@@ -67,7 +67,7 @@ class SwarmBot:
             user_name=self.user_name,
             user_id=self.user_id
         )
-        # 分诊智能体，负责初步分类用户请求
+
         self.triage_agent = Agent(
             name="Bot Agent",
             instructions=self.instructions,
