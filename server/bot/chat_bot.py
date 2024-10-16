@@ -69,8 +69,8 @@ class ChatBot:
             )
         else:
             # 根据GPU的可用内存动态选择模型
-            if gpu_free >= 8000:
-                return MiniCPMClient()  # 如果GPU内存大于8GB，使用MiniCPM模型
+            if gpu_free >= 7500:
+                return MiniCPMClient()  # 如果GPU内存大于7.5GB，使用MiniCPM模型
         return "所有模型出错，key为空或者没有设置‘use’为True"  # 返回错误信息
 
     def format_history(self):
