@@ -5,9 +5,11 @@ import os
 from datetime import datetime
 from langchain_openai import ChatOpenAI
 
-from config.config import CHATGPT_DATA, REDIS_DATA, OLLAMA_DATA
+from config.config import CHATGPT_DATA, REDIS_DATA, OLLAMA_DATA, MOONSHOT_DATA, BAICHUAN_DATA
 from config.templates.data.bot import MAX_HISTORY_SIZE, MAX_HISTORY_LENGTH, BOT_DATA, CHATBOT_PROMPT_DATA
 from server.client.loadmodel.Ollama.OllamaClient import OllamaClient
+from server.client.online.BaiChuanClient import BaiChuanClient
+from server.client.online.moonshotClient import MoonshotClient
 
 # 配置日志记录系统
 logging.basicConfig(level=logging.INFO,
@@ -35,18 +37,27 @@ class ChatBot:
         self.prompt = CHATBOT_PROMPT_DATA.get("description")
         # 动态加载OpenAI模型
         self.model = self.get_model_client()
+
     def get_model_client(self):
         """根据配置文件选择返回的模型"""
         if OLLAMA_DATA.get("use"):
             logging.info(f"使用Ollama模型生成回复: {OLLAMA_DATA.get('model')}")
             return OllamaClient()
+        elif MOONSHOT_DATA.get("use") and MOONSHOT_DATA.get("key") is not None:
+            logging.info(f"使用kimi模型生成回复: {OLLAMA_DATA.get('model')}")
+            return MoonshotClient()
+        elif BAICHUAN_DATA.get("use") and BAICHUAN_DATA.get("key") is not None:
+            logging.info(f"使用百川模型生成回复: {OLLAMA_DATA.get('model')}")
+            return BaiChuanClient()
         else:
-            logging.info(f"使用OpenAI模型生成回复: {CHATGPT_DATA.get('model')}")
-            return ChatOpenAI(
-                api_key=CHATGPT_DATA.get("key"),
-                base_url=CHATGPT_DATA.get("url"),
-                model=CHATGPT_DATA.get("model")
-            )
+            if CHATGPT_DATA.get("key") is not None:
+                logging.info(f"使用OpenAI模型生成回复: {CHATGPT_DATA.get('model')}")
+                return ChatOpenAI(
+                    api_key=CHATGPT_DATA.get("key"),
+                    base_url=CHATGPT_DATA.get("url"),
+                    model=CHATGPT_DATA.get("model")
+                )
+            return "所有模型出错，key为空或者没有设置‘use’为True"
 
     def format_history(self):
         """从Redis获取并格式化历史记录"""
