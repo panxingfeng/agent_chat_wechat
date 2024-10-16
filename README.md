@@ -226,17 +226,7 @@ def transfer_to_code(self, query, code_type):
 ### 模型选择
 支持模型：ChatGPT模型/ollama客户端的所有模型供agent使用
 
-支持聊天的模型，增加了国内付费主流模型的客户端，可自行选择，通过修改模型数据中的“use”值改为True即可，
-
-模型下载路径：
-
-[百度网盘](https://pan.baidu.com/s/17FQNqBAoi_kTVjR1eKg8eQ?pwd=ir5q) [夸克网盘](https://pan.quark.cn/s/ef569e03eb15)
-
-模型直接保存到server/model文件夹下即可
-
-```bash
-    baichuan、kini
-```
+支持聊天的模型，增加了国内付费主流模型的客户端，可自行选择，通过修改模型数据中的“use”值改为True即可
 
 ### VChat框架
 VChat框架地址：https://github.com/z2z63/VChat
