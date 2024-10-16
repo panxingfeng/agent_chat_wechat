@@ -26,7 +26,7 @@ class MiniCPMClient:
         {"role": "system", "content": prompt},
         {"role": "user", "content": message}
     ]
-    GPU:流畅运行要求8G+  8G推理比较久,大概40-60来秒,具体看型号
+    GPU:流畅运行要求7.5G+  8G推理比较久,大概40-60来秒,具体看型号
     """
     def __init__(self,
                  model_path="OpenBMB/MiniCPM3-4B",
