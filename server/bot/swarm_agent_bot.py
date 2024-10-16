@@ -11,7 +11,7 @@ import redis
 import asyncio
 from concurrent.futures import ThreadPoolExecutor
 
-from tools.swarm_tool.tool import code_gen
+from tools.swarm_tool.code_gen import code_gen
 
 # 设置日志记录
 logging.basicConfig(level=logging.INFO,
@@ -77,6 +77,7 @@ class SwarmBot:
             model=OLLAMA_DATA.get("model")
         )
 
+    # 跳转code智能体
     def transfer_to_code(self, query, code_type):
         print(f"使用的代码语言 {code_type} ,问题是 {query}")
         return self.code_agent
