@@ -15,7 +15,7 @@ def dynamic_import(tool_file, module_name):
     spec.loader.exec_module(module)
     return module
 
-class ToolLoader:
+class SwarmToolLoader:
     def __init__(self):
         """初始化工具加载器"""
         self.tools_directory = os.path.join(os.path.dirname(__file__), "agent_tool")
