@@ -5,10 +5,11 @@ import mysql.connector
 
 from vchat import Core
 
-from config.config import DOWNLOAD_ADDRESS, DB_DATA
+from config.config import DOWNLOAD_ADDRESS, DB_DATA, OLLAMA_DATA
 from config.templates.data.bot import GROUP_DATA
-from server.bot.agent_bot import AgentBot
-from server.bot.chat_bot import  ChatBot
+from server.bot.agent_bot import AgentBot, user_image_map
+from server.bot.chat_bot import ChatBot
+from server.bot.swarm_agent_bot import SwarmBot
 from tools.down_tool.handler import ImageHandler, VoiceHandler, FileHandler
 
 # 保存用户的激活码状态，包括剩余时间和当天的验证状态
@@ -30,11 +31,12 @@ SUPPORTED_FILE_TYPES = {
 core = Core()
 
 connection = mysql.connector.connect(
-        host=DB_DATA.get("host"),
-        user=DB_DATA.get("user"),
-        password=DB_DATA.get("password"),
-        database=DB_DATA.get("database")
-    )
+    host=DB_DATA.get("host"),
+    user=DB_DATA.get("user"),
+    password=DB_DATA.get("password"),
+    database=DB_DATA.get("database")
+)
+
 
 class Group_message:
     def __init__(self, user_id, user_name, core, bot_name, current_time, logging, chatroom_name):
@@ -49,13 +51,18 @@ class Group_message:
         self.chatroom_name = chatroom_name
         self.agent_bot = AgentBot(query=None, user_id=user_id, user_name=user_name)
         self.chat_bot = ChatBot(user_id=user_id, user_name=user_name)
+        self.swarm_agent_bot = SwarmBot(query=None, user_id=user_id, user_name=user_name)
         self.image_handler = ImageHandler(save_directory=DOWNLOAD_ADDRESS.get("image"))
         self.voice_handler = VoiceHandler(save_directory=DOWNLOAD_ADDRESS.get("audio"))
         self.file_handler = FileHandler(save_directory=DOWNLOAD_ADDRESS.get("file"))
 
-    async def handle_message(self, user_message, bot):
+    async def handle_message(self, user_message):
         """处理收到的消息"""
         self.logging.info(f"收到了群【{self.chatroom_name}】的用户【{self.user_name}】的消息【{user_message}】")
+        if OLLAMA_DATA.get("use"):  # 群可以自定义是否开启agent处理
+            bot = self.swarm_agent_bot
+        else:
+            bot = self.chat_bot
         await self.distribute_message(user_message, bot)
 
     async def distribute_message(self, user_message, bot):
@@ -87,10 +94,12 @@ class Group_message:
         """处理图像的信息"""
 
     async def handle_else_message(self, user_message, bot):
-        reply_content = self.chat_bot.run(
+        reply_content = bot.run(
             user_name=self.user_name,
             query=user_message,
-            user_id=self.user_id
+            user_id=self.user_id,
+            image_path=user_image_map.get(self.user_id),
+            file_path=user_file_mapping.get(self.user_name),
         )
         await self.core.send_msg(f"@{self.user_name} {reply_content}", to_username=self.user_id)
         return True
