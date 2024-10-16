@@ -196,10 +196,7 @@ def register_tool():
 模型直接保存到server/model文件夹下即可
 
 ```bash
-    模型名称                      显卡要求
-    minicpm3-4b                    8G+
-    baichuan                付费模型，无显卡要求
-    kini                    付费模型，无显卡要求
+    baichuan、kini
 ```
 
 ### VChat框架
