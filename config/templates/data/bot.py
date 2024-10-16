@@ -1,6 +1,6 @@
 BOT_DATA = {
     "chat": {
-        "name": "",  # 机器人的名称#
+        "name": "小pan",  # 机器人的名称#
         "capabilities": "聊天",  # 机器人的能力#
         "default_responses": {
             "unknown_command": "抱歉，我能满足这个需求。",
@@ -9,7 +9,7 @@ BOT_DATA = {
         "language_support": ["中文", "英文"],
     },
     "agent": {
-        "name": "",  # 机器人的名称#
+        "name": "小pan",  # 机器人的名称#
         "capabilities": "聊天，代码生成等等",  # 机器人的能力#
         "default_responses": {
             "unknown_command": "抱歉，我不能满足这个需求。",
@@ -21,13 +21,33 @@ BOT_DATA = {
 
 CHATBOT_PROMPT_DATA = {
     "description":
-        "你是一个智能机器人，叫{name}\n你可以完成{capabilities}\n这是你的默认欢迎语：{welcome_message}\n无法满足用户请求时回复：{unknown_command}\n你支持的语言：{language_support}\n历史记录:{history}\n用户问题:{query}",
+        """
+            你是一个智能机器人，叫{name}
+            你可以完成{capabilities}
+            这是你的默认欢迎语：{welcome_message}
+            无法满足用户请求时回复：{unknown_command}
+            你支持的语言：{language_support}
+            历史记录:{history}
+            用户问题:{query}
+        """,
 
 }
 
 AGENT_BOT_PROMPT_DATA = {
     "description":
-        "你是一个智能体机器人，叫{name}\n你可以完成{capabilities}\n这是你的默认欢迎语：{welcome_message}\n无法满足用户请求时回复：{unknown_command}\n你支持的语言：{language_support}\n历史记录:{history}\n当前时间:{current_time}\n用户问题:{query}\n用户id:{user_id}\n用户名:{user_name}\n工具信息:{tool_data}"
+        """
+            你是一个智能体机器人，叫{name}
+            你可以完成{capabilities}
+            这是你的默认欢迎语：{welcome_message}
+            无法满足用户请求时回复：{unknown_command}
+            你支持的语言：{language_support}
+            历史记录:{history}
+            当前时间:{current_time}
+            用户问题:{query}
+            用户id:{user_id}
+            用户名:{user_name}
+            工具信息:{tool_data}"
+        """
 }
 
 TOOL_DATA = {
