@@ -46,8 +46,6 @@ class ChatBot:
         self.user_name = user_name  # 用户名称
         self.redis_key_prefix = "chat_history:"  # Redis存储键的前缀
         self.history = []  # 用于存储会话历史记录的列表
-        self.prompt = CHATBOT_PROMPT_DATA.get("description")
-        # 动态加载OpenAI模型
         self.model = self.get_model_client()
 
     def get_model_client(self):
@@ -139,7 +137,7 @@ class ChatBot:
                 ]
             else:
                 # 设置模型的提示词信息，包括历史记录、欢迎信息等
-                instructions = self.prompt.format(
+                instructions = CHATBOT_PROMPT_DATA.get("description").format(
                     name=BOT_DATA["agent"].get("name"),
                     capabilities=BOT_DATA["agent"].get("capabilities"),
                     welcome_message=BOT_DATA["agent"].get("default_responses").get("welcome_message"),
