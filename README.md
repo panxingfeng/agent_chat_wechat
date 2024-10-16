@@ -101,37 +101,7 @@
         # 百川模型不支持自定义提示词内容#
     }
     
-    #########################################  本地数据库信息  #########################################
-    
-    # 本地mysql数据库信息
-    DB_DATA = {
-        'host': 'localhost',  # 数据库地址
-        'user': 'root',  # 数据库用户
-        'password': '1234',  # 数据库密码
-        'database': 'agent'  # 数据库名称
-    }
-    
-    # redis信息
-    REDIS_DATA = {
-        'host': 'localhost',
-        'port': 6379,
-        'db': 0
-    }
-    
-    #########################################  wechat信息  #########################################
-    
-    # 微信中的文件保存到本地的地址信息#
-    DOWNLOAD_ADDRESS = {
-        'file': 'D:\\xxx\\file',
-        'vidio': 'D:\\xxx\\vidio',
-        'audio': 'D:\\xxx\\audio',
-        'image': 'D:\\xxx\\image'
-    }
-    
-    LOGIN_WECHAT_DATA = {
-        "name": "xxx",  # 微信用户名（对方@xxx的xxx）
-        "manner_name": ""  # 群管理人员信息
-    }
+         ............
 ```
 
 ### 使用说明
