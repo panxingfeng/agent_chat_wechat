@@ -14,6 +14,9 @@ from server.message.private.message import Private_message
 from tools.else_tool.function import get_username_chatroom
 
 
+
+# 输出requirements.txt文件，pip freeze > requirements.txt
+
 # 创建日志器
 logger = logging.getLogger()
 logger.setLevel(logging.INFO)
@@ -98,8 +101,6 @@ async def single_messages(msg):
         logging.error(f"处理消息时发生错误: {e}", exc_info=True)
         await core.send_msg(f"消息处理失败，请联系管理员进行修复\n问题原因: {e}", to_username=msg.from_.username)
         return False
-
-    return True
 
 # 处理群聊中的消息
 @core.msg_register(msg_types=ContentTypes.ATTACH, contact_type=ContactTypes.CHATROOM)
