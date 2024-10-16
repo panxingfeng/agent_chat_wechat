@@ -1,5 +1,3 @@
-import logging
-import os
 import re
 import mysql.connector
 
@@ -7,9 +5,9 @@ from vchat import Core
 
 from config.config import DOWNLOAD_ADDRESS, DB_DATA, OLLAMA_DATA, CHATGPT_DATA
 from config.templates.data.bot import GROUP_DATA
-from server.bot.agent_bot import AgentBot, user_image_map
+from server.bot.agent_bot import user_image_map
 from server.bot.chat_bot import ChatBot
-from server.bot.swarm_agent_bot import SwarmBot
+
 from tools.down_tool.handler import ImageHandler, VoiceHandler, FileHandler
 
 # 保存用户的激活码状态，包括剩余时间和当天的验证状态
@@ -49,9 +47,7 @@ class Group_message:
         self.current_time = current_time
         self.logging = logging
         self.chatroom_name = chatroom_name
-        self.agent_bot = AgentBot(query=None, user_id=user_id, user_name=user_name)
         self.chat_bot = ChatBot(user_id=user_id, user_name=user_name)
-        self.swarm_agent_bot = SwarmBot(query=None, user_id=user_id, user_name=user_name)
         self.image_handler = ImageHandler(save_directory=DOWNLOAD_ADDRESS.get("image"))
         self.voice_handler = VoiceHandler(save_directory=DOWNLOAD_ADDRESS.get("audio"))
         self.file_handler = FileHandler(save_directory=DOWNLOAD_ADDRESS.get("file"))
@@ -63,9 +59,11 @@ class Group_message:
         self.logging.info(f"收到了群【{self.chatroom_name}】的用户【{self.user_name}】的消息【{user_message}】")
         if self.agent:  # 群可以自定义是否开启agent处理
             if OLLAMA_DATA.get("use"):
-                bot = self.swarm_agent_bot
+                from server.bot.swarm_agent_bot import SwarmBot
+                bot = SwarmBot(query=None, user_id=self.user_id, user_name=self.user_name)
             elif CHATGPT_DATA.get("use"):
-                bot = self.agent_bot
+                from server.bot.agent_bot import AgentBot
+                bot = AgentBot(query=None, user_id=self.user_id, user_name=self.user_name)
         else:
             bot = self.chat_bot
         await self.distribute_message(user_message, bot)
