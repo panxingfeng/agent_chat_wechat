@@ -3,3 +3,11 @@ pytz
 vchat
 pynvml
 redis
+langchain_openai
+transformers
+torch
+mysql-connector-python
+langchain
+pillow
+aiofiles
+git+https://github.com/openai/swarm.git
