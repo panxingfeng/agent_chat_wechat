@@ -49,8 +49,8 @@
 
 5. 创建并激活虚拟环境：
     ```bash
-    python -m venv .venv
-    source .venv/bin/activate  # 在 Windows 上使用 .venv\Scripts\activate
+    conda create --name agent_wechat python=3.10
+    conda activate agent_wechat # 在 Windows 上使用 conda activate agent_wechat
     ```
 
 6. 安装依赖(使用清华源)：
