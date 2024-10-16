@@ -1,7 +1,8 @@
 import traceback
 from swarm import Agent, Swarm
 from config.config import OLLAMA_DATA, REDIS_DATA
-from config.templates.data.bot import MAX_HISTORY_SIZE, MAX_HISTORY_LENGTH, AGENT_BOT_PROMPT_DATA, BOT_DATA, TOOL_DATA
+from config.templates.data.bot import MAX_HISTORY_SIZE, MAX_HISTORY_LENGTH, AGENT_BOT_PROMPT_DATA, BOT_DATA, TOOL_DATA, \
+    CODE_BOT_PROMPT_DATA
 from server.client.loadmodel.Ollama.OllamaClient import OllamaClient
 import logging
 from datetime import datetime
@@ -9,14 +10,8 @@ import json
 import redis
 import asyncio
 from concurrent.futures import ThreadPoolExecutor
-from tools.swarm_tool_loader import SwarmToolLoader
 
-# 初始化工具加载器
-tool_loader = SwarmToolLoader()
-tool_loader.load_tools()  # 加载工具
-
-# 获取加载的工具函数列表
-tool = tool_loader.get_tools()
+from tools.swarm_tool.tool import code_gen
 
 # 设置日志记录
 logging.basicConfig(level=logging.INFO,
@@ -43,6 +38,7 @@ executor = ThreadPoolExecutor(max_workers=20)
 # 当前时间
 current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
+
 class SwarmBot:
     def __init__(self, user_id, user_name, query):
         self.query = query
@@ -66,12 +62,24 @@ class SwarmBot:
             user_id=self.user_id
         )
 
-        self.triage_agent = Agent(
+        self.agent = Agent(
             name="Bot Agent",
             instructions=self.instructions,
-            functions=tool,
+            functions=[self.transfer_to_code],  # 任务转发
             model=OLLAMA_DATA.get("model")
         )
+
+        # 执行关于代码的智能体
+        self.code_agent = Agent(
+            name="Code Agent",
+            instructions=CODE_BOT_PROMPT_DATA.get("description"),
+            function=[code_gen],
+            model=OLLAMA_DATA.get("model")
+        )
+
+    def transfer_to_code(self, query, code_type):
+        print(f"使用的代码语言 {code_type} ,问题是 {query}")
+        return self.code_agent
 
     def format_history(self):
         """从Redis获取并格式化历史记录"""
@@ -124,6 +132,7 @@ class SwarmBot:
 
     async def run(self, user_name, query, image_path, file_path, user_id):
         global message
+
         try:
             # 从Redis获取历史记录并管理
             self.manage_history()
@@ -142,13 +151,12 @@ class SwarmBot:
             messages.append({"role": "user", "content": combined_input})
 
             response = self.client.run(
-                agent=self.triage_agent,
+                agent=self.agent,
                 messages=messages,
-                context_variables={},
                 debug=True,
             )
 
-            response = response.messages
+            result = pretty_print_messages(response.messages)
 
             # # 将生成的回复加入历史记录
             # self.history.append({
@@ -158,28 +166,48 @@ class SwarmBot:
 
             # 保存更新后的历史记录到Redis
             self.save_history_to_redis(self.user_id, self.history)
-            for message in response:
-                if 'content' in message:
-                    return message['content']
-                else:
-                    return "模型回复失败"
+            return result
         except Exception as e:
             logging.error(f"运行时发生错误: {e}")
             traceback.print_exc()
             return "发生错误"
 
 
+def pretty_print_messages(messages) -> str:
+    global message
+    for message in messages:
+        if message["role"] != "assistant":  # 只打印助手的回复
+            continue
+
+        # 蓝色显示智能体名称
+        print(f"\033[94m{message['sender']}\033[0m:\n", end=" ")
+
+        # 如果有工具调用，则打印工具调用的信息
+        tool_calls = message.get("tool_calls") or []
+        if len(tool_calls) > 0:
+            print("\n调用的工具信息：")  # 提示工具调用信息
+        for tool_call in tool_calls:
+            f = tool_call["function"]
+            name, args = f["name"], f["arguments"]
+
+            # 尝试将工具调用的参数格式化为 key=value 形式
+            try:
+                arg_str = json.dumps(json.loads(args), ensure_ascii=False, indent=2).replace(":", "=")
+            except json.JSONDecodeError:
+                arg_str = args  # 如果解析失败，原样显示
+
+            # 紫色显示工具调用的函数名和参数
+            print(f"  \033[95m{name}\033[0m({arg_str[1:-1]})")
+    return message["content"]
+
+
 if __name__ == "__main__":
-    query = "给我生成二叉树的代码"
-    user_id = "123456"
+    query = "使用代码工具，给我生成一份可执行的二叉树的python代码"
+    user_id = "123"
     user_name = ""
     bot = SwarmBot(query=query, user_id=user_id, user_name=user_name)
 
     # 运行异步函数
     response = asyncio.run(bot.run(user_id=user_id, query=query, user_name=user_name, file_path=None, image_path=None))
 
-    # 遍历返回内容
-    for message in response:
-        if 'content' in message:
-            print(message['content'])  # 输出消息的结果
-
+    print(response)
