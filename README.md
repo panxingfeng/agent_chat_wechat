@@ -26,7 +26,7 @@
 
 ### 新增内容
 2024-10-16 playground/swarm_agent 基于swarm框架，使用ollam客户端实现agent代码 (项目实例:简易水果店智能客服)
-
+2024-10-16 新增使用swarm agent结构部署到server/bot中(swarm_agent_bot)
 ## 安装与配置
 
 ### 依赖安装
@@ -133,9 +133,7 @@ def register_tool():
 
 1.基于RAG快速检索，完成自定义的客服助手(需要检索资料的文档放置serve/rag/file中即可)，提示词在config/templates/data/bot中修改(近期上传，还在编写中)
 
-2.使用本地Ollama实现agent-bot处理 -> 已实现swarm框架对agent的处理 -> 部署到bot中(近期上传)
-
-3.基于最新消息，持续更新工具内容(近期上传)
+2.基于最新消息，持续更新工具内容(近期上传)
 
 ### 模型选择
 支持模型：ChatGPT模型，ollama客户端的所有模型供agent使用
