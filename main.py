@@ -8,7 +8,7 @@ from vchat import Core
 from vchat.model import ContentTypes, ContactTypes
 
 from config.config import LOGIN_WECHAT_DATA
-from server.bot.chat_bot import Chat_Bot_Chat
+from server.bot.chat_bot import ChatBot
 from server.message.group.message import Group_message
 from server.message.private.message import Private_message
 from tools.else_tool.function import get_username_chatroom
@@ -122,7 +122,7 @@ async def chatroom_messages(msg):
     if msg.content.type == ContentTypes.TEXT:
         user_message = msg.content.content
         logging.info(f"开始处理微信群【{chatroom_name}】的用户【{user_name}】文本消息【 {user_message}】")
-        bot = Chat_Bot_Chat()
+        bot = ChatBot(user_id=user_id, user_name=user_name)
         await asyncio.create_task(message_handler.handle_message(user_message=user_message, bot=bot))
     elif msg.content.type == ContentTypes.ATTACH:
         """处理文件的消息逻辑"""
