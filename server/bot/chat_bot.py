@@ -1,7 +1,6 @@
 import json
 import logging
 
-import pynvml
 import redis
 import os
 from datetime import datetime
@@ -9,7 +8,6 @@ from langchain_openai import ChatOpenAI
 
 from config.config import CHATGPT_DATA, REDIS_DATA, OLLAMA_DATA, MOONSHOT_DATA, BAICHUAN_DATA
 from config.templates.data.bot import MAX_HISTORY_SIZE, MAX_HISTORY_LENGTH, BOT_DATA, CHATBOT_PROMPT_DATA
-from server.client.loadmodel.MiniCPM_client.MiniCPMClient import MiniCPMClient
 from server.client.loadmodel.Ollama.OllamaClient import OllamaClient
 from server.client.online.BaiChuanClient import BaiChuanClient
 from server.client.online.moonshotClient import MoonshotClient
@@ -66,10 +64,6 @@ class ChatBot:
                 base_url=CHATGPT_DATA.get("url"),
                 model=CHATGPT_DATA.get("model")
             )
-        else:
-            # 根据GPU的可用内存动态选择模型
-            if gpu_free >= 7500:
-                return MiniCPMClient()  # 如果GPU内存大于7.5GB，使用MiniCPM模型
         return "所有模型出错，key为空或者没有设置‘use’为True"  # 返回错误信息
 
     def format_history(self):
