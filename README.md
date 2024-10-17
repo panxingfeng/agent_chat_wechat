@@ -164,6 +164,8 @@ def register_tool():
     }
 
    ```
+agent_tool演示示例
+![示例图片](./images/img3.png)
 
 在swarm_agent智能体中添加工具是，您可以使用以下代码模板：
 ```bash
