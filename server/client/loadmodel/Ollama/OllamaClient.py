@@ -35,10 +35,12 @@ class OllamaClient:
             base_url=OLLAMA_DATA.get("api_url"),
             api_key='ollama',
         )
+
     def invoke(self, messages):
+        model = OLLAMA_DATA.get("model")
         chat_completion = self.client.chat.completions.create(
             messages=messages,
-            model=OLLAMA_DATA.get("model"),
+            model=model,
         )
         return ResponseWrapper(chat_completion.choices[0].message.content)
 
