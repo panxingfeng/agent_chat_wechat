@@ -163,7 +163,7 @@ class ChatBot:
         return response  # 返回生成的回复
 
 if __name__ == "__main__":
-    query = "你好啊"
+    query = "你是谁"
     user_id = "0101"
     user_name = "pan"
     bot = ChatBot(user_id=user_id, user_name=user_name)
