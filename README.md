@@ -164,7 +164,7 @@ def register_tool():
     }
 
    ```
-# agent_tool演示示例
+#### agent_tool演示示例
 ![示例图片](./images/img3.png)
 
 在swarm_agent智能体中添加工具是，您可以使用以下代码模板：
@@ -205,7 +205,7 @@ def transfer_to_code(self, query, code_type):
     return self.code_agent
 
 ```
-swarm工具代码演示示例
+#### swarm工具代码演示示例
 ![示例图片](./images/img2.png)
 ![示例图片](./images/img1.png)
 
@@ -230,7 +230,7 @@ swarm工具代码演示示例
 
 支持聊天的模型，增加了国内付费主流模型的客户端，可自行选择，通过修改模型数据中的“use”值改为True即可
 
-聊天模型测试示例图：
+#### 聊天模型测试示例图：
 ![示例图片](./images/img4.png)
 ![示例图片](./images/img5.png)
 
