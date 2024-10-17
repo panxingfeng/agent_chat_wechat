@@ -1,8 +1,7 @@
 import traceback
 from swarm import Agent, Swarm
 from config.config import OLLAMA_DATA, REDIS_DATA
-from config.templates.data.bot import MAX_HISTORY_SIZE, MAX_HISTORY_LENGTH, AGENT_BOT_PROMPT_DATA, BOT_DATA, TOOL_DATA, \
-    CODE_BOT_PROMPT_DATA
+from config.templates.data.bot import MAX_HISTORY_SIZE, MAX_HISTORY_LENGTH, AGENT_BOT_PROMPT_DATA, BOT_DATA,CODE_BOT_PROMPT_DATA
 from server.client.loadmodel.Ollama.OllamaClient import OllamaClient
 import logging
 from datetime import datetime
@@ -54,7 +53,6 @@ class SwarmBot:
             welcome_message=BOT_DATA["agent"].get("default_responses").get("welcome_message"),
             unknown_command=BOT_DATA["agent"].get("default_responses").get("unknown_command"),
             language_support=BOT_DATA["agent"].get("language_support"),
-            tool_data=TOOL_DATA,
             current_time=current_time,
             history=self.format_history(),
             query=self.query,
