@@ -1,6 +1,8 @@
+import asyncio
 import json
 import logging
 
+import pynvml
 import redis
 import os
 from datetime import datetime
@@ -27,15 +29,6 @@ redis_client = redis.StrictRedis(connection_pool=redis_pool)
 # 获取当前系统时间
 current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
-# 初始化 NVML（NVIDIA Management Library）
-pynvml.nvmlInit()
-# 获取 GPU 设备数量
-device_count = pynvml.nvmlDeviceGetCount()
-for i in range(device_count):
-    handle = pynvml.nvmlDeviceGetHandleByIndex(i)
-    mem_info = pynvml.nvmlDeviceGetMemoryInfo(handle)
-
-
 class ChatBot:
     def __init__(self, user_name, user_id):
         """初始化ChatBot类，设置用户信息和查询，加载OpenAI模型"""
@@ -47,7 +40,6 @@ class ChatBot:
 
     def get_model_client(self):
         """根据配置文件选择返回的模型"""
-        gpu_free = int(mem_info.free / 1024 ** 2)  # 获取可用的GPU内存（MB为单位）
         if OLLAMA_DATA.get("use"):
             logging.info(f"使用Ollama模型生成回复: {OLLAMA_DATA.get('model')}")
             return OllamaClient()  # 使用Ollama模型
@@ -169,3 +161,14 @@ class ChatBot:
         self.save_history_to_redis(self.user_id, self.history)
 
         return response  # 返回生成的回复
+
+if __name__ == "__main__":
+    query = "你好啊"
+    user_id = "0101"
+    user_name = "pan"
+    bot = ChatBot(user_id=user_id, user_name=user_name)
+
+    # 运行异步函数
+    response = asyncio.run(bot.run(user_id=user_id, query=query, user_name=user_name, file_path=None, image_path=None))
+
+    print(response)
