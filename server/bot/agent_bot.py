@@ -4,7 +4,7 @@ from langchain_core.prompts import MessagesPlaceholder, ChatPromptTemplate
 from langchain_openai import ChatOpenAI
 
 from config.config import CHATGPT_DATA, REDIS_DATA
-from config.templates.data.bot import MAX_HISTORY_SIZE, MAX_HISTORY_LENGTH, AGENT_BOT_PROMPT_DATA, BOT_DATA, TOOL_DATA
+from config.templates.data.bot import MAX_HISTORY_SIZE, MAX_HISTORY_LENGTH, AGENT_BOT_PROMPT_DATA, BOT_DATA
 import logging
 from datetime import datetime
 import json
@@ -19,7 +19,7 @@ tool_loader = ToolLoader()
 tool_loader.load_tools()  # 加载工具
 
 # 获取加载的工具函数列表
-tool = tool_loader.get_tools()
+tools = tool_loader.get_tools()
 
 # 设置日志记录
 logging.basicConfig(level=logging.INFO,
@@ -69,7 +69,6 @@ class AgentBot:
                         welcome_message=BOT_DATA["agent"].get("default_responses").get("welcome_message"),
                         unknown_command=BOT_DATA["agent"].get("default_responses").get("unknown_command"),
                         language_support=BOT_DATA["agent"].get("language_support"),
-                        tool_data=TOOL_DATA,
                         current_time=current_time,
                         history=self.format_history(),
                         query=self.query,
@@ -87,13 +86,13 @@ class AgentBot:
 
         agent = create_openai_tools_agent(
             self.chatModel_4o_mini,
-            tools=tool,
+            tools=tools,
             prompt=self.prompt
         )
 
         self.agent_executor = AgentExecutor(
             agent=agent,
-            tools=tool,
+            tools=tools,
             verbose=True
         )
 
@@ -181,3 +180,14 @@ class AgentBot:
             logging.error(f"运行时发生错误: {e}")
             traceback.print_exc()
             return "发生错误"
+
+if __name__ == "__main__":
+    query = "使用代码工具，给我生成一份可执行的二叉树的python代码"
+    user_id = "123"
+    user_name = ""
+    bot = AgentBot(query=query, user_id=user_id, user_name=user_name)
+
+    # 运行异步函数
+    response = asyncio.run(bot.run(user_id=user_id, query=query, user_name=user_name, file_path=None, image_path=None))
+
+    print(response)
