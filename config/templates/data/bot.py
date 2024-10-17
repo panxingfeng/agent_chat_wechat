@@ -1,6 +1,6 @@
 BOT_DATA = {
     "chat": {
-        "name": "小pan",  # 机器人的名称#
+        "name": "",  # 机器人的名称#
         "capabilities": "聊天",  # 机器人的能力#
         "default_responses": {
             "unknown_command": "抱歉，我能满足这个需求。",
@@ -9,7 +9,7 @@ BOT_DATA = {
         "language_support": ["中文", "英文"],
     },
     "agent": {
-        "name": "小pan",  # 机器人的名称#
+        "name": "",  # 机器人的名称#
         "capabilities": "聊天，代码生成等等",  # 机器人的能力#
         "default_responses": {
             "unknown_command": "抱歉，我不能满足这个需求。",
@@ -46,12 +46,15 @@ AGENT_BOT_PROMPT_DATA = {
             用户问题:{query}
             用户id:{user_id}
             用户名:{user_name}
-            工具信息:{tool_data}"
         """
 }
 
-TOOL_DATA = {
-    "code_gen": "根据用户的需求，生成各类编程语言的代码，如Python、JavaScript、C++、Java等，确保代码的正确性和清晰性。"
+CODE_BOT_PROMPT_DATA = {
+    "description":
+        """
+            你是一个智能的编程机器人，擅长各种主流编程语言(python,java...)的代码生成
+            请使用代码语言 {code_type} 进行代码的生成
+        """
 }
 
 PRIVATE_DATA = {
