@@ -118,11 +118,8 @@
 ```bash
 class CodeGenAPIWrapper(BaseModel):
     base_url: ClassVar[str] = "http://localhost:11434/api/chat"
-    content_role: ClassVar[str] = (
-        "你是一个精通编程的代码助手，"
-        "能够根据用户的需求编写代码。"
-    )
-    model: str = "qwen2.5-coder" #可以使用其他的本地模型，自行修改
+    content_role: ClassVar[str] = CODE_BOT_PROMPT_DATA
+    model: ClassVar[str] = OLLAMA_DATA.get("code_model") #可以使用其他的本地模型，自行修改
 
     def run(self, query: str, model_name: str) -> str:
         logging.info(f"使用模型 {model_name} 处理用户请求: {query}")
