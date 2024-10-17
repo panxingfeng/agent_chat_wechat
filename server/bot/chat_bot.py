@@ -56,7 +56,6 @@ class ChatBot:
                 base_url=CHATGPT_DATA.get("url"),
                 model=CHATGPT_DATA.get("model")
             )
-        return "所有模型出错，key为空或者没有设置‘use’为True"  # 返回错误信息
 
     def format_history(self):
         """从Redis获取并格式化历史记录"""
@@ -111,6 +110,8 @@ class ChatBot:
     def generate_response(self, query):
         """生成AI回复"""
         try:
+            if self.model is None:
+                return "所有模型出错，key为空或者没有设置‘use’为True"
             # 如果使用的是百川模型，不支持设置系统提示词
             if BAICHUAN_DATA.get("use") and BAICHUAN_DATA.get("key") is not None:
                 messages = [
