@@ -2,7 +2,6 @@ import asyncio
 import json
 import logging
 
-import pynvml
 import redis
 import os
 from datetime import datetime
