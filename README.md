@@ -37,23 +37,24 @@
 
 ### 依赖安装
 
-1. **Redis 安装**：[参考教程](https://blog.csdn.net/weixin_43883917/article/details/114632709)  
-2. **MySQL 安装**：[参考教程](https://blog.csdn.net/weixin_41330897/article/details/142899070)
-3. **Ollama 安装**：[参考教程](https://blog.csdn.net/qq_40999403/article/details/139320266)
+1. **Redis 安装**：[安装流程，点击跳转](https://blog.csdn.net/weixin_43883917/article/details/114632709)  
+2. **MySQL 安装**：[安装流程，点击跳转](https://blog.csdn.net/weixin_41330897/article/details/142899070)
+3. **Ollama 安装**：[安装流程，点击跳转](https://blog.csdn.net/qq_40999403/article/details/139320266)
+4. **Anaconda 安装**：[安装流程，点击跳转](https://blog.csdn.net/weixin_45525272/article/details/129265214)
 
-4. 克隆仓库：
+5. 克隆仓库：
     ```bash
     git clone https://github.com/panxingfeng/agent_chat_wechat.git
     cd <项目目录>
     ```
 
-5. 创建并激活虚拟环境：
+6. 创建并激活虚拟环境：
     ```bash
     conda create --name agent_wechat python=3.10
     conda activate agent_wechat # 在 Windows 上使用 conda activate agent_wechat
     ```
 
-6. 安装依赖(使用清华源)：
+7. 安装依赖(使用清华源)：
     ```bash
     pip install -r requirements.txt -i https://pypi.tuna.tsinghua.edu.cn/simple/
     pip install aiohttp pytz vchat langchain_openai transformers -i https://pypi.tuna.tsinghua.edu.cn/simple/
@@ -61,11 +62,11 @@
     pip install git+https://github.com/openai/swarm.git 或者 pip install git+ssh://git@github.com/openai/swarm.git
     ```
 
-7. 运行：
+8. 运行：
     ```bash
     python main.py
     ```
-8. 说明：开启agent智能体机器人，需要在聊天框中输入  #智能体  即可。
+9. 说明：开启agent智能体机器人，需要在聊天框中输入  #智能体  即可。
 ### 配置文件
 
 项目的配置文件 `config/config.py` 包含了应用所需的配置信息。请根据实际情况修改该文件中的配置项，付费模型填入正确的key和use设置成True即可
