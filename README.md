@@ -29,8 +29,8 @@
 
 2024-10-16 新增使用swarm agent结构部署到server/bot中(swarm_agent_bot) 可自行选择使用ollama还是gpt
 ```bash
-    使用ollama客户端  设置config/config.py中的OLLAMA_DATA{'user': True} chat/agent都是使用的ollama
-    使用chatGPT客户端，设置config/config.py中的CHATGPT_DATA{'user': True} chat/agent都是使用的GPT
+    使用ollama客户端  设置config/config.py中的OLLAMA_DATA{'use': True} chat/agent都是使用的ollama
+    使用chatGPT客户端，设置config/config.py中的CHATGPT_DATA{'use': True} chat/agent都是使用的GPT
 ```
 
 ## 安装与配置
