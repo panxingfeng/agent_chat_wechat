@@ -17,7 +17,7 @@
 
 ## 项目简介
 
-本项目是基于langchain/Ollama实现多功能的智能体机器人，通过vchat部署到私人微信中。可以自行设计与实现各种工具，供agent调用
+本项目是基于langchain/Ollama实现agent的智能体机器人，通过vchat部署到私人微信中。可以自行设计与实现各种工具，供agent调用
 
 ## 功能
 
