@@ -1,7 +1,8 @@
 import traceback
 from swarm import Agent, Swarm
 from config.config import OLLAMA_DATA, REDIS_DATA
-from config.templates.data.bot import MAX_HISTORY_SIZE, MAX_HISTORY_LENGTH, AGENT_BOT_PROMPT_DATA, BOT_DATA,CODE_BOT_PROMPT_DATA
+from config.templates.data.bot import MAX_HISTORY_SIZE, MAX_HISTORY_LENGTH, AGENT_BOT_PROMPT_DATA, BOT_DATA, \
+    CODE_BOT_PROMPT_DATA, SEARCH_BOT_PROMPT_DATA
 from server.client.loadmodel.Ollama.OllamaClient import OllamaClient
 import logging
 from datetime import datetime
