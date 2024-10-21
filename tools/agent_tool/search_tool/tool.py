@@ -39,7 +39,7 @@ search = SearchAPIWrapper()
 
 @tool
 def search_tool(query: str) -> str:
-    """搜索工具"""
+    """联网搜索工具"""
     return search.generate_result(query)
 
 
@@ -50,5 +50,5 @@ def register_tool():
     return {
         "name": "search_tool",
         "agent_tool": tool_func,
-        "description": "搜索工具"
+        "description": "联网搜索工具"
     }
