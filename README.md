@@ -211,6 +211,7 @@ def transfer_to_code(self, query, code_type):
 #### swarm工具代码演示示例
 ![示例图片](./images/img2.png)
 ![示例图片](./images/img1.png)
+![示例图片](./images/img6.png)
 
 ### 如何添加工具到智能体
 1.根据示例工具代码进行编写工具代码
@@ -236,7 +237,6 @@ def transfer_to_code(self, query, code_type):
 #### 聊天模型测试示例图：
 ![示例图片](./images/img4.png)
 ![示例图片](./images/img5.png)
-![示例图片](./images/img6.png)
 
 ### VChat框架
 VChat框架地址：https://github.com/z2z63/VChat
