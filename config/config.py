@@ -9,7 +9,7 @@ CHATGPT_DATA = {
 }
 
 OLLAMA_DATA = {
-    'use': False,  
+    'use': True,  
     'model': 'qwen2.5',  # ollama运行的模型名称
     'code_model': 'qwen2.5',
     'key': 'EMPTY',
