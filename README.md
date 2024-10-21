@@ -25,6 +25,7 @@
 - ......
 
 ### 新增内容
+2024-10-22 新增搜索工具代码
 2024-10-16 playground/swarm_agent 基于swarm框架，使用ollam客户端实现agent处理 (demo:水果店智能客服)
 
 2024-10-16 新增使用swarm agent结构部署到server/bot中(swarm_agent_bot) 可自行选择使用ollama还是gpt
