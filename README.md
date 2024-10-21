@@ -25,7 +25,7 @@
 - ......
 
 ### 新增内容
-2024-10-22 新增搜索工具代码(需魔法上网) -> swarm_agent 执行结果参照images/search_tool_result.png
+[更新目录](https://mvaf3lmz23z.feishu.cn/wiki/OYDQwkLGQimCI2k5mz6cfvvenri?from=from_copylink)
 
 2024-10-16 playground/swarm_agent 基于swarm框架，使用ollam客户端实现agent处理 (demo:水果店智能客服)
 
