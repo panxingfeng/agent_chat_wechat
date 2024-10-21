@@ -30,7 +30,7 @@ class OllamaClient:
         retry=retry_if_exception_type((requests.exceptions.Timeout, requests.exceptions.RequestException)),
     )
     def get_client(self):
-        # 确保正确返回 OpenAI 实例
+        # 返回 OpenAI 实例
         return OpenAI(
             base_url=OLLAMA_DATA.get("api_url"),
             api_key='ollama',
