@@ -236,6 +236,7 @@ def transfer_to_code(self, query, code_type):
 #### 聊天模型测试示例图：
 ![示例图片](./images/img4.png)
 ![示例图片](./images/img5.png)
+![示例图片](./images/img6.png)
 
 ### VChat框架
 VChat框架地址：https://github.com/z2z63/VChat
