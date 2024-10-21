@@ -83,7 +83,7 @@
     }
     
     OLLAMA_DATA = {
-        'use': False,  
+        'use': True,  
         'model': 'qwen2.5',  # ollama运行的模型名称
         'key': 'EMPTY',
         'api_url': 'http://localhost:11434/v1/'
