@@ -11,6 +11,7 @@ import asyncio
 from concurrent.futures import ThreadPoolExecutor
 
 from tools.swarm_tool.code_gen import code_gen
+from tools.swarm_tool.search_tool import search_tool
 
 # 设置日志记录
 logging.basicConfig(level=logging.INFO,
@@ -63,11 +64,11 @@ class SwarmBot:
         self.agent = Agent(
             name="Bot Agent",
             instructions=self.instructions,
-            functions=[self.transfer_to_code],  # 任务转发
+            functions=[self.transfer_to_code, self.transfer_to_search],  # 任务转发
             model=OLLAMA_DATA.get("model")
         )
 
-        # 执行关于代码的智能体
+        # 执行代码的智能体
         self.code_agent = Agent(
             name="Code Agent",
             instructions=CODE_BOT_PROMPT_DATA.get("description"),
@@ -75,11 +76,24 @@ class SwarmBot:
             model=OLLAMA_DATA.get("model")
         )
 
+        # 执行搜索的智能体
+        self.search_agent = Agent(
+            name="Search Agent",
+            instructions=SEARCH_BOT_PROMPT_DATA.get("description").format(time=current_time),
+            functions=[search_tool],
+            model=OLLAMA_DATA.get("model")
+        )
+
     # 跳转code智能体
     def transfer_to_code(self, query, code_type):
         print(f"使用的代码语言 {code_type} ,问题是 {query}")
         return self.code_agent
-
+      
+    # 跳转搜索智能体
+    def transfer_to_search(self, query):
+        print(f"使用网络资源以解决用户的问题:{query}")
+        return self.search_agent
+      
     def format_history(self):
         """从Redis获取并格式化历史记录"""
         history = self.get_history_from_redis(self.user_id)
