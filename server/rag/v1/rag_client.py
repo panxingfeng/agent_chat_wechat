@@ -37,4 +37,4 @@ def run_rag(question: str, knowledge_base_path: str, k: int = 1) -> str:
 
 result = run_rag('AgentChatBot是一个什么类型的项目', knowledge_base_path='file')
 
-print(result)
+print("回答内容:" + result)
