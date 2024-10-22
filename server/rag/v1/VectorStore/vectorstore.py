@@ -97,7 +97,7 @@ class VectorStore:
         top_k_indices = np.argsort(similarities)[-k:][::-1]
         # 返回对应的文档ID和内容
         result = [{"doc_id": self.doc_ids[idx], "document": self.document[idx]} for idx in top_k_indices]
-        print(result)
+        print("和问题最相近的文本块内容:" + str(result))
         return result
 
     def print_info(self):
