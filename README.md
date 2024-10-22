@@ -224,7 +224,7 @@ def transfer_to_code(self, query, code_type):
 
 ### 预计更新内容
 
-1.基于RAG快速检索，完成自定义的客服助手(需要检索资料的文档放置serve/rag/file中即可)，提示词在config/templates/data/bot中修改(近期上传，还在编写中)
+1.基于RAG快速检索，完成自定义的客服助手(需要检索资料的文档放置serve/rag/v1/file中即可)，提示词在config/templates/data/bot中修改(简易版本已上传，丰富的版本后续上传)
 
 2.基于最新消息，持续更新工具内容(近期上传)
 
