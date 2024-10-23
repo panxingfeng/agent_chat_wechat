@@ -11,8 +11,7 @@ import redis
 import asyncio
 from concurrent.futures import ThreadPoolExecutor
 
-from tools.swarm_tool.code_gen import code_gen
-from tools.swarm_tool.search_tool import search_tool
+from tools.swarm_tool.tool import code_gen,search_tool
 
 # 设置日志记录
 logging.basicConfig(level=logging.INFO,
