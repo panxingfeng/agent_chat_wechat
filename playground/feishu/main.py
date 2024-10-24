@@ -9,12 +9,11 @@ from server.client.loadmodel.Ollama.OllamaClient import OllamaClient
 # 实例化 Flask 应用
 app = Flask(__name__)
 
-# 实例化消息处理类和用户类
+# 实例化消息处理类和用户类和ollama客户端
 feishu_user = FeishuUser()
 feishu_handler = FeishuMessageHandler(feishu_user)
 client = OllamaClient()
 
-# 接收 POST 请求，并返回其中的 challenge 字段或处理事件
 @app.route("/", methods=["POST"])
 def event():
     try:
