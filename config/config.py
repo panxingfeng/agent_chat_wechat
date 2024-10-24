@@ -65,3 +65,12 @@ LOGIN_WECHAT_DATA = {
     "name": "xxx",  # 微信用户名（对方@xxx的xxx）
     "manner_name": ""  # 群管理人员信息
 }
+
+#########################################  feishu信息  #########################################
+
+FEISHU_DATA = {
+    "app_id":"",
+    "app_secret":"",
+    "encrypt_key":"",
+    "tenant_access_token":""
+}
