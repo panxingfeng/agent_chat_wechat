@@ -1,5 +1,5 @@
 import json
-import lark_oapi as lark
+import lark_oapi as lark #需要安装 pip install lark_oapi -U
 from flask import jsonify
 from lark_oapi.api.im.v1 import *
 
