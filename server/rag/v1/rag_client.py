@@ -1,4 +1,4 @@
-from server.rag.v1.VectorStore.vectorstore import VectorStore
+from server.rag.v1.vectorstore.vectorstore import VectorStore
 from server.rag.v1.chatmodel.ollama_model import OllamaModel
 from server.rag.v1.embedding.embedding_model import EmbeddingModel
 from server.rag.v1.tool.load_file import ReadFiles
