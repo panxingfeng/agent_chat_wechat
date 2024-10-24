@@ -80,6 +80,7 @@ class FeishuMessageHandler:
                 user_name = formatted_info.get("name", "未知用户")
 
                 response = self.chat_model.invoke(messages=content)
+                # 可以增加智能体进行消息的回复，这里使用ollam只是做一个AI回复的功能
 
                 self.send_message(
                     receive_id=sender_id,
