@@ -18,7 +18,9 @@
 ## 项目简介
 
 本项目<AgentChatBot>是基于langchain/Ollama实现agent的智能体机器人，通过vchat部署到私人微信中。
+
 支持飞书、企微(后续上传)
+
 可以自行设计与实现各种工具，供agent调用
 
 ## 功能
