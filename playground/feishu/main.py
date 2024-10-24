@@ -52,4 +52,5 @@ def event():
     return jsonify({"message": "事件未被处理"})
 
 if __name__ == "__main__":
-    app.run(port=8070)
+    # 这是通过把事件连接到本地的服务器。可以使用内网穿透cpolar来把飞书触发事件发送到本地服务器进行处理，需要进行一个连接的操作，可以参考飞书的文档
+    app.run(port=8070) 
