@@ -4,7 +4,6 @@ import json
 from playground.feishu.aes_cipher_client import AESCipher
 from playground.feishu.feishu_message_handler import FeishuMessageHandler
 from playground.feishu.user import FeishuUser
-from server.client.loadmodel.Ollama.OllamaClient import OllamaClient
 
 # 实例化 Flask 应用
 app = Flask(__name__)
@@ -12,7 +11,7 @@ app = Flask(__name__)
 # 实例化消息处理类和用户类和ollama客户端
 feishu_user = FeishuUser()
 feishu_handler = FeishuMessageHandler(feishu_user)
-client = OllamaClient()
+
 
 @app.route("/", methods=["POST"])
 def event():
