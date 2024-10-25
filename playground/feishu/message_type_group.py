@@ -38,8 +38,7 @@ class MessageTypeGroup:
             "receive_id_type": self.receive_id_type
         }
 
-    def image_message(self,image_path):
-        image_key = get_image_key(image_path)
+    def image_message(self,image_key):
         if image_key:
             return {
                 "receive_id": self.receive_id,
