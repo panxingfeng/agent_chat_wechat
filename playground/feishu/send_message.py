@@ -34,7 +34,7 @@ class SendMessage:
             .request_body(CreateMessageRequestBody.builder()
                           .receive_id(receive_id)
                           .msg_type(msg_type)
-                          .content(content)
+                          .content(content)  # 将文本内容转换为JSON
                           .build()) \
             .build()
 
