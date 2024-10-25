@@ -130,11 +130,11 @@ class FeishuMessageHandler:
 
                     messages = [
                         {"role": "system", "content": CHATBOT_PROMPT_DATA.get("description").format(
-                                                        name=BOT_DATA["agent"].get("name"),
-                                                        capabilities=BOT_DATA["agent"].get("capabilities"),
-                                                        welcome_message=BOT_DATA["agent"].get("default_responses").get("welcome_message"),
-                                                        unknown_command=BOT_DATA["agent"].get("default_responses").get("unknown_command"),
-                                                        language_support=BOT_DATA["agent"].get("language_support"),
+                                                        name=BOT_DATA["chat"].get("name"),
+                                                        capabilities=BOT_DATA["chat"].get("capabilities"),
+                                                        welcome_message=BOT_DATA["chat"].get("default_responses").get("welcome_message"),
+                                                        unknown_command=BOT_DATA["chat"].get("default_responses").get("unknown_command"),
+                                                        language_support=BOT_DATA["chat"].get("language_support"),
                                                         history=None,
                                                         query=content,
                                                     )},
