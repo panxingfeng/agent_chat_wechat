@@ -1,9 +1,10 @@
 import json
-import lark_oapi as lark #需要安装 pip install lark_oapi -U
+import lark_oapi as lark
 from flask import jsonify
 from lark_oapi.api.im.v1 import *
 
 from config.config import FEISHU_DATA
+from config.templates.data.bot import CHATBOT_PROMPT_DATA, BOT_DATA
 from server.client.loadmodel.Ollama.OllamaClient import OllamaClient
 
 
@@ -79,8 +80,20 @@ class FeishuMessageHandler:
                 formatted_info = self.feishu_user.format_user_info(user_info.get("data", {}))
                 user_name = formatted_info.get("name", "未知用户")
 
-                response = self.chat_model.invoke(messages=content)
-                # 可以增加智能体进行消息的回复，这里使用ollam只是做一个AI回复的功能
+                messages = [
+                    {"role": "system", "content": CHATBOT_PROMPT_DATA.get("description").format(
+                        name=BOT_DATA["agent"].get("name"),
+                        capabilities=BOT_DATA["agent"].get("capabilities"),
+                        welcome_message=BOT_DATA["agent"].get("default_responses").get("welcome_message"),
+                        unknown_command=BOT_DATA["agent"].get("default_responses").get("unknown_command"),
+                        language_support=BOT_DATA["agent"].get("language_support"),
+                        history=None,
+                        query=content,
+                    )},
+                    {"role": "user", "content": content}
+                ]
+
+                response = self.chat_model.invoke(messages=messages)
 
                 self.send_message(
                     receive_id=sender_id,
@@ -115,7 +128,20 @@ class FeishuMessageHandler:
                     formatted_info = self.feishu_user.format_user_info(user_info.get("data", {}))
                     user_name = formatted_info.get("name", "未知用户")
 
-                    response = self.chat_model.invoke(messages=content)
+                    messages = [
+                        {"role": "system", "content": CHATBOT_PROMPT_DATA.get("description").format(
+                                                        name=BOT_DATA["agent"].get("name"),
+                                                        capabilities=BOT_DATA["agent"].get("capabilities"),
+                                                        welcome_message=BOT_DATA["agent"].get("default_responses").get("welcome_message"),
+                                                        unknown_command=BOT_DATA["agent"].get("default_responses").get("unknown_command"),
+                                                        language_support=BOT_DATA["agent"].get("language_support"),
+                                                        history=None,
+                                                        query=content,
+                                                    )},
+                        {"role": "user", "content": content}
+                    ]
+
+                    response = self.chat_model.invoke(messages=messages)
 
                     self.send_message(
                         receive_id=chat_id,
