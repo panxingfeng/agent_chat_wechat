@@ -113,6 +113,7 @@ class FeishuMessageHandler:
                     ]
 
                     response = self.chat_model.invoke(messages=messages).content
+                    
                     message_params = self.message_type_group(
                         query=query,
                         send_id = sender_id,
