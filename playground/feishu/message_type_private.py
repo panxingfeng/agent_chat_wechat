@@ -19,17 +19,17 @@ class MessageTypePrivate:
         # 获取文件扩展名并转换为小写
         _, file_extension = os.path.splitext(message)
         file_extension = file_extension.lower()
-
+        # message 返回的内容是地址值
         if file_extension == ".png":
-            # 假设返回是一个图片文件地址
             image_key = get_image_key(message)
             return self.image_message(image_key)
         elif file_extension == ".mp3":
-            # 假设返回是音频文件地址
-            audio_key = get_audio_key(message)
+            output_dir = "E:\\output\\test"
+            output_filename =  os.path.splitext(os.path.basename(message))[0]
+            opus_path = convert_to_opus(message,output_dir,output_filename)
+            audio_key = get_audio_key(opus_path)
             return self.audio_message(audio_key)
         elif file_extension in [".txt", ".doc", ".pdf"]:
-            # 假设为文本或文档文件的处理
             file_key = get_file_key(message)
             return self.file_message(file_key)
         elif file_extension in [".mp4"]:
@@ -122,13 +122,35 @@ def get_image_key(image_path):
         return None
 
 
+def convert_to_opus(source_file, output_dir, output_filename):
+    # 确保 output_filename 包含 .opus 扩展名
+    if not output_filename.endswith(".opus"):
+        output_filename += ".opus"
+
+    target_file = os.path.join(output_dir, output_filename)
+
+    # 需要安装 ffmpeg ，安装教程网上搜索即可
+    command = [
+        "ffmpeg",
+        "-i", source_file,
+        "-acodec", "libopus",
+        "-ac", "1",
+        "-ar", "16000",
+        "-f", "opus",
+        target_file
+    ]
+
+    # 执行转换
+    subprocess.run(command)
+    return target_file
+
 def get_audio_key(file_path):
     url = "https://open.feishu.cn/open-apis/im/v1/files"
     file_name = os.path.basename(file_path)
     form = {
-        'file_type': 'stream',
+        'file_type': 'opus',
         'file_name': file_name,
-        'file': (file_name, open(file_path, 'rb'), 'audio/mpeg')
+        'file': (file_name, open(file_path, 'rb'), 'audio/opus')
     }
 
     multi_form = MultipartEncoder(form)
