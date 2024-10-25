@@ -1,12 +1,16 @@
 import json
+from datetime import datetime
+
 import lark_oapi as lark
 from flask import jsonify
 from lark_oapi.api.im.v1 import *
 
 from config.config import FEISHU_DATA
-from config.templates.data.bot import CHATBOT_PROMPT_DATA, BOT_DATA
+from config.templates.data.bot import CHATBOT_PROMPT_DATA, BOT_DATA, AGENT_BOT_PROMPT_DATA
 from server.client.loadmodel.Ollama.OllamaClient import OllamaClient
 
+# 当前时间
+current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
 class FeishuMessageHandler:
     def __init__(self, feishu_user, log_level=lark.LogLevel.INFO):
@@ -81,15 +85,19 @@ class FeishuMessageHandler:
                 user_name = formatted_info.get("name", "未知用户")
 
                 messages = [
-                    {"role": "system", "content": CHATBOT_PROMPT_DATA.get("description").format(
-                        name=BOT_DATA["agent"].get("name"),
-                        capabilities=BOT_DATA["agent"].get("capabilities"),
-                        welcome_message=BOT_DATA["agent"].get("default_responses").get("welcome_message"),
-                        unknown_command=BOT_DATA["agent"].get("default_responses").get("unknown_command"),
-                        language_support=BOT_DATA["agent"].get("language_support"),
-                        history=None,
-                        query=content,
-                    )},
+                    {"role": "system", "content": AGENT_BOT_PROMPT_DATA.get("description").format
+                                                    (
+                                                    name=BOT_DATA["agent"].get("name"),
+                                                    capabilities=BOT_DATA["agent"].get("capabilities"),
+                                                    welcome_message=BOT_DATA["agent"].get("default_responses").get("welcome_message"),
+                                                    unknown_command=BOT_DATA["agent"].get("default_responses").get("unknown_command"),
+                                                    language_support=BOT_DATA["agent"].get("language_support"),
+                                                    current_time=current_time,
+                                                    history=None,
+                                                    query=content,
+                                                    user_name=user_name,
+                                                    user_id=sender_id
+                                                )},
                     {"role": "user", "content": content}
                 ]
 
