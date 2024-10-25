@@ -1,4 +1,5 @@
 import json
+import re
 from datetime import datetime
 
 import lark_oapi as lark
@@ -120,6 +121,8 @@ class FeishuMessageHandler:
                 chat_id = message.get('chat_id')
                 mentions = message.get('mentions')
                 key_value = mentions[0].get('name', None)
+                # 清除群聊消息中@聊天机器人携带类似@_user_1字眼的内容
+                content = re.sub(r'@\w+', '', content)
                 if key_value == "智能体机器人":
                     # 检查是否已经处理过这条消息
                     if message_id in self.processed_messages:
@@ -155,7 +158,7 @@ class FeishuMessageHandler:
                         receive_id=chat_id,
                         msg_type="text",
                         content=json.dumps({
-                            "text": f"<at user_id=\"{sender_id}\">{user_name}</at> {response.content}"
+                            "text": f"<at user_id=\"{sender_id}\"></at> {response.content}"
                         }),
                         receive_id_type="chat_id"
                     )
