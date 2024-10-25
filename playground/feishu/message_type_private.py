@@ -71,7 +71,7 @@ class MessageTypePrivate:
                 "content":json.dumps({
                         "file_key": audio_key,
                     }),
-                "msg_type":"image",
+                "msg_type":"audio",
                 "receive_id_type": self.receive_id_type
             }
         else:
@@ -84,7 +84,7 @@ class MessageTypePrivate:
                 "content":json.dumps({
                         "file_key": file_key
                     }),
-                "msg_type":"image",
+                "msg_type":"file",
                 "receive_id_type": self.receive_id_type
             }
         else:
@@ -98,7 +98,7 @@ class MessageTypePrivate:
                         "file_key": file_key,
                         "image_key": image_key
                     }),
-                "msg_type":"image",
+                "msg_type":"media",
                 "receive_id_type": self.receive_id_type
             }
         else:
