@@ -2,7 +2,7 @@ from swarm import Agent  # 导入 Agent 类
 
 from config.config import OLLAMA_DATA  # 导入配置信息
 from playground.swarm_agent.common import triage_instructions  # 导入分诊智能体的指令
-from playground.swarm_agent.method import (
+from playground.swarm_agent.response import (
     check_order_status,  # 检查订单状态
     escalate_to_agent,  # 升级至人工客服
     case_resolved,  # 标记案件为已解决
