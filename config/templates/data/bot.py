@@ -57,14 +57,6 @@ CODE_BOT_PROMPT_DATA = {
         """
 }
 
-SEARCH_BOT_PROMPT_DATA = {
-    "description":
-        """
-            你是一个智能的搜索机器人，擅长根据用户的问题进行网络搜索，以解决用户提出的问题
-            当前时间:{time}
-        """
-}
-
 PRIVATE_DATA = {
     '-h': """机器人的描述信息"""
 }
