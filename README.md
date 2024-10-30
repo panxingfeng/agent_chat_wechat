@@ -235,11 +235,11 @@ def transfer_to_code(self, query, code_type):
 3.使用零代码进行高质量语音的训练代码，只需要云上服务器进行克隆镜像即可，然后训练结束就可以使用这个训练结果进行语音的生成，都会接入到微信、飞书机器人、企业微信等(近期上传，个人精力有限)
 
 4.基于react的网站框架代码，
-.实现文字的流式输出(自动识别格式进行可视化的模板输出)，
-.文生图/图生图（基于SD-webui的api(整体代码已实现，见[SD-on-phone](https://github.com/panxingfeng/Stable-Diddusion-on-phone/tree/master))），
-.知识库功能，
-.语音类功能，
-.智能体的自定义创建(会生成一个码)，后续可以填入config.py中即可，用于智能体。
+## 实现文字的流式输出(自动识别格式进行可视化的模板输出)，
+## 文生图/图生图：基于SD-webui的api(整体代码已实现，见[SD-on-phone](https://github.com/panxingfeng/Stable-Diddusion-on-phone/tree/master))，
+## 知识库功能：支持文件的上传，问题检索的可视化分块信息。
+## 语音类功能：
+## 智能体的自定义创建(会生成一个码)，后续可以填入config.py中即可，用于智能体。
 
 ### 模型选择
 支持模型：ChatGPT模型/ollama客户端的所有模型供agent使用
