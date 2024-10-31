@@ -236,7 +236,7 @@ def transfer_to_code(self, query, code_type):
 
 4.基于react的网站框架代码([预览图](https://github.com/panxingfeng/agent_chat_wechat/blob/master/images/UI.png)、[预览视频](https://drive.google.com/file/d/1isQEu9rNgEd_eL6rq5ju_069GBbbr-Ab/view?usp=drive_link))（支持二次开发的版本）-> 代码正在编写中
 
-- 4.1实现文字的流式输出(自动识别格式进行可视化的模板输出)，
+- 4.1实现文字的流式输出(自动识别格式进行可视化的模板输出)，-> 已完成，支持图文/图像/音频的流式输出，并渲染
  
 - 4.2文生图/图生图：基于SD-webui的api(整体代码已实现，见[SD-on-phone](https://github.com/panxingfeng/Stable-Diddusion-on-phone/tree/master))，
   
