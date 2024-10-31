@@ -240,7 +240,7 @@ def transfer_to_code(self, query, code_type):
  
 - 4.2文生图/图生图：基于SD-webui的api(整体代码已实现，见[SD-on-phone](https://github.com/panxingfeng/Stable-Diddusion-on-phone/tree/master))，
   
-- 4.3知识库功能：支持文件的上传，问题检索的可视化分块信息。
+- 4.3知识库功能：支持文件的上传，问题检索的可视化分块信息。-> 测试代码已实现，后续增加到框架中
 
 - 4.4语音类功能：支持上传语音信息，可以选择训练，也可以使用F5-TTS进行快速的语音克隆，聊天框可以选择语音的角色进行声音的输出
 
