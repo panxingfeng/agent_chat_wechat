@@ -27,7 +27,7 @@ class ChatGPTModel:
         """
         if history is None:
             history = []
-        full_prompt = RAG_PROMPT_TEMPLATE['PROMPT_TEMPLATE'].format(question=prompt, history=history, context=content)
+        full_prompt = RAG_PROMPT_TEMPLATE.get('prompt_template').format(question=prompt, history=history, context=content)
 
         response = self.client.chat.completions.create(
             model=CHATGPT_DATA.get("model"),
