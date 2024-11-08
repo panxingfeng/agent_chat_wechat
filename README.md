@@ -232,19 +232,19 @@ def transfer_to_code(self, query, code_type):
 
 2.语音生成工具，使用F5-TTS实现通过微信传入语音条，克隆语音进行语音回复(需要使用指令的通过智能体方式进行激活）
 
-3.使用零代码进行高质量语音的训练代码，只需要云上服务器进行克隆镜像即可，然后训练结束就可以使用这个训练结果进行语音的生成，都会接入到微信、飞书机器人、企业微信等(近期之内上传，个人精力有限)
+3.使用零代码进行高质量语音的训练代码，只需要云上服务器进行克隆镜像即可，然后训练结束就可以使用这个训练结果进行语音的生成，都会接入到微信、飞书机器人等(近期之内上传，个人精力有限)
 
-4.基于react的网站框架代码([预览图](https://github.com/panxingfeng/agent_chat_wechat/blob/master/images/UI.png)、[预览视频](https://drive.google.com/file/d/1isQEu9rNgEd_eL6rq5ju_069GBbbr-Ab/view?usp=drive_link))（支持二次开发的版本）-> 代码正在编写中
+4.基于react的网站框架代码([预览图](https://github.com/panxingfeng/agent_chat_wechat/blob/master/images/UI.png)、[预览视频](https://drive.google.com/file/d/1isQEu9rNgEd_eL6rq5ju_069GBbbr-Ab/view?usp=drive_link))（支持二次开发）-基底框架已搭建完毕 ->[链接]()
 
 - 4.1实现文字的流式输出(自动识别格式进行可视化的模板输出)，-> 已完成，支持图文/图像/音频的流式输出，并渲染
  
 - 4.2文生图/图生图：基于SD-webui的api(整体代码已实现，见[SD-on-phone](https://github.com/panxingfeng/Stable-Diddusion-on-phone/tree/master))，
   
-- 4.3知识库功能：支持文件的上传，问题检索的可视化分块信息。-> 测试代码已实现，后续增加到框架中
+- 4.3知识库功能：支持文件的上传，问题检索的可视化分块信息。
 
-- 4.4语音类功能：支持上传语音信息，可以选择训练，也可以使用F5-TTS进行快速的语音克隆，聊天框可以选择语音的角色进行声音的输出
+- 4.4语音类功能：支持上传语音信息，生成语音内容，聊天框可以选择语音的角色进行声音的输出
 
-- 4.5智能体的自定义创建(会生成一个码)，后续可以填入config.py中即可，用于智能体。
+- 4.5智能体的自定义创建
 
 
 ### 模型选择
