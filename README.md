@@ -234,7 +234,7 @@ def transfer_to_code(self, query, code_type):
 
 3.使用零代码进行高质量语音的训练代码，只需要云上服务器进行克隆镜像即可，然后训练结束就可以使用这个训练结果进行语音的生成，都会接入到微信、飞书机器人等(近期之内上传，个人精力有限)
 
-4.基于react的网站框架代码([预览图](https://github.com/panxingfeng/agent_chat_wechat/blob/master/images/UI.png)、[预览视频](https://drive.google.com/file/d/1isQEu9rNgEd_eL6rq5ju_069GBbbr-Ab/view?usp=drive_link))（支持二次开发）-基底框架已搭建完毕 ->[链接]()
+4.基于react的网站框架代码([预览视频](https://drive.google.com/file/d/1isQEu9rNgEd_eL6rq5ju_069GBbbr-Ab/view?usp=drive_link))（支持二次开发）-基底框架已搭建完毕 ->[链接](https://github.com/panxingfeng/AIChat_UI/tree/master)
 
 - 4.1实现文字的流式输出(自动识别格式进行可视化的模板输出)，-> 已完成，支持图文/图像/音频的流式输出，并渲染
  
