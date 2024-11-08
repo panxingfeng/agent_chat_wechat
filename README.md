@@ -228,7 +228,7 @@ def transfer_to_code(self, query, code_type):
 
 ### 预计更新内容
 
-1.基于RAG快速检索，完成自定义的客服助手(需要检索资料的文档放置serve/rag/v1/file中即可)，提示词在config/templates/data/bot中修改(简易版本已上传，丰富的版本后续上传)
+1.(已完成)基于RAG快速检索，完成自定义的客服助手(需要检索资料的文档放置serve/rag/v1/file中即可)，提示词在config/templates/data/bot中修改(v1版本已上传)
 
 2.(已完成)基于react的网站框架代码([预览视频](https://drive.google.com/file/d/1isQEu9rNgEd_eL6rq5ju_069GBbbr-Ab/view?usp=drive_link))（支持二次开发）-基底框架已搭建完毕 ->[链接](https://github.com/panxingfeng/AIChat_UI/tree/master)
 
@@ -242,6 +242,9 @@ def transfer_to_code(self, query, code_type):
 
 - 2.5智能体的创建。
 
+3.RAG的v2版本。
+
+4.智能体支持语音功能。
 
 ### 模型选择
 支持模型：ChatGPT模型/ollama客户端的所有模型供agent使用
