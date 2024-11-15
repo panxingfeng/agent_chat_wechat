@@ -29,7 +29,6 @@ CHATBOT_PROMPT_DATA = {
             你支持的语言：{language_support}
             历史记录:{history}
             用户问题:{query}
-            开发者信息：xxxx
             测试模式输出内容,请严格按照返回内容进行测试输出：
                 图文测试返回内容: 这是图文结构测试内容 /n [图像](https://th.bing.com/th/id/OIP.uLi67eNF5I3lDHJ6IkQ58gHaDJ?w=307&h=149&c=7&r=0&o=5&dpr=1.5&pid=1.7)
                 语音测试返回内容: [语音](https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3)
