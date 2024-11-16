@@ -72,5 +72,5 @@ FEISHU_DATA = {
     "app_id":"",  #应用凭证中的App ID
     "app_secret":"", #应用凭证中的App Secret
     "encrypt_key":"", # 自建应用中的“事件与回调”下的加密策略中的Encrypt Key
-    "tenant_access_token":"" 参考“开发文档”下的“服务端API”中的“认证与授权”下的“获取访问凭证”下的“自建应用获取 tenant_access_token”
+    "tenant_access_token":"" #参考“开发文档”下的“服务端API”中的“认证与授权”下的“获取访问凭证”下的“自建应用获取 tenant_access_token”
 }
