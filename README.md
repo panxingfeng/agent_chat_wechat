@@ -250,7 +250,7 @@ def transfer_to_code(self, query, code_type):
 - (已完成)工具支持(描述信息可以使用 工具.get_description查看功能)
     - 天气（高德API）：需要在config中填入GAODE_WEATHER_API_KEY的值即可
     - 联网搜索（Perplexica）：使用docker部署的Perplexica工具，安装方法：[Perplexica](https://github.com/ItzCrazyKns/Perplexica)
-    - pdf文件转换工具:支持url_to_pdf...
+    - pdf文件转换工具:支持url_to_pdf... [控制台输出](./images/pdftool_console_output) [pdf转换结果](./images/pdf_converter_result)
     - 图像识别（llama3.2vision/MiniCPM）：基于ollama中的llama3.2 vision实现图像识别，也支持接入MiniCPM v2.6
     - URL工具：支持动态参数设置，设置提取的输出值(put="content")即可输出返回值中content的值
     - 代码工具：使用ollama部署的qwen2.5-coder:32b，也可修改其他的版本
@@ -259,8 +259,7 @@ def transfer_to_code(self, query, code_type):
     - 通过vchat接入微信平台
     - 接入飞书机器人
     - ...
-- 工具演示示例
-   [示例图片](./images/img4.png)
+   
    
 ### 模型选择
 支持模型：ChatGPT模型/ollama客户端的所有模型供agent使用
