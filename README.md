@@ -252,6 +252,7 @@ def transfer_to_code(self, query, code_type):
     - 联网搜索（Perplexica）：使用docker部署的Perplexica工具，安装方法：[Perplexica](https://github.com/ItzCrazyKns/Perplexica) [控制台输出结果](./images/searchtool_result1.png)
     - pdf文件转换工具:支持url_to_pdf... [控制台输出结果](./images/pdftool_console_output.png) [pdf转换结果](./images/pdf_converter_result.png)
     - 图像识别（llama3.2vision/MiniCPM）：基于ollama中的llama3.2 vision实现图像识别，也支持接入MiniCPM v2.6 [控制台输出结果](./images/imagetool_result.png)
+    - 提示词模板工具(awesome-chatgpt-prompts):参考项目:[awesome-chatgpt-prompts](https://github.com/panxingfeng/awesome-chatgpt-prompts)
     - URL工具：支持动态参数设置，设置提取的输出值(put="content")即可输出返回值中content的值
     - 代码工具：使用ollama部署的qwen2.5-coder:32b，也可修改其他的版本
 - (近期完成)启动方式
