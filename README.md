@@ -259,6 +259,8 @@ def transfer_to_code(self, query, code_type):
     - 通过vchat接入微信平台
     - 接入飞书机器人
     - ...
+- 工具演示示例
+   [示例图片](./images/img4.png)
    
 ### 模型选择
 支持模型：ChatGPT模型/ollama客户端的所有模型供agent使用
