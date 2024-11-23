@@ -242,9 +242,9 @@ def transfer_to_code(self, query, code_type):
 
 - 2.5智能体的创建。
 
-3.RAG的v2版本。
+3.RAG的v2版本(基于graphrag实现)
 
-4.智能体支持语音功能。
+4.智能体支持语音功能(基于F5-TTS/GPT-SoVITS开源项目实现)
 
 5.只需几行代码即可创建单一Agent智能体/多agent智能体，后续使用pip安装使用 [项目地址](https://github.com/panxingfeng/agent_workflow)
 - (已完成)工具支持(描述信息可以使用 工具.get_description查看功能)
