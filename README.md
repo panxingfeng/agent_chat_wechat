@@ -246,7 +246,7 @@ def transfer_to_code(self, query, code_type):
 
 4.智能体支持语音功能。
 
-5.只需几行代码即可创建单一Agent智能体/多agent智能体，后续使用pip安装使用
+5.只需几行代码即可创建单一Agent智能体/多agent智能体，后续使用pip安装使用 [项目地址](https://github.com/panxingfeng/agent_workflow)
 - (已完成)工具支持(描述信息可以使用 工具.get_description查看功能)
     - 天气（高德API）：需要在config中填入GAODE_WEATHER_API_KEY的值即可 [控制台输出结果](./images/weathertool_result.png)
     - 联网搜索（Perplexica）：使用docker部署的Perplexica工具，安装方法：[Perplexica](https://github.com/ItzCrazyKns/Perplexica) [控制台输出结果](./images/searchtool_result1.png)
