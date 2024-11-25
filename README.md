@@ -227,7 +227,7 @@ def transfer_to_code(self, query, code_type):
    - 智能体创建
 3. 🚧 GraphRAG v2
 4. 🚧 语音集成 (F5-TTS/GPT-SoVITS)
-5. 🚧 Agent 工作流框架
+5. 🚧 Agent 工作流框架[项目地址](https://github.com/panxingfeng/agent_workflow)
 
 ## 🤖 模型支持
 
