@@ -243,7 +243,6 @@ def transfer_to_code(self, query, code_type):
 ## 🔗 相关项目
 
 - [VChat 框架](https://github.com/z2z63/VChat) 感谢z2z63作者
-- [SD-on-phone](https://github.com/panxingfeng/Stable-Diddusion-on-phone)
 - [AIChat_UI](https://github.com/panxingfeng/AIChat_UI)
 
 ---
