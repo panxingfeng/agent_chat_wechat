@@ -127,7 +127,51 @@ OLLAMA_DATA = {
 
 ```python
 class CodeGenAPIWrapper(BaseModel):
-    # 工具实现代码...
+    base_url: ClassVar[str] = "http://localhost:11434/api/chat"
+    content_role: ClassVar[str] = CODE_BOT_PROMPT_DATA.get("description")
+    model: ClassVar[str] = OLLAMA_DATA.get("code_model") #可以使用其他的本地模型，自行修改
+
+    def run(self, query: str, model_name: str) -> str:
+        logging.info(f"使用模型 {model_name} 处理用户请求: {query}")
+        data = {
+            "model": model_name,
+            "messages": [{"role": "user", "content": self.content_role + query}],
+            "stream": False,
+        }
+        response = requests.post(self.base_url, json=data)
+        response.raise_for_status()
+
+        try:
+            result = response.json()
+            return result.get("message", {}).get("content", "无法生成代码，请检查输入。")
+        except requests.exceptions.JSONDecodeError as e:
+            return f"解析 JSON 时出错: {e}"
+
+    def generate_code(self, query: str) -> str:
+        try:
+            result = self.run(query, self.model)
+            if "无法生成代码" not in result:
+                return result
+        except Exception as e:
+            logging.error(f"生成代码时出错: {e}")
+        return "代码生成失败，请稍后再试。"
+
+code_generator = CodeGenAPIWrapper()
+
+@tool
+def code_gen(query: str) -> str:
+    """代码生成工具：根据用户描述生成相应的代码实现。"""
+    return code_generator.generate_code(query)
+
+# 返回工具信息
+def register_tool():
+    tool_func = code_gen  # 工具函数
+    tool_func.__name__ = "code_gen"
+    return {
+        "name": "code_gen",
+        "agent_tool": tool_func,
+        "description": "代码生成工具"
+    }
 ```
 </details>
 
@@ -137,7 +181,38 @@ class CodeGenAPIWrapper(BaseModel):
 
 ```python
 def code_gen(query: str, code_type: str) -> str:
-    # 工具实现代码...
+    """代码生成工具：根据用户描述生成相应的代码实现。"""
+    client = OllamaClient()
+    print("使用代码生成工具")
+    prompt = CODE_BOT_PROMPT_DATA.get("description").format(code_type=code_type)
+    messages = [
+        {"role": "system", "content": prompt},
+        {"role": "user", "content": query}
+    ]
+
+    response = client.invoke(messages, model=OLLAMA_DATA.get("code_model"))
+    return response
+
+在swarm_agent_bot.py中增加工具的智能体
+    self.code_agent = Agent(
+    name="Code Agent",
+    instructions=CODE_BOT_PROMPT_DATA.get("description"),
+    function=[code_gen],
+    model=OLLAMA_DATA.get("model")
+    )
+
+在主智能体中增加一个跳转的方法：
+self.agent = Agent(
+    name="Bot Agent",
+    instructions=self.instructions,
+    functions=[self.transfer_to_code],  # 任务转发
+    model=OLLAMA_DATA.get("model")
+    )
+
+#跳转code智能体
+def transfer_to_code(self, query, code_type):
+    print(f"使用的代码语言 {code_type} ,问题是 {query}")
+    return self.code_agent
 ```
 </details>
 
