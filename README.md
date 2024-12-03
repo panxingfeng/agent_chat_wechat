@@ -226,8 +226,8 @@ def transfer_to_code(self, query, code_type):
    - 语音功能
    - 智能体创建
 3. 🚧 LightRAG v2
-4. 🚧 语音集成 (F5-TTS/GPT-SoVITS) 参考新项目[项目地址](https://github.com/panxingfeng/agent_workflow)
-5. 🚧 Agent 工作流框架[项目地址](https://github.com/panxingfeng/agent_workflow)
+4. 🚧 语音集成 (F5-TTS/GPT-SoVITS) 
+5. 🚧 Agent 工作流框架
 
 ## 🤖 模型支持
 
@@ -244,7 +244,6 @@ def transfer_to_code(self, query, code_type):
 
 - [VChat 框架](https://github.com/z2z63/VChat) 感谢z2z63作者
 - [AIChat_UI](https://github.com/panxingfeng/AIChat_UI)
-- [agent_workflow](https://github.com/panxingfeng/agent_workflow) 项目还在努力编写中
 
 ---
 
