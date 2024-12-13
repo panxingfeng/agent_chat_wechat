@@ -225,8 +225,8 @@ def transfer_to_code(self, query, code_type):
    - 知识库功能
    - 语音功能
    - 智能体创建
-3.  LightRAG v2 [参考项目](https://github.com/panxingfeng/agent_workflow)
-4.  语音集成 (F5-TTS/GPT-SoVITS) [参考项目](https://github.com/panxingfeng/agent_workflow)
+3.  LightRAG v2 [参考新项目](https://github.com/panxingfeng/agent_workflow)
+4.  语音集成 (F5-TTS/GPT-SoVITS) [参考新项目](https://github.com/panxingfeng/agent_workflow)
 5.  Agent 工作流框架 [项目地址](https://github.com/panxingfeng/agent_workflow)
 
 ## 🤖 模型支持
