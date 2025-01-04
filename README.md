@@ -5,7 +5,6 @@
 ![Python](https://img.shields.io/badge/python-3.10-blue)
 ![Framework](https://img.shields.io/badge/framework-langchain-orange)
 ![License](https://img.shields.io/badge/license-MIT-green)
-![Status](https://img.shields.io/badge/status-active-success)
 
 基于 langchain/Ollama 的智能对话机器人，支持微信与飞书部署
 </div>
@@ -228,6 +227,7 @@ def transfer_to_code(self, query, code_type):
 3.  LightRAG v2 [参考新项目](https://github.com/panxingfeng/agent_workflow)
 4.  语音集成 (F5-TTS/GPT-SoVITS) [参考新项目](https://github.com/panxingfeng/agent_workflow)
 5.  Agent 工作流框架 [项目地址](https://github.com/panxingfeng/agent_workflow)
+6.  使用langgraph进行框架重构
 
 ## 🤖 模型支持
 
