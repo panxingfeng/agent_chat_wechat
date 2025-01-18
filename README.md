@@ -17,7 +17,6 @@
 - [快速开始](#-快速开始)
 - [配置说明](#-配置说明)
 - [工具开发](#-工具开发)
-- [开发计划](#-开发计划)
 - [模型支持](#-模型支持)
 - [相关项目](#-相关项目)
 
@@ -215,19 +214,6 @@ def transfer_to_code(self, query, code_type):
 ```
 </details>
 
-## 📅 开发计划
-
-1. ✅ RAG 快速检索客服助手
-2. ✅ React 框架支持
-   - 流式输出
-   - 文生图/图生图 (SD-webui API)
-   - 知识库功能
-   - 语音功能
-   - 智能体创建
-3.  LightRAG v2 [参考新项目](https://github.com/panxingfeng/agent_workflow)
-4.  语音集成 (F5-TTS/GPT-SoVITS) [参考新项目](https://github.com/panxingfeng/agent_workflow)
-5.  Agent 工作流框架 [项目地址](https://github.com/panxingfeng/agent_workflow)
-
 ## 🤖 模型支持
 
 - ChatGPT 系列
@@ -243,7 +229,6 @@ def transfer_to_code(self, query, code_type):
 
 - [VChat 框架](https://github.com/z2z63/VChat) 感谢z2z63作者
 - [AIChat_UI](https://github.com/panxingfeng/AIChat_UI)
-- [agent_workflow](https://github.com/panxingfeng/agent_workflow) 旨在帮助用户快速创建可执行的智能体
 
 ---
 
