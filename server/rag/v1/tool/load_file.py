@@ -91,7 +91,7 @@ class ReadFiles:
                 chunk_text.append(curr_chunk)
             elif curr_len + line_len <= token_len:
                 # 当前片段长度未超过限制时，继续累加
-                curr_chunk += line + '\n'
+                curr_chunk += line + ' '
                 curr_len += line_len + 1
             else:
                 chunk_text.append(curr_chunk)  # 保存当前片段
